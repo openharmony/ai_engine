@@ -1,0 +1,63 @@
+# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+import("//build/lite/config/component/lite_component.gni")
+
+source_set("syncDemoPluginCode") {
+  sources = [ "source/sample_plugin_1.cpp" ]
+
+  cflags = [ "-fPIC" ]
+  cflags_cc = cflags
+
+  include_dirs = [
+    "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
+    "//foundation/ai/engine/services/common",
+    "//foundation/ai/engine/services/server",
+    "//foundation/ai/engine/test",
+    "//third_party/bounds_checking_function/include",
+  ]
+}
+
+lite_component("sample_plugin_1") {
+  target_type = "shared_library"
+  cflags = [ "-fPIC" ]
+  cflags_cc = cflags
+  features = [ ":syncDemoPluginCode" ]
+  deps = [
+    "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
+  ]
+}
+
+source_set("asyncDemoPluginCode") {
+  sources = [ "source/sample_plugin_2.cpp" ]
+
+  cflags = [ "-fPIC" ]
+  cflags_cc = cflags
+
+  include_dirs = [
+    "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
+    "//foundation/ai/engine/services/common",
+    "//foundation/ai/engine/services/server",
+    "//foundation/ai/engine/test",
+    "//third_party/bounds_checking_function/include",
+  ]
+}
+
+lite_component("sample_plugin_2") {
+  target_type = "shared_library"
+  cflags = [ "-fPIC" ]
+  cflags_cc = cflags
+  features = [ ":asyncDemoPluginCode" ]
+  deps = [
+    "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
+  ]
+}

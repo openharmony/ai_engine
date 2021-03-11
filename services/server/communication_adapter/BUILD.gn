@@ -1,0 +1,38 @@
+# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+static_library("ai_communication_adapter") {
+  sources = [
+    "source/adapter_wrapper.cpp",
+    "source/client_listener_handler.cpp",
+    "source/future_listener.cpp",
+    "source/sa_async_handler.cpp",
+    "source/sa_server.c",
+    "source/sa_server_adapter.cpp",
+    "source/start_server.c",
+  ]
+  include_dirs = [
+    "//foundation/ai/engine/interfaces",
+    "//foundation/ai/engine/services/common",
+    "//foundation/ai/engine/services/server",
+    "//foundation/communication/ipc_lite/frameworks/liteipc/include",
+    "//foundation/communication/ipc_lite/interfaces/kits",
+    "//foundation/distributedschedule/samgr_lite/interfaces/innerkits/registry",
+    "//foundation/distributedschedule/samgr_lite/interfaces/innerkits/samgr",
+    "//foundation/distributedschedule/samgr_lite/interfaces/kits/registry",
+    "//foundation/distributedschedule/samgr_lite/interfaces/kits/samgr",
+    "//third_party/bounds_checking_function/include",
+    "//utils/native/lite/include",
+  ]
+  deps = [ "//foundation/distributedschedule/samgr_lite/samgr:samgr" ]
+}

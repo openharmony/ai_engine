@@ -1,90 +1,90 @@
-# AI<a name="EN-US_TOPIC_0000001072614474"></a>
+# AI业务子系统<a name="ZH-CN_TOPIC_0000001072614474"></a>
 
--   [Introduction](#section187321516154516)
--   [Directory Structure](#section571610913453)
--   [Constraints](#section5748426453)
--   [Usage](#section6370123616447)
--   [Repositories Involved](#section10492183517430)
--   [Reference](#section6808423133718)
+-   [简介](#section187321516154516)
+-   [目录](#section571610913453)
+-   [约束](#section5748426453)
+-   [使用](#section6370123616447)
+-   [涉及仓](#section10492183517430)
+-   [AI引擎开发导航](#section6808423133718)
 
-## Introduction<a name="section187321516154516"></a>
+## 简介<a name="section187321516154516"></a>
 
-The AI subsystem is the part of OpenHarmony that provides native distributed AI capabilities. At the heart of the subsystem is a unified AI engine framework, which implements quick integration of AI algorithm plug-ins. The framework consists of the plug-in management, module management, and communication management modules, fulfilling lifecycle management and on-demand deployment of AI algorithms. Under this framework, AI algorithm APIs will be standardized to facilitate distributed calling of AI capabilities. In addition, unified inference APIs will be provided to adapt to different inference framework hierarchies.
+AI业务子系统是OpenHarmony提供原生的分布式AI能力的子系统。本次开源范围是提供了统一的AI引擎框架，实现算法能力快速插件化集成。框架中主要包含插件管理、模块管理和通信管理等模块，对AI算法能力进行生命周期管理和按需部署。后续，会逐步定义统一的AI能力接口，便于AI能力的分布式调用。同时，提供适配不同推理框架层级的统一推理接口。
 
-**Figure  1**  AI engine framework<a name="fig17296164711526"></a>
-![](figures/ai-engine-framework.png "ai-engine-framework")
+**图 1**  AI引擎框架<a name="fig17296164711526"></a>
+![](figures/AI引擎框架.png "AI引擎框架")
 
-## Directory Structure<a name="section571610913453"></a>
+## 目录<a name="section571610913453"></a>
 
 ```
-/foundation/ai/engine                        # Home directory of the AI subsystem
+/foundation/ai/engine                        # AI子系统主目录
 ├── interfaces
-│  └── kits                                  # External APIs of the AI subsystem
+│  └── kits                                  # AI子系统对外接口
 └── services
-│  ├── client                                # Client module of the AI subsystem
-│  │  ├── client_executor                    # Executor of the client module
-│  │  └── communication_adapter              # Communication adaptation layer for the client module, with extension supported
-│  ├── common                                # Common tools and protocol modules of the AI subsystem
+│  ├── client                                # AI子系统Client模块
+│  │  ├── client_executor                    # Client模块执行主体
+│  │  └── communication_adapter              # Client模块通信适配层，支持拓展
+│  ├── common                                # AI子系统公共工具、协议模块
 │  │  ├── platform
 │  │  ├── protocol
 │  │  └── utils
-│  └── server                                # Server module of the AI subsystem
-│  │  ├── communication_adapter              # Communication adaptation layer for the server module, with extension supported
+│  └── server                                # AI子系统服务端模块
+│  │  ├── communication_adapter              # Server模块通信适配层，支持拓展
 │  │  ├── plugin
 │  │     ├── asr
-│  │        └── keyword_spotting             # ASR algorithm plug-in reference: keyword spotting
+│  │        └── keyword_spotting             # ASR算法插件参考：唤醒词识别
 │  │     └── cv
-│  │        └── image_classification         # CV algorithm plug-in reference: image classification
+│  │        └── image_classification         # CV算法插件参考：图片分类
 │  │  ├── plugin_manager
-│  │  └── server_executor                    # Executor of the server module
+│  │  └── server_executor                    # Server模块执行主体
 ```
 
-## Constraints<a name="section5748426453"></a>
+## 约束<a name="section5748426453"></a>
 
-**Programming language**: C/C++
+**语言限制**：C/C++语言
 
-**Operating system**: OpenHarmony
+**操作系统限制**：OpenHarmony操作系统
 
-**Others**: The System Ability Manager \(Samgr\) has been started and is running properly.
+**AI服务启动的约束与限制**：SAMGR（System Ability Manager）启动且运行正常
 
-## Usage<a name="section6370123616447"></a>
+## 使用<a name="section6370123616447"></a>
 
-1.  Compile the AI subsystem.
+1.  **AI业务子系统编译**
 
-    The source code for lightweight AI framework is available at  **//foundation/ai/engine/services**.
+    轻量级AI引擎框架模块，代码所在路径：//foundation/ai/engine/services
 
-    The compilation procedure is as follows:
+    编译指令如下：
 
-    1. Set the compilation path.
+    **设置编译路径**
 
     ```
-    hb set -root dir (root dir is the root directory of the project code.)
+    hb set -root dir(项目代码根目录)
     ```
 
-    2. Specify the product for compilation. \(After the product list is displayed using the following command, move to the desired product with arrow keys and press  **Enter**.\)
+    **设置编译产品**（执行后用方向键和回车进行选择）：
 
     ```
     hb set -p
     ```
 
-    3. Start compilation.
+    **执行编译**：
 
     ```
-    hb build -f (Use this command if you want to compile the entire repository.)
-    hb build ai_engine (Use this command if you want to compile only the ai_engine module.)
+    hb build -f（编译全仓）
+    或者 hb build ai_engine（只编译ai_engine组件）
     ```
 
-    **Note**: For details about the hb configuration, see the readme of the build\_lite subsystem.
+    **注意**：hb相关配置请参考编译构建子系统**build\_lite**
 
-2.  Develop the plug-in, with keyword spotting as an example.
+2.  **插件开发**（以唤醒词识别为例）
 
-    Directory: //foundation/ai/engine/services/server/plugin/asr/keyword\_spotting
+    位置：//foundation/ai/engine/services/server/plugin/asr/keyword\_spotting
 
-    **Note**: The plug-in must implement the  **IPlugin**  and  **IPluginCallback**  APIs provided by the server.
+    **注意**：插件需要实现server提供的IPlugin接口和IPluginCallback接口
 
     ```
     #include "plugin/i_plugin.h
-    class KWSPlugin : public IPlugin {       # Inherits the public base class of the IPlugin API for Keywords Spotting Plugin (KWSPlugin).
+    class KWSPlugin : public IPlugin {       # Keywords Spotting Plugin（KWSPlugin）继承IPlugin算法插件基类public:
         KWSPlugin();
         ~KWSPlugin();
 
@@ -104,7 +104,7 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
     };
     ```
 
-    **Note**: Depending on the algorithm in use, you only need to implement the  **SyncProcess**  or  **AsyncProcess**  API. Use an empty function as a placeholder for the other API. In this example, the KWS plug-in uses the synchronous algorithm. Therefore, you need to implement  **SyncProcess**  API and use an empty function as a placeholder for the  **SyncProcess**  API.
+    **注意**：SyncProcess和AsyncProcess接口只需要根据算法实际情况实现一个接口即可，另一个用空方法占位（这里KWS插件为同步算法，故异步接口为空实现）。
 
     ```
     #include "aie_log.h"
@@ -136,11 +136,11 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
     }
     ```
 
-3.  Develop the SDK, with keyword spotting as an example.
+3.  **插件SDK开发**（以唤醒词识别kws\_sdk为例）
 
-    Directory: //foundation/ai/engine/services/client/algorithm\_sdk/asr/keyword\_spotting
+    位置：//foundation/ai/engine/services/client/algorithm\_sdk/asr/keyword\_spotting
 
-    Keyword spotting SDK:
+    唤醒词识别SDK：
 
     ```
     class KWSSdk {
@@ -192,7 +192,7 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
         int32_t Destroy();
     ```
 
-    **Note**: The sequence for the SDK to call client APIs of the AI engine is as follows: AieClientInit -\> AieClientPrepare -\> AieClientSyncProcess/AieClientAsyncProcess -\> AieClientRelease -\> AieClientDestroy. An exception will be thrown if the call sequence is violated. In addition, all these APIs must be called. Otherwise, a memory leakage may occur.
+    **注意**：SDK调用AI引擎客户端接口顺序应遵循AieClientInit-\>AieClientPrepare-\>AieClientSyncProcess/AieClientAsyncProcess-\>AieClientRelease-\>AieClientDestroy，否则调用接口会返回错误码；同时应保证各个接口都有调用到，要不然会引起内存泄漏。
 
     ```
     int32_t KWSSdk::KWSSdkImpl::Create()
@@ -321,11 +321,11 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
     }
     ```
 
-4.  **Sample development**  \(similar to keyword spotting\)
+4.  **sample开发**（参考唤醒词识别demo）
 
-    Directory: //applications/sample/camera/ai/asr/keyword\_spotting
+    位置：//applications/sample/camera/ai/asr/keyword\_spotting
 
-    Call the  **Create**  API.
+    **调用Create**
 
     ```
     bool KwsManager::PreparedInference()
@@ -357,7 +357,7 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
     }
     ```
 
-    Call the  **SyncExecute**  API.
+    **调用SyncExecute**
 
     ```
     void KwsManager::ConsumeSamples()
@@ -396,7 +396,7 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
     }
     ```
 
-    Call the  **Destroy**  API.
+    **调用Destroy**
 
     ```
     void KwsManager::StopInference()
@@ -413,13 +413,13 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
     ```
 
 
-## Repositories Involved<a name="section10492183517430"></a>
+## 涉及仓<a name="section10492183517430"></a>
 
-AI subsystem:
+AI子系统
 
 **ai\_engine**
 
-Dependency repositories:
+依赖仓：
 
 build\_lite
 
@@ -427,7 +427,7 @@ distributedschedule\_services\_samgr\_lite
 
 startup\_init\_lite
 
-## Reference<a name="section6808423133718"></a>
+## AI引擎开发导航<a name="section6808423133718"></a>
 
--   AI Engine Framework Development Guide
+-   《AI插件开发指南》
 
