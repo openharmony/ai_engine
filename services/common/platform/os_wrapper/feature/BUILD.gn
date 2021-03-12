@@ -1,0 +1,63 @@
+# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+import("//build/lite/config/component/lite_component.gni")
+
+config("feature_config") {
+  include_dirs = [
+    "//base/hiviewdfx/hilog_lite/interfaces/native/innerkits/hilog",
+    "//base/hiviewdfx/hilog_lite/interfaces/native/innerkits",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/feature/interfaces",
+    "//foundation/ai/engine/services/common/protocol/retcode_inner",
+    "//foundation/ai/engine/services/common/utils",
+    "//foundation/ai/engine/services/common/utils/log",
+    "//third_party/bounds_checking_function/include",
+  ]
+}
+
+copy("audio_features_sdk") {
+  if (board_name == "hispark_taurus") {
+    sources = [ "libs/hispark_taurus/libaudio_features.a" ]
+    outputs = [ "$root_out_dir/libaudio_features.a" ]
+  }
+}
+
+source_set("norm_processor_dep") {
+  ldflags = [ "-lstdc++" ]
+  cflags_cc = [ "-fPIC" ]
+  sources = [
+    "source/norm_processor.cpp",
+    "source/type_converter.cpp",
+  ]
+  public_configs = [ ":feature_config" ]
+}
+
+source_set("type_converter_dep") {
+  ldflags = [ "-lstdc++" ]
+  cflags_cc = [ "-fPIC" ]
+  sources = [ "source/type_converter.cpp" ]
+  public_configs = [ ":feature_config" ]
+}
+
+source_set("slide_window_processor_dep") {
+  ldflags = [ "-lstdc++" ]
+  cflags_cc = [ "-fPIC" ]
+  sources = [ "source/slide_window_processor.cpp" ]
+  public_configs = [ ":feature_config" ]
+}
+
+group("feature_deps") {
+  deps = [
+    ":norm_processor_dep",
+    ":slide_window_processor_dep",
+  ]
+}
