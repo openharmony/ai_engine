@@ -1,0 +1,73 @@
+# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+import("//build/lite/config/component/lite_component.gni")
+
+copy("kws_model") {
+  sources = [ "model/keyword_spotting.wk" ]
+  outputs = [ "$root_out_dir/data/keyword_spotting.wk" ]
+}
+
+copy("kws_mean") {
+  sources = [ "model/kws_mean.txt" ]
+  outputs = [ "$root_out_dir/data/kws_mean.txt" ]
+}
+
+copy("kws_std") {
+  sources = [ "model/kws_std.txt" ]
+  outputs = [ "$root_out_dir/data/kws_std.txt" ]
+}
+
+config("libkws_config") {
+  cflags = [ "-fPIC" ]
+  cflags_cc = cflags
+  include_dirs = [
+    "include",
+    "//foundation/ai/engine/interfaces",
+    "//foundation/ai/engine/interfaces/kits",
+    "//foundation/ai/engine/interfaces/kits/asr",
+    "//foundation/ai/engine/services/common",
+    "//foundation/ai/engine/services/common/utils/encdec/include",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/engine_hal/interfaces",
+    "//foundation/ai/engine/services/common/platform/os_wrapper",
+    "//foundation/ai/engine/services/common/protocol/struct_definition",
+    "//foundation/ai/engine/services/common/protocol/retcode_inner",
+    "//foundation/ai/engine/services/common/protocol/plugin_config",
+    "//foundation/ai/engine/services/common/utils/log",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/feature/interfaces",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/utils",
+    "//foundation/ai/engine/services/server",
+  ]
+}
+
+libkws_sources = [ "source/kws_plugin.cpp" ]
+
+lite_library("asr_keyword_spotting") {
+  target_type = "shared_library"
+  sources = libkws_sources
+  public_configs = [ ":libkws_config" ]
+  ldflags = [ "-lstdc++" ]
+  ldflags += [ "-lnnie" ]
+  ldflags += [ "-lmpi" ]
+  ldflags += [ "-lnnie_adapter" ]
+  defines = [ "USE_NNIE" ]
+  deps = [
+    "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/engine_hal/drivers/nnie:engine_nnie_sdk",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/feature:norm_processor_dep",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/feature:slide_window_processor_dep",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/utils:plugin_helper",
+    "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
+    "//foundation/ai/engine/services/common/utils/encdec:encdec",
+    "//third_party/bounds_checking_function:libsec_shared",
+  ]
+}
