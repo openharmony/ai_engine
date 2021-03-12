@@ -20,6 +20,8 @@ namespace OHOS {
 namespace AI {
 const int ALGORITHM_TYPE_SAMPLE_PLUGIN_1 = 0; // sync plugin for synchronization algorithm testing
 const int ALGORITHM_TYPE_SAMPLE_PLUGIN_2 = 1; // async plugin for asynchronous algorithm testing
+const int ALGORITHM_TYPE_KWS = 2;
+const int ALGORITHM_TYPE_IC = 3;
 } // namespace AI
 } // namespace OHOS
 
