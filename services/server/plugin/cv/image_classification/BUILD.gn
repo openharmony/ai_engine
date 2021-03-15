@@ -40,11 +40,9 @@ config("libic_config") {
   ]
 }
 
-libic_sources = [ "source/ic_plugin.cpp" ]
-
 lite_library("cv_image_classification") {
   target_type = "shared_library"
-  sources = libic_sources
+  sources = [ "source/ic_plugin.cpp" ]
   public_configs = [ ":libic_config" ]
   ldflags = [ "-lstdc++" ]
   ldflags += [ "-lnnie_adapter" ]

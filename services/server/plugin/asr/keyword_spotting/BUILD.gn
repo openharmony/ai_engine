@@ -13,18 +13,12 @@
 import("//build/lite/config/component/lite_component.gni")
 
 copy("kws_model") {
-  sources = [ "model/keyword_spotting.wk" ]
-  outputs = [ "$root_out_dir/data/keyword_spotting.wk" ]
-}
-
-copy("kws_mean") {
-  sources = [ "model/kws_mean.txt" ]
-  outputs = [ "$root_out_dir/data/kws_mean.txt" ]
-}
-
-copy("kws_std") {
-  sources = [ "model/kws_std.txt" ]
-  outputs = [ "$root_out_dir/data/kws_std.txt" ]
+  sources = [
+    "model/keyword_spotting.wk",
+    "model/kws_mean.txt",
+    "model/kws_std.txt",
+  ]
+  outputs = [ "$root_out_dir/data/{{source_file_part}}" ]
 }
 
 config("libkws_config") {
@@ -49,11 +43,9 @@ config("libkws_config") {
   ]
 }
 
-libkws_sources = [ "source/kws_plugin.cpp" ]
-
 lite_library("asr_keyword_spotting") {
   target_type = "shared_library"
-  sources = libkws_sources
+  sources = [ "source/kws_plugin.cpp" ]
   public_configs = [ ":libkws_config" ]
   ldflags = [ "-lstdc++" ]
   ldflags += [ "-lnnie" ]

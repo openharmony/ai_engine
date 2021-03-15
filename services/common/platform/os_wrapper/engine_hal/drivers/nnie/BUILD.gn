@@ -12,33 +12,14 @@
 # limitations under the License.
 import("//build/lite/config/component/lite_component.gni")
 
-copy("libnnie") {
-  sources = [ "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libnnie.so" ]
-  outputs = [ "$root_out_dir/libnnie.so" ]
-}
-
-copy("libmpi") {
-  sources = [ "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libmpi.so" ]
-  outputs = [ "$root_out_dir/libmpi.so" ]
-}
-
-copy("libdnvqe") {
-  sources = [ "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libdnvqe.so" ]
-  outputs = [ "$root_out_dir/libdnvqe.so" ]
-}
-
-copy("libupvqe") {
-  sources = [ "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libupvqe.so" ]
-  outputs = [ "$root_out_dir/libupvqe.so" ]
-}
-
-copy("libVoiceEngine") {
-  sources =
-      [ "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libVoiceEngine.so" ]
-  outputs = [ "$root_out_dir/libVoiceEngine.so" ]
-}
-
 copy("engine_nnie_sdk") {
-  sources = [ "$board_name/libnnie_adapter.so" ]
-  outputs = [ "$root_out_dir/libnnie_adapter.so" ]
+  sources = [
+    "$board_name/libnnie_adapter.so",
+    "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libVoiceEngine.so",
+    "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libdnvqe.so",
+    "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libmpi.so",
+    "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libnnie.so",
+    "//device/hisilicon/$board_name/sdk_liteos/mpp/lib/libupvqe.so",
+  ]
+  outputs = [ "$root_out_dir/{{source_file_part}}" ]
 }
