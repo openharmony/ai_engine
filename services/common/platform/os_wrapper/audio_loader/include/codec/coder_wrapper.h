@@ -60,19 +60,19 @@ public:
     CoderWrapper() = default;
     virtual ~CoderWrapper() = default;
 
-    /** Initializes coder */
+    /* Initializes coder */
     virtual int32_t Initialize(const CoderConfig &input) = 0;
 
-    /** Starts coder */
+    /* Starts coder */
     virtual int32_t Start() = 0;
 
-    /** Pushes source CoderStream into coder for coding */
+    /* Pushes source CoderStream into coder for coding */
     virtual int32_t PushSourceStream(const CoderStream &stream) = 0;
 
-    /** Pulls coded result CoderStream from coder */
+    /* Pulls coded result CoderStream from coder */
     virtual int32_t PullCodedStream(CoderStream &stream) = 0;
 
-    /** Stops coder */
+    /* Stops coder */
     virtual int32_t Stop() = 0;
 
 protected:

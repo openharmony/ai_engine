@@ -25,19 +25,19 @@ public:
     DecoderWrapper();
     ~DecoderWrapper();
 
-    /** Initializes decoder */
+    /* Initializes decoder */
     int32_t Initialize(const CoderConfig &input) override;
 
-    /** Starts decoder */
+    /* Starts decoder */
     int32_t Start() override;
 
-    /** Stops decoder */
+    /* Stops decoder */
     int32_t Stop() override;
 
-    /** Pushes source CoderStream into coder for decoding */
+    /* Pushes source CoderStream into coder for decoding */
     int32_t PushSourceStream(const CoderStream &stream) override;
 
-    /** Pulls decoded result CoderStream from coder */
+    /* Pulls decoded result CoderStream from coder */
     int32_t PullCodedStream(CoderStream &stream) override;
 
 protected:

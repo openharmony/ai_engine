@@ -32,13 +32,13 @@ namespace AudioUtils {
 constexpr uint8_t AUDIO_CHANNEL_MONO = 1;
 constexpr uint8_t AUDIO_CHANNEL_STEREO = 2;
 
-/** Indicates whether to support specific format. */
+/* Indicates whether to support specific format. */
 bool IsAudioCoderFormatSupported(AudioCodecFormat format);
-/** Parses profile from AudioCodecFormat. */
+/* Parses profile from AudioCodecFormat. */
 Profile GetProfileFromAudioCoderFormat(AudioCodecFormat format);
-/** Converts sample rate to AudioSampleRate format. */
+/* Converts sample rate to AudioSampleRate format. */
 AudioSampleRate ConvertSampleRateForCoder(uint32_t sampleRate);
-/** Converts channel count to AudioSoundMode format. */
+/* Converts channel count to AudioSoundMode format. */
 AudioSoundMode ConvertSoundModeForCoder(uint32_t channelCount);
 } // namespace AudioUtils
 } // namespace AI
