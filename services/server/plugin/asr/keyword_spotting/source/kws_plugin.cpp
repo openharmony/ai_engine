@@ -104,7 +104,7 @@ int32_t KWSPlugin::Prepare(long long transactionId, const DataInfo &inputInfo, D
     }
     intptr_t handle = 0;
     if (adapter_->Init(PLUGIN_MODEL_PATH.c_str(), handle) != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]NNIEAdapterInit failed.");
+        HILOGE("[KWSPlugin]NNIEAdapterInit failed");
         return RETCODE_FAILURE;
     }
     const auto iter = handles_.find(handle);
@@ -114,7 +114,7 @@ int32_t KWSPlugin::Prepare(long long transactionId, const DataInfo &inputInfo, D
     }
     PluginConfig config;
     if (BuildConfig(handle, config) != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]BuildConfig failed.");
+        HILOGE("[KWSPlugin]BuildConfig failed");
         return RETCODE_FAILURE;
     }
     KWSWorkplace worker = {
@@ -124,7 +124,7 @@ int32_t KWSPlugin::Prepare(long long transactionId, const DataInfo &inputInfo, D
         .normProcessor = nullptr
     };
     if (InitComponents(worker) != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]InitComponents failed.");
+        HILOGE("[KWSPlugin]InitComponents failed");
         return RETCODE_FAILURE;
     }
     handles_.emplace(handle, worker);
@@ -148,7 +148,7 @@ const char *KWSPlugin::GetInferMode() const
 
 int32_t KWSPlugin::SyncProcess(IRequest *request, IResponse *&response)
 {
-    HILOGI("[KWSPlugin]SyncProcess start.");
+    HILOGI("[KWSPlugin]SyncProcess start");
     std::lock_guard<std::mutex> lock(mutex_);
     if (request == nullptr) {
         HILOGE("[KWSPlugin]SyncProcess request is nullptr");
@@ -166,7 +166,7 @@ int32_t KWSPlugin::SyncProcess(IRequest *request, IResponse *&response)
     };
     int32_t ret = EncdecFacade::ProcessDecode(inputInfo, handle, audioInput);
     if (ret != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]SyncProcess load inputData failed.");
+        HILOGE("[KWSPlugin]SyncProcess load inputData failed");
         return RETCODE_FAILURE;
     }
     const auto iter = handles_.find(handle);
@@ -189,7 +189,7 @@ int32_t KWSPlugin::SyncProcess(IRequest *request, IResponse *&response)
     };
     ret = MakeInference(handle, processorOutput, iter->second.config, outputInfo);
     if (ret != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]SyncProcess MakeInference failed.");
+        HILOGE("[KWSPlugin]SyncProcess MakeInference failed");
         return RETCODE_FAILURE;
     }
     response = IResponse::Create(request);
@@ -270,7 +270,7 @@ int32_t KWSPlugin::GetOption(int optionType, const DataInfo &inputInfo, DataInfo
     intptr_t handle = 0;
     int32_t ret = EncdecFacade::ProcessDecode(inputInfo, handle);
     if (ret != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]GetOption get handle from inputInfo failed.");
+        HILOGE("[KWSPlugin]GetOption get handle from inputInfo failed");
         return RETCODE_FAILURE;
     }
     const auto &iter = handles_.find(handle);
@@ -285,7 +285,7 @@ int32_t KWSPlugin::GetOption(int optionType, const DataInfo &inputInfo, DataInfo
         case OPTION_GET_OUTPUT_SIZE:
             return EncdecFacade::ProcessEncode(outputInfo, handle, iter->second.config.outputSize);
         default:
-            HILOGE("[KWSPlugin]GetOption optionType[%d] undefined.", optionType);
+            HILOGE("[KWSPlugin]GetOption optionType[%d] undefined", optionType);
             return RETCODE_FAILURE;
     }
     return RETCODE_SUCCESS;
@@ -297,24 +297,24 @@ int32_t KWSPlugin::Release(bool isFullUnload, long long transactionId, const Dat
         HILOGE("[KWSPlugin]The engine adapter has not been created");
         return RETCODE_FAILURE;
     }
-    HILOGI("[KWSPlugin]Begin to release, transactionId = %lld.", transactionId);
+    HILOGI("[KWSPlugin]Begin to release, transactionId = %lld", transactionId);
     intptr_t handle = 0;
     int32_t ret = EncdecFacade::ProcessDecode(inputInfo, handle);
     if (ret != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]UnSerializeHandle Failed.");
+        HILOGE("[KWSPlugin]UnSerializeHandle Failed");
         return RETCODE_FAILURE;
     }
     std::lock_guard<std::mutex> lock(mutex_);
     ret = adapter_->ReleaseHandle(handle);
     if (ret != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]ReleaseHandle failed.");
+        HILOGE("[KWSPlugin]ReleaseHandle failed");
         return RETCODE_FAILURE;
     }
     FreeHandle(handle);
     if (isFullUnload) {
         ret = adapter_->Deinit();
         if (ret != RETCODE_SUCCESS) {
-            HILOGE("[KWSPlugin]Engine adapter deinit failed.");
+            HILOGE("[KWSPlugin]Engine adapter deinit failed");
             return RETCODE_FAILURE;
         }
     }
@@ -392,7 +392,7 @@ int32_t KWSPlugin::MakeInference(intptr_t handle, Array<int32_t> &input, PluginC
     }
     int32_t ret = adapter_->Invoke(handle);
     if (ret != RETCODE_SUCCESS) {
-        HILOGE("[KWSPlugin]MakeInference failed.");
+        HILOGE("[KWSPlugin]MakeInference failed");
         return RETCODE_FAILURE;
     }
     Array<int32_t> result;
