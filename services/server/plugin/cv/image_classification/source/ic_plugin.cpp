@@ -58,7 +58,8 @@ namespace {
         }
         size_t index = 0;
         while (index < topK) {
-            result.emplace_back(index, data[index++]);
+            result.emplace_back(index, data[index]);
+            index++;
         }
         const auto heapComparer = [](const Item &x, const Item &y) {
             return (x.second > y.second);
