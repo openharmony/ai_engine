@@ -22,5 +22,8 @@ shared_library("ai_client") {
 }
 
 lite_component("client") {
-  features = [ ":ai_client" ]
+  features = [
+    ":ai_client",
+    "algorithm_sdk:algorithm_sdk",
+  ]
 }
