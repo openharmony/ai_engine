@@ -58,7 +58,8 @@ namespace {
         }
         size_t index = 0;
         while (index < topK) {
-            result.emplace_back(index, data[index++]);
+            result.emplace_back(index, data[index]);
+            index++;
         }
         const auto heapComparer = [](const Item &x, const Item &y) {
             return (x.second > y.second);
@@ -248,7 +249,7 @@ int32_t ICPlugin::GetOption(int32_t optionType, const DataInfo &inputInfo, DataI
         case OPTION_GET_OUTPUT_SIZE:
             return EncdecFacade::ProcessEncode(outputInfo, handle, iter->second.outputSize);
         default:
-            HILOGE("[ICPlugin]GetOption optionType[%d] undefined.", optionType);
+            HILOGE("[ICPlugin]GetOption optionType[%d] undefined", optionType);
             return RETCODE_FAILURE;
     }
     return RETCODE_SUCCESS;

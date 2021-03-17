@@ -17,7 +17,7 @@
  * @addtogroup ic_sdk
  * @{
  *
- * @brief Defines the development tool functions, constants, and error codes for image classification (IC).
+ * @brief Defines the development tool functions, constants and error codes for image classification (IC).
  *
  * @since 2.2
  * @version 1.0

@@ -30,25 +30,25 @@ class AudioWrapper {
 DECLARE_SINGLE_INSTANCE(AudioWrapper);
 
 public:
-    /** Initializes audio wrapper to convert AAC to PCM. */
+    /* Initializes audio wrapper to convert AAC to PCM. */
     int32_t Init(ConvertType typeId, intptr_t &handler);
 
-    /** Sets coder mode, indicate whether to CodecInit. */
+    /* Sets coder mode, indicate whether to CodecInit. */
     void SetCodecMode(bool needCodec);
 
-    /** Sets configuration of specific coder. */
+    /* Sets configuration of specific coder. */
     int32_t SetConfig(intptr_t handler, const CoderConfig &config);
 
-    /** Starts specific coder. */
+    /* Starts specific coder. */
     int32_t StartCodec(intptr_t handler);
 
-    /** Convert CoderStream from source to converted. */
+    /* Convert CoderStream from source to converted. */
     int32_t Convert(intptr_t handler, const CoderStream &source, CoderStream &converted);
 
-    /** Deinits specific coder. */
+    /* Deinits specific coder. */
     int32_t Deinit(intptr_t handler);
 
-    /** Clears all coders. */
+    /* Clears all coders. */
     void Release();
 
 private:

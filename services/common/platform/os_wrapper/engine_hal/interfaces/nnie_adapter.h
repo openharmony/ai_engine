@@ -28,22 +28,22 @@ public:
     NNIEAdapter();
     virtual ~NNIEAdapter();
 
-    /** Initializes the algorithm and get the algorithm execution handle. */
+    /* Initializes the algorithm and get the algorithm execution handle. */
     int32_t Init(const char *modelPath, intptr_t &handle) override;
 
-    /** De-Initializes all the algorithms. */
+    /* De-Initializes all the algorithms. */
     int32_t Deinit() override;
 
-    /** Makes the model based on the given handle Inference once. */
+    /* Makes the model based on the given handle Inference once. */
     int32_t Invoke(intptr_t handle) override;
 
-    /** Gets the inputBuffer and inputSize after the handle related model is initialized. */
+    /* Gets the inputBuffer and inputSize after the handle related model is initialized. */
     int32_t GetInputAddr(intptr_t handle, uint16_t nodeId, uintptr_t &inputBuffer, size_t &inputSize) override;
 
-    /** Gets the outputBuffer and outputSize after the handle related model is initialized. */
+    /* Gets the outputBuffer and outputSize after the handle related model is initialized. */
     int32_t GetOutputAddr(intptr_t handle, uint16_t nodeId, uintptr_t &outputBuffer, size_t &outputSize) override;
 
-    /** Releases the algorithm based on the given handle. */
+    /* Releases the algorithm based on the given handle. */
     int32_t ReleaseHandle(intptr_t handle) override;
 };
 } // namespace AI
