@@ -49,10 +49,10 @@ lite_library("cv_image_classification") {
   defines = [ "USE_NNIE" ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-    "//foundation/ai/engine/services/common/platform/os_wrapper/engine_hal/drivers/nnie:engine_nnie_sdk",
     "//foundation/ai/engine/services/common/platform/os_wrapper/utils:plugin_helper",
     "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
     "//foundation/ai/engine/services/common/utils/encdec:encdec",
     "//third_party/bounds_checking_function:libsec_shared",
+    "//vendor/hisilicon/hispark_taurus/hals/ai:engine_nnie_sdk",
   ]
 }
