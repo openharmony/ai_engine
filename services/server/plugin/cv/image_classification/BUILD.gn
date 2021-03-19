@@ -17,7 +17,9 @@ copy("ic_model") {
   outputs = [ "$root_out_dir/data/image_classification.wk" ]
 }
 
-config("libic_config") {
+lite_library("cv_image_classification") {
+  target_type = "shared_library"
+  sources = [ "source/ic_plugin.cpp" ]
   cflags = [ "-fPIC" ]
   cflags_cc = cflags
   include_dirs = [
@@ -38,18 +40,12 @@ config("libic_config") {
     "//foundation/ai/engine/services/common/utils/log",
     "//foundation/ai/engine/services/server",
   ]
-}
-
-lite_library("cv_image_classification") {
-  target_type = "shared_library"
-  sources = [ "source/ic_plugin.cpp" ]
-  public_configs = [ ":libic_config" ]
   ldflags = [ "-lstdc++" ]
   ldflags += [ "-lnnie_adapter" ]
   defines = [ "USE_NNIE" ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-    "//foundation/ai/engine/services/common/platform/os_wrapper/engine_hal/drivers/nnie:engine_nnie_sdk",
+    "//device/hisilicon/hardware/ai:engine_nnie_sdk",
     "//foundation/ai/engine/services/common/platform/os_wrapper/utils:plugin_helper",
     "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
     "//foundation/ai/engine/services/common/utils/encdec:encdec",
