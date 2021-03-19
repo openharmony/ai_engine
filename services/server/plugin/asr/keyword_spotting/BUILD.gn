@@ -21,7 +21,9 @@ copy("kws_model") {
   outputs = [ "$root_out_dir/data/{{source_file_part}}" ]
 }
 
-config("libkws_config") {
+lite_library("asr_keyword_spotting") {
+  target_type = "shared_library"
+  sources = [ "source/kws_plugin.cpp" ]
   cflags = [ "-fPIC" ]
   cflags_cc = cflags
   include_dirs = [
@@ -41,12 +43,6 @@ config("libkws_config") {
     "//foundation/ai/engine/services/common/platform/os_wrapper/utils",
     "//foundation/ai/engine/services/server",
   ]
-}
-
-lite_library("asr_keyword_spotting") {
-  target_type = "shared_library"
-  sources = [ "source/kws_plugin.cpp" ]
-  public_configs = [ ":libkws_config" ]
   ldflags = [ "-lstdc++" ]
   ldflags += [ "-lnnie" ]
   ldflags += [ "-lmpi" ]
@@ -54,12 +50,12 @@ lite_library("asr_keyword_spotting") {
   defines = [ "USE_NNIE" ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
+    "//device/hisilicon/hardware/ai:engine_nnie_sdk",
     "//foundation/ai/engine/services/common/platform/os_wrapper/feature:norm_processor_dep",
     "//foundation/ai/engine/services/common/platform/os_wrapper/feature:slide_window_processor_dep",
     "//foundation/ai/engine/services/common/platform/os_wrapper/utils:plugin_helper",
     "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
     "//foundation/ai/engine/services/common/utils/encdec:encdec",
     "//third_party/bounds_checking_function:libsec_shared",
-    "//vendor/hisilicon/hispark_taurus/hals/ai:engine_nnie_sdk",
   ]
 }
