@@ -1,0 +1,103 @@
+cmake_minimum_required(VERSION 3.16)
+project(engine)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(../../../../..///base/hiviewdfx/hilog_lite/interfaces/native/innerkits)
+include_directories(../../../../..///base/hiviewdfx/hilog_lite/interfaces/native/innerkits/hilog)
+include_directories(../../../../..///base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog)
+include_directories(../../../../..///drivers/peripheral/audio/interfaces/include)
+include_directories(../../../../..///drivers/peripheral/codec/interfaces/include)
+include_directories(../../../../..///drivers/peripheral/format/interfaces/include)
+include_directories(../../../../..///foundation/ai/engine/interfaces)
+include_directories(../../../../..///foundation/ai/engine/interfaces/kits)
+include_directories(../../../../..///foundation/ai/engine/services/common)
+include_directories(../../../../..///foundation/ai/engine/services/common/platform/os_wrapper/audio_loader/include)
+include_directories(../../../../..///foundation/ai/engine/services/common/platform/os_wrapper/audio_loader/include/codec)
+include_directories(../../../../..///foundation/ai/engine/services/common/platform/os_wrapper/feature/interfaces)
+include_directories(../../../../..///foundation/ai/engine/services/common/platform/os_wrapper/utils)
+include_directories(../../../../..///foundation/ai/engine/services/common/platform/utils)
+include_directories(../../../../..///foundation/ai/engine/services/common/protocol/retcode_inner)
+include_directories(../../../../..///foundation/ai/engine/services/common/protocol/struct_definition)
+include_directories(../../../../..///foundation/ai/engine/services/common/utils)
+include_directories(../../../../..///foundation/ai/engine/services/common/utils/encdec/include)
+include_directories(../../../../..///foundation/ai/engine/services/common/utils/log)
+include_directories(../../../../..///foundation/ai/engine/services/platform/os_wrapper/utils)
+include_directories(../../../../..///foundation/multimedia/audio_lite/interfaces/kits)
+include_directories(../../../../..///foundation/multimedia/hals/camera_lite)
+include_directories(../../../../..///foundation/multimedia/utils/lite/hals)
+include_directories(../../../../..///foundation/multimedia/utils/lite/include)
+include_directories(../../../../..///third_party/bounds_checking_function/include)
+
+add_executable(common
+        platform/dl_operation/include/aie_dl_operation.h
+        platform/dl_operation/source/aie_dl_operation.cpp
+        platform/event/include/i_event.h
+        platform/event/source/event.cpp
+        platform/lock/include/rw_lock.h
+        platform/lock/include/rw_lock.inl
+        platform/lock/source/rw_lock.cpp
+        platform/os_wrapper/audio_loader/include/codec/coder_wrapper.h
+        platform/os_wrapper/audio_loader/include/codec/decoder_wrapper.h
+        platform/os_wrapper/audio_loader/include/audio_retcode.h
+        platform/os_wrapper/audio_loader/include/audio_utils.h
+        platform/os_wrapper/audio_loader/include/audio_wrapper.h
+        platform/os_wrapper/audio_loader/source/codec/decoder_wrapper.cpp
+        platform/os_wrapper/audio_loader/source/audio_utils.cpp
+        platform/os_wrapper/audio_loader/source/audio_wrapper.cpp
+        platform/os_wrapper/engine_hal/interfaces/engine_adapter.h
+        platform/os_wrapper/feature/interfaces/feature_processor.h
+        platform/os_wrapper/feature/interfaces/filterbank_processor.h
+        platform/os_wrapper/feature/interfaces/log_scale_processor.h
+        platform/os_wrapper/feature/interfaces/mfcc_processor.h
+        platform/os_wrapper/feature/interfaces/noise_reduction_processor.h
+        platform/os_wrapper/feature/interfaces/norm_processor.h
+        platform/os_wrapper/feature/interfaces/slide_window_processor.h
+        platform/os_wrapper/feature/interfaces/type_converter.h
+        platform/os_wrapper/feature/source/norm_processor.cpp
+        platform/os_wrapper/feature/source/slide_window_processor.cpp
+        platform/os_wrapper/feature/source/type_converter.cpp
+        platform/os_wrapper/utils/plugin_helper.cpp
+        platform/os_wrapper/utils/plugin_helper.h
+        platform/os_wrapper/utils/single_instance.h
+        platform/queuepool/queue.h
+        platform/queuepool/queue.inl
+        platform/queuepool/queue_pool.h
+        platform/queuepool/queue_pool.inl
+        platform/semaphore/include/i_semaphore.h
+        platform/semaphore/include/simple_event_notifier.h
+        platform/semaphore/include/simple_event_notifier.inl
+        platform/semaphore/source/semaphore.cpp
+        platform/threadpool/include/aie_thread_unix.h
+        platform/threadpool/include/thread.h
+        platform/threadpool/include/thread_pool.h
+        platform/threadpool/source/aie_thread_unix.cpp
+        platform/threadpool/source/thread.cpp
+        platform/threadpool/source/thread_pool.cpp
+        platform/time/include/time.h
+        platform/time/include/time_elapser.h
+        platform/time/source/time.cpp
+        platform/time/source/time_elapser.cpp
+        protocol/data_channel/include/i_request.h
+        protocol/data_channel/include/i_response.h
+        protocol/data_channel/include/request.h
+        protocol/data_channel/include/response.h
+        protocol/data_channel/source/request.cpp
+        protocol/data_channel/source/response.cpp
+        protocol/ipc_interface/ai_service.h
+        protocol/plugin_config/aie_algorithm_type.h
+        protocol/retcode_inner/aie_retcode_inner.h
+        protocol/struct_definition/aie_info_define.h
+        utils/constants/constants.h
+        utils/encdec/include/data_decoder.h
+        utils/encdec/include/data_encoder.h
+        utils/encdec/include/encdec_facade.h
+        utils/encdec/source/data_decoder.cpp
+        utils/encdec/source/data_encoder.cpp
+        utils/file_operation/include/file_operation.h
+        utils/file_operation/source/file_operation.cpp
+        utils/log/aie_log.h
+        utils/aie_guard.h
+        utils/aie_macros.h
+        utils/inf_cast_impl.h
+)
