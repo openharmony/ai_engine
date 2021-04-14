@@ -331,7 +331,7 @@ HWTEST_F(EncdecTest, EncdecNormalCheck003, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MR
  */
-HWTEST_F(EncdecTest, EncdecAbnormalCheck001, TestSize.Level0)
+HWTEST_F(EncdecTest, EncdecAbnormalCheck001, TestSize.Level1)
 {
     HILOGD ("**********[Test]abnormal test start************");
     BasicTypesCheck(false);
@@ -344,7 +344,7 @@ HWTEST_F(EncdecTest, EncdecAbnormalCheck001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MR
  */
-HWTEST_F(EncdecTest, EncdecAbnormalCheck002, TestSize.Level0)
+HWTEST_F(EncdecTest, EncdecAbnormalCheck002, TestSize.Level1)
 {
     HILOGD ("**********[Test]abnormal test start************");
     StructCheck(false);
@@ -357,7 +357,7 @@ HWTEST_F(EncdecTest, EncdecAbnormalCheck002, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MR
  */
-HWTEST_F(EncdecTest, EncdecAbnormalCheck003, TestSize.Level0)
+HWTEST_F(EncdecTest, EncdecAbnormalCheck003, TestSize.Level1)
 {
     HILOGD ("**********[Test]Normal test start, all the result should return 0************");
     StructWithPointerCheck(false);
