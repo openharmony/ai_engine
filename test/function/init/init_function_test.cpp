@@ -96,7 +96,7 @@ static void RandStr(const int len, char *str)
  * @tc.type: FUNC
  * @tc.require: AR000F77NM
  */
-HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo001, TestSize.Level0)
+HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo001, TestSize.Level1)
 {
     HILOGI("[Test]Begin TestAieClientInitConfigInfo001.");
     const char *str = INPUT_CHARACTER;
@@ -142,7 +142,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NM
  */
-HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo002, TestSize.Level0)
+HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo002, TestSize.Level1)
 {
     HILOGI("[Test]Begin TestAieClientInitConfigInfo002.");
     const char *str = INPUT_CHARACTER;
@@ -188,7 +188,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo002, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NM
  */
-HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo003, TestSize.Level0)
+HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo003, TestSize.Level1)
 {
     HILOGI("[Test]Begin TestAieClientInitConfigInfo003.");
     const char *str = INPUT_CHARACTER;
@@ -234,7 +234,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo003, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NM
  */
-HWTEST_F(InitFunctionTest, TestAieClientInitClientInfo001, TestSize.Level0)
+HWTEST_F(InitFunctionTest, TestAieClientInitClientInfo001, TestSize.Level1)
 {
     HILOGI("[Test]Begin TestAieClientInitClientInfo001.");
     const char *str = INPUT_CHARACTER;
@@ -277,7 +277,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitClientInfo001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NM
  */
-HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo001, TestSize.Level0)
+HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo001, TestSize.Level1)
 {
     HILOGI("[Test]Begin TestAieClientInitAlgoInfo001.");
     const char *str = INPUT_CHARACTER;
@@ -320,7 +320,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NM
  */
-HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo002, TestSize.Level0)
+HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo002, TestSize.Level1)
 {
     HILOGI("[Test]Begin TestAieClientInitAlgoInfo002.");
     const char *str = INPUT_CHARACTER;

@@ -48,7 +48,7 @@ public:
  * @tc.type: FUNC
  * @tc.require: AR000F77OO
  */
-HWTEST_F(TimeTest, TimeTest001, TestSize.Level0)
+HWTEST_F(TimeTest, TimeTest001, TestSize.Level1)
 {
     time_t firstTime = GetCurTimeSec();
     HILOGD("[Test]First time is %lld", firstTime);
