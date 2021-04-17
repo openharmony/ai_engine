@@ -110,7 +110,7 @@ int ClientFactory::ClientAsyncProcess(const ClientInfo &clientInfo, const Algori
         return RETCODE_SERVER_NOT_INIT;
     }
     if (!algorithmInfo.isAsync) {
-        HILOGI("[ClientFactory]algorithm is synchronous, but async process is called.");
+        HILOGE("[ClientFactory]algorithm is synchronous, but async process is called.");
         return RETCODE_INVALID_PARAM;
     }
 
@@ -177,7 +177,7 @@ int ClientFactory::ClientSyncProcess(const ClientInfo &clientInfo, const Algorit
         return RETCODE_SERVER_NOT_INIT;
     }
     if (algorithmInfo.isAsync) {
-        HILOGI("[ClientFactory]algorithm is asynchronous, but sync process is called.");
+        HILOGE("[ClientFactory]algorithm is asynchronous, but sync process is called.");
         return RETCODE_INVALID_PARAM;
     }
     return SyncExecute(clientInfo, algorithmInfo, inputInfo, outputInfo);
