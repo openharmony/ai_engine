@@ -28,6 +28,7 @@
 
 namespace OHOS {
 namespace AI {
+namespace {
 SvcIdentity g_sid;
 
 struct Notify {
@@ -41,29 +42,7 @@ struct NotifyBuff {
     unsigned char *outBuff;
 };
 
-extern "C" void __attribute__((weak)) HOS_SystemInit(void)
-{
-};
-
-void HosInit()
-{
-    HOS_SystemInit();
-}
-
-IClientProxy *GetRemoteIUnknown(void)
-{
-    IUnknown *iUnknown = SAMGR_GetInstance()->GetDefaultFeatureApi(AI_SERVICE);
-    if (iUnknown == nullptr) {
-        HILOGE("[SaClientProxy][TID:0x%lx][GetDefaultFeatureApi S:%s]: error is null.",
-            pthread_self(), AI_SERVICE);
-        return nullptr;
-    }
-    IClientProxy *proxy = nullptr;
-    (void)iUnknown->QueryInterface(iUnknown, CLIENT_PROXY_VER, (void **)&proxy);
-    return proxy;
-}
-
-static int Callback(void *owner, int code, IpcIo *reply)
+int Callback(void *owner, int code, IpcIo *reply)
 {
     HILOGI("[SaClientProxy]Callback start.");
     if (owner == nullptr) {
@@ -75,7 +54,7 @@ static int Callback(void *owner, int code, IpcIo *reply)
     return RETCODE_SUCCESS;
 }
 
-static int CallbackBuff(void *owner, int code, IpcIo *reply)
+int CallbackBuff(void *owner, int code, IpcIo *reply)
 {
     HILOGI("[SaClientProxy]CallbackBuff start.");
     if (owner == nullptr) {
@@ -98,7 +77,7 @@ static int CallbackBuff(void *owner, int code, IpcIo *reply)
     return notify->ipcRetCode;
 }
 
-static void ParcelClientInfo(IpcIo *request, const ClientInfo &clientInfo)
+void ParcelClientInfo(IpcIo *request, const ClientInfo &clientInfo)
 {
     IpcIoPushInt64(request, clientInfo.clientVersion);
     IpcIoPushInt32(request, clientInfo.clientId);
@@ -119,6 +98,29 @@ void ParcelAlgorithmInfo(IpcIo *request, const AlgorithmInfo &algorithmInfo)
 
     DataInfo dataInfo {algorithmInfo.extendMsg, algorithmInfo.extendLen};
     ParcelDataInfo(request, &dataInfo);
+}
+} // anonymous namespace
+
+extern "C" void __attribute__((weak)) HOS_SystemInit(void)
+{
+};
+
+void HosInit()
+{
+    HOS_SystemInit();
+}
+
+IClientProxy *GetRemoteIUnknown(void)
+{
+    IUnknown *iUnknown = SAMGR_GetInstance()->GetDefaultFeatureApi(AI_SERVICE);
+    if (iUnknown == nullptr) {
+        HILOGE("[SaClientProxy][TID:0x%lx][GetDefaultFeatureApi S:%s]: error is null.",
+            pthread_self(), AI_SERVICE);
+        return nullptr;
+    }
+    IClientProxy *proxy = nullptr;
+    (void)iUnknown->QueryInterface(iUnknown, CLIENT_PROXY_VER, (void **)&proxy);
+    return proxy;
 }
 
 int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo)
