@@ -56,7 +56,7 @@ private:
      * to Init client and connect to AI SA server.
      *
      * @param [in] configInfo Engine configuration information.
-     * @param [in] clientInfo Client information.
+     * @param [out] clientInfo Client information.
      * @param [in] algorithmInfo Algorithm information.
      * @return Returns 0 if the operation is successful, returns a non-zero value otherwise.
      */
