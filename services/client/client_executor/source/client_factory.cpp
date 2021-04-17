@@ -109,6 +109,10 @@ int ClientFactory::ClientAsyncProcess(const ClientInfo &clientInfo, const Algori
             clientId_, clientInfo.sessionId);
         return RETCODE_SERVER_NOT_INIT;
     }
+    if (!algorithmInfo.isAsync) {
+        HILOGI("[ClientFactory]algorithm is synchronous, but async process is called.");
+        return RETCODE_INVALID_PARAM;
+    }
 
     int retCode = AsyncExecute(clientInfo, algorithmInfo, inputInfo);
     HILOGD("[ClientFactory][clientId:%d,sessionId:%d]End to call AsyncExecute, result code[%d]",
@@ -171,6 +175,10 @@ int ClientFactory::ClientSyncProcess(const ClientInfo &clientInfo, const Algorit
     if (clientInfo.sessionId == INVALID_SESSION_ID) {
         HILOGE("[ClientFactory]SessionId is invalid, please call Init firstly.");
         return RETCODE_SERVER_NOT_INIT;
+    }
+    if (algorithmInfo.isAsync) {
+        HILOGI("[ClientFactory]algorithm is asynchronous, but sync process is called.");
+        return RETCODE_INVALID_PARAM;
     }
     return SyncExecute(clientInfo, algorithmInfo, inputInfo, outputInfo);
 }
