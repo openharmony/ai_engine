@@ -13,27 +13,22 @@
  * limitations under the License.
  */
 
-#include <unistd.h>
+#ifndef AIE_IPC_H
+#define AIE_IPC_H
 
-#include "samgr_lite.h"
+#include "liteipc.h"
+#include "protocol/struct_definition/aie_info_define.h"
 
-#include "utils/log/aie_log.h"
-
-#define SLEEP_TIME 1
-
-void __attribute__((weak)) HOS_SystemInit(void)
-{
-    HILOGI("[StartServer]Provider HOS System init");
-#ifdef __LINUX__
-    sleep(SLEEP_TIME); // delay start to make sure register success
+#ifdef __cplusplus
+extern "C" {
 #endif
-    SAMGR_Bootstrap();
-};
 
-int main()
-{
-    HILOGD("[StartServer]Start Ai Provider System Start.");
-    HOS_SystemInit();
-    HILOGD("[StartServer]Start Ai Provider System End.");
-    pause();
+void ParcelDataInfo(IpcIo *request, const DataInfo *dataInfo);
+int UnParcelDataInfo(IpcIo *request, DataInfo *dataInfo);
+void FreeDataInfo(DataInfo *dataInfo);
+
+#ifdef __cplusplus
 }
+#endif //
+
+#endif // AIE_IPC_H

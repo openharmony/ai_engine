@@ -20,7 +20,8 @@
 
 #include "plugin/i_plugin.h"
 
-namespace OHOS::AI {
+namespace OHOS {
+namespace AI {
 class SamplePlugin1 : public IPlugin {
     const long long ALG_VERSION = 1;
     const char *ALG_NAME = "SAMPLE_PLUGIN_1";
@@ -31,6 +32,7 @@ class SamplePlugin1 : public IPlugin {
 
 public:
     SamplePlugin1();
+
     ~SamplePlugin1();
 
     const long long GetVersion() const override;
@@ -51,6 +53,7 @@ public:
 
     int GetOption(int optionType, const DataInfo &inputInfo, DataInfo &outputInfo) override;
 };
+}
 }
 
 #endif // SAMPLE_PLUGIN_1_H

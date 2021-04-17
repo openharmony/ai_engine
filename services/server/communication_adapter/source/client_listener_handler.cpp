@@ -15,9 +15,9 @@
 
 #include "communication_adapter/include/client_listener_handler.h"
 
-#include "liteipc.h"
 #include "liteipc_adapter.h"
 
+#include "platform/os_wrapper/ipc/include/aie_ipc.h"
 #include "protocol/ipc_interface/ai_service.h"
 #include "protocol/retcode_inner/aie_retcode_inner.h"
 #include "protocol/struct_definition/aie_info_define.h"
@@ -35,18 +35,6 @@ AsyncProcessWorker::AsyncProcessWorker(ClientListenerHandler *handler, int clien
 const char *AsyncProcessWorker::GetName() const
 {
     return ASYNC_PROCESS_WORKER;
-}
-
-void ParcelDataInfo(IpcIo *request, const DataInfo &dataInfo)
-{
-    IpcIoPushInt32(request, dataInfo.length);
-    if (dataInfo.length > 0 && dataInfo.data != nullptr) {
-        BuffPtr dataBuff = {
-            .buffSz = static_cast<uint32_t>(dataInfo.length),
-            .buff = dataInfo.data,
-        };
-        IpcIoPushDataBuff(request, &dataBuff);
-    }
 }
 
 void AsyncProcessWorker::IpcIoResponse(IResponse *response, IpcIo &io, char *data, int length)
@@ -68,7 +56,7 @@ void AsyncProcessWorker::IpcIoResponse(IResponse *response, IpcIo &io, char *dat
     IpcIoPushInt32(&io, sessionId);
 
     DataInfo result = response->GetResult();
-    ParcelDataInfo(&io, result);
+    ParcelDataInfo(&io, &result);
 }
 
 bool AsyncProcessWorker::OneAction()
@@ -82,14 +70,14 @@ bool AsyncProcessWorker::OneAction()
     IpcIoResponse(response, io, tmpData, IPC_IO_DATA_MAX);
     response->Detach();
 
-    SvcIdentity listener = adapter_->GetEngineListener();
-    if (listener.handle == 0 || listener.token == 0) {
+    SvcIdentity *svcIdentity = adapter_->GetEngineListener();
+    if (svcIdentity == nullptr) {
         HILOGE("[ClientListenerHandler]Fail to get engine listener, clientId: %d.", clientId_);
         return true;
     }
 
     IpcIo reply;
-    int32_t retCode = Transact(nullptr, listener, ON_ASYNC_PROCESS_CODE, &io, &reply, LITEIPC_FLAG_ONEWAY, nullptr);
+    int32_t retCode = Transact(nullptr, *svcIdentity, ON_ASYNC_PROCESS_CODE, &io, &reply, LITEIPC_FLAG_ONEWAY, nullptr);
     if (retCode != LITEIPC_OK) {
         HILOGI("[ClientListenerHandler]End to deal response, ret is %d, clientId: %d.", retCode, clientId_);
     }
@@ -126,15 +114,21 @@ IResponse *ClientListenerHandler::FetchCallbackRecord()
         if (!responses_.empty()) {
             response = responses_.front();
             responses_.pop_front();
+            if (responses_.empty()) {
+                event_->Reset();
+            }
             return response;
         }
     }
 
-    // Wait for 1s and try again
+    // Active the thread every 1s. complete blocking will prevent from joining thread.
     if ((event_->Wait(EVENT_WAIT_TIME_MS)) && (!responses_.empty())) {
         std::lock_guard<std::mutex> guard(mutex_);
         response = responses_.front();
         responses_.pop_front();
+        if (responses_.empty()) { // if it's empty now, block thread.
+            event_->Reset();
+        }
     }
     return response;
 }
@@ -146,7 +140,7 @@ void ClientListenerHandler::AddCallbackRecord(IResponse *response)
     responses_.push_back(response);
     CHK_RET_NONE(!empty);
 
-    // If it is empty, the semaphore is sent.
+    // If it was empty and new response is coming, stop blocking.
     event_->Signal();
 }
 

@@ -113,7 +113,7 @@ extern int GetOptionWrapper(const ClientInfo *clientInfo, int optionType, const 
  * @param [in] sid Client async callback SVC handle identity
  * @return Returns 0 if the operation is successful, returns a non-zero value otherwise.
  */
-extern int RegisterCallbackWrapper(const ClientInfo *clientInfo, const SvcIdentity *sid);
+extern int RegisterCallbackWrapper(const ClientInfo *clientInfo, SvcIdentity *sid);
 
 /**
  * Delete listener to call client async process, and stop server async handler.
