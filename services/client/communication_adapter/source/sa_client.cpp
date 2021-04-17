@@ -30,7 +30,7 @@ namespace AI {
 namespace {
 int32_t AsyncCallback(const IpcContext *ipcContext, void *ipcMsg, IpcIo *data, void *arg)
 {
-    // the code is callback function id, was defined in ai_service.h
+    // the code is callback function id, which is defined in ai_service.h
     uint32_t code;
     int32_t ipcGetCodeRet = GetCode(ipcMsg, &code);
     int asyncCallbackRet = IpcIoPopInt32(data);

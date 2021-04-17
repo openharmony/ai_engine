@@ -27,9 +27,9 @@ public:
     /**
      * Called when asynchronous inference is complete.
      *
-     * @param [in] result The inference results.
+     * @param [in] result The inference results, it'll be freed automatically.
      * @param [out] resultCode The return code.
-     * @param [out] requestId The request Id.
+     * @param [out] requestId The request Id, defined in AlgorithmInfo.
      */
     virtual void OnResult(const DataInfo &result, int resultCode, int requestId) = 0;
 };

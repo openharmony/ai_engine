@@ -119,7 +119,7 @@ IResponse *ClientListenerHandler::FetchCallbackRecord()
         if (!responses_.empty()) {
             response = responses_.front();
             responses_.pop_front();
-            if (responses_.empty()) {
+            if (responses_.empty()) { // if it's empty now, block thread.
                 event_->Reset();
             }
             return response;
