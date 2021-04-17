@@ -78,6 +78,8 @@ static int UnParcelClientInfo(IpcIo *request, ClientInfo *clientInfo)
     clientInfo->clientVersion = IpcIoPopInt64(request);
     clientInfo->clientId = IpcIoPopInt32(request);
     clientInfo->sessionId = IpcIoPopInt32(request);
+    clientInfo->serverUid = IpcIoPopUint32(request);
+    clientInfo->clientUid = IpcIoPopUint32(request);
 
     DataInfo dataInfo = {NULL, 0};
     int retCode = UnParcelDataInfo(request, &dataInfo);
@@ -239,9 +241,10 @@ static int InvokeInitSaEngine(AiInterface *aiInterface, IpcIo *req, IpcIo *reply
     HILOGI("[SaServer]InvokeInitSaEngine start.");
     ConfigInfo configInfo;
     size_t len = 0;
-    configInfo.description = (char*) IpcIoPopString(req, &len);
+    configInfo.description = (char*)IpcIoPopString(req, &len);
     int32_t clientId = aiInterface->InitEngine(&configInfo);
     IpcIoPushInt32(reply, clientId);
+    IpcIoPushUint32(reply, getuid());
     return clientId;
 }
 
@@ -271,11 +274,12 @@ static int InvokeLoadAlgorithm(AiInterface *aiInterface, IpcIo *req, IpcIo *repl
         .length = 0,
     };
     retCode = aiInterface->LoadAlgorithm(&clientInfo, &algorithmInfo, &inputInfo, &outputInfo);
+    IpcIoPushInt32(reply, retCode);
+    ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
+
     FreeClientInfo(&clientInfo);
     FreeAlgorithmInfo(&algorithmInfo);
     FreeDataInfo(&inputInfo);
-    IpcIoPushInt32(reply, retCode);
-    ParcelDataInfo(reply, &outputInfo);
     return retCode;
 }
 
@@ -296,11 +300,12 @@ static int InvokeSyncExecute(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
         .length = 0,
     };
     retCode = aiInterface->SyncExecuteAlgorithm(&clientInfo, &algorithmInfo, &inputInfo, &outputInfo);
+    IpcIoPushInt32(reply, retCode);
+    ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
+
     // inputInfo is hold by request, and freed when request is destructed in SaServerAdapter::SyncExecute().
     FreeClientInfo(&clientInfo);
     FreeAlgorithmInfo(&algorithmInfo);
-    IpcIoPushInt32(reply, retCode);
-    ParcelDataInfo(reply, &outputInfo);
     return retCode;
 }
 
@@ -393,10 +398,11 @@ static int InvokeGetOption(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
         .length = 0,
     };
     retCode = aiInterface->GetOption(&clientInfo, optionType, &inputInfo, &outputInfo);
+    IpcIoPushInt32(reply, retCode);
+    ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
+
     FreeClientInfo(&clientInfo);
     FreeDataInfo(&inputInfo);
-    IpcIoPushInt32(reply, retCode);
-    ParcelDataInfo(reply, &outputInfo);
     return retCode;
 }
 

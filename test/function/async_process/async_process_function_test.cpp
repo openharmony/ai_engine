@@ -45,6 +45,7 @@ namespace {
     const long long ALGORITHM_VERSION = 1;
     const int DATA_INFO_LEN = 6;
     const int WAIT_CALLBACK_TIME_MS = 2000;
+    constexpr uid_t INVALID_UID = 0;
 }
 
 class AsyncProcessFunctionTest : public testing::Test {
@@ -87,6 +88,8 @@ static void PreBuildInfo(ConfigInfo &configInfo, ClientInfo &clientInfo, Algorit
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = INVALID_SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)extendMsg,
     };

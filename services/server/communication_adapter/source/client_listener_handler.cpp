@@ -61,7 +61,7 @@ void AsyncProcessWorker::IpcIoResponse(IResponse *response, IpcIo &io, char *dat
     IpcIoPushInt32(&io, sessionId);
 
     DataInfo result = response->GetResult();
-    ParcelDataInfo(&io, &result);
+    ParcelDataInfo(&io, &result, response->GetClientUid());
 }
 
 bool AsyncProcessWorker::OneAction()
@@ -73,7 +73,6 @@ bool AsyncProcessWorker::OneAction()
     IpcIo io;
     char tmpData[IPC_IO_DATA_MAX];
     IpcIoResponse(response, io, tmpData, IPC_IO_DATA_MAX);
-    response->Detach();
 
     SvcIdentity *svcIdentity = adapter_->GetEngineListener();
     if (svcIdentity == nullptr) {

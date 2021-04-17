@@ -91,6 +91,20 @@ public:
     void SetRetCode(int retCode);
 
     /**
+     * Get client uid.
+     *
+     * @return Client uid.
+     */
+    uid_t GetClientUid() const;
+
+    /**
+     * Set client uid.
+     *
+     * @param [in] clientUid Client uid.
+     */
+    void SetClientUid(const uid_t clientUid);
+
+    /**
      * Get response return description.
      *
      * @return Response return description.
@@ -128,6 +142,7 @@ private:
     long long innerSequenceId_;
     long long transactionId_;
     int retCode_;
+    uid_t clientUid_ = 0;
     std::string retDesc_;
     int algoPluginType_;
     DataInfo result_;

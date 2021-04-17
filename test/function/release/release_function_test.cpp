@@ -43,6 +43,7 @@ namespace {
     const int OPERATE_ID = 2;
     const int REQUEST_ID = 3;
     const int ALGORITHM_EXTEND_LENGTH = 0;
+    constexpr uid_t INVALID_UID = 0;
 }
 
 class ReleaseFunctionTest : public testing::Test {
@@ -92,6 +93,8 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease001, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -150,6 +153,8 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease002, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -208,6 +213,8 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease003, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -270,6 +277,8 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease004, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
