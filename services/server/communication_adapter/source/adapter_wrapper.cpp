@@ -265,7 +265,7 @@ int GetOptionWrapper(const ClientInfo *clientInfo, int optionType, const DataInf
     return adapter->GetOption(transactionId, optionType, *inputInfo, *outputInfo);
 }
 
-int RegisterCallbackWrapper(const ClientInfo *clientInfo, const SvcIdentity *sid)
+int RegisterCallbackWrapper(const ClientInfo *clientInfo, SvcIdentity *sid)
 {
     HILOGI("[AdapterWrapper]Begin to call RegisterCallbackWrapper.");
     SaServerAdapter *adapter = FindAdapter(clientInfo->clientId);

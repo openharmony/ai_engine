@@ -23,6 +23,8 @@ include_directories(../../../../../foundation/ai/engine/services/common/utils)
 include_directories(../../../../../foundation/ai/engine/services/common/utils/encdec/include)
 include_directories(../../../../../foundation/ai/engine/services/common/utils/log)
 include_directories(../../../../../foundation/ai/engine/services/platform/os_wrapper/utils)
+include_directories(../../../../../foundation/communication/ipc_lite/frameworks/liteipc/include)
+include_directories(../../../../../foundation/communication/ipc_lite/interfaces/kits)
 include_directories(../../../../../foundation/multimedia/audio_lite/interfaces/kits)
 include_directories(../../../../../foundation/multimedia/hals/camera_lite)
 include_directories(../../../../../foundation/multimedia/utils/lite/hals)
@@ -57,6 +59,8 @@ add_executable(common
         platform/os_wrapper/feature/source/norm_processor.cpp
         platform/os_wrapper/feature/source/slide_window_processor.cpp
         platform/os_wrapper/feature/source/type_converter.cpp
+        platform/os_wrapper/ipc/include/aie_ipc.h
+        platform/os_wrapper/ipc/source/aie_ipc.cpp
         platform/os_wrapper/utils/plugin_helper.cpp
         platform/os_wrapper/utils/plugin_helper.h
         platform/os_wrapper/utils/single_instance.h

@@ -16,12 +16,11 @@
 #include "communication_adapter/include/sa_client_proxy.h"
 
 #include <pthread.h>
-#include <string>
 
 #include "iproxy_client.h"
-#include "liteipc.h"
 #include "samgr_lite.h"
 
+#include "platform/os_wrapper/ipc/include/aie_ipc.h"
 #include "protocol/ipc_interface/ai_service.h"
 #include "protocol/retcode_inner/aie_retcode_inner.h"
 #include "utils/constants/constants.h"
@@ -84,56 +83,28 @@ static int CallbackBuff(void *owner, int code, IpcIo *reply)
         return RETCODE_NULL_PARAM;
     }
     auto notify = reinterpret_cast<struct NotifyBuff *>(owner);
-    notify->ipcRetCode = RETCODE_SUCCESS;
     notify->retCode = IpcIoPopInt32(reply);
-    notify->outLen = IpcIoPopInt32(reply);
-    if (notify->outLen <= 0) {
-        HILOGI("[SaClientProxy]SyncCallback dataBuf is nullptr.");
-        return RETCODE_SUCCESS;
-    }
-    BuffPtr *dataBuf = IpcIoPopDataBuff(reply);
-    if (dataBuf == nullptr) {
-        HILOGE("[SaClientProxy]SyncCallback dataBuf is nullptr.");
-        notify->ipcRetCode = RETCODE_FAILURE;
-        return RETCODE_NULL_PARAM;
+
+    DataInfo dataInfo {};
+    notify->ipcRetCode = UnParcelDataInfo(reply, &dataInfo);
+    if (notify->ipcRetCode == RETCODE_SUCCESS) {
+        notify->outLen = dataInfo.length;
+        notify->outBuff = dataInfo.data;
+    } else {
+        notify->outLen = 0;
+        notify->outBuff = nullptr;
     }
 
-    notify->outBuff = reinterpret_cast<unsigned char *>(malloc(sizeof(unsigned char) * notify->outLen));
-    if (notify->outBuff == nullptr) {
-        HILOGE("[SaClientProxy]Failed to request memory.");
-        notify->ipcRetCode = RETCODE_OUT_OF_MEMORY;
-        FreeBuffer(nullptr, dataBuf->buff);
-        return RETCODE_OUT_OF_MEMORY;
-    }
-    errno_t retCode = memcpy_s(notify->outBuff, notify->outLen, dataBuf->buff, dataBuf->buffSz);
-    if (retCode != EOK) {
-        HILOGE("[SaClientProxy]Failed to memory copy, retCode[%d].", retCode);
-        notify->ipcRetCode = RETCODE_MEMORY_COPY_FAILURE;
-        free(notify->outBuff);
-    }
-    FreeBuffer(nullptr, dataBuf->buff);
     return notify->ipcRetCode;
 }
 
-void ParcelConfigInfo(IpcIo *request, const ConfigInfo &configInfo)
-{
-    IpcIoPushString(request, configInfo.description);
-}
-
-void ParcelClientInfo(IpcIo *request, const ClientInfo &clientInfo)
+static void ParcelClientInfo(IpcIo *request, const ClientInfo &clientInfo)
 {
     IpcIoPushInt64(request, clientInfo.clientVersion);
     IpcIoPushInt32(request, clientInfo.clientId);
     IpcIoPushInt32(request, clientInfo.sessionId);
-    IpcIoPushInt32(request, clientInfo.extendLen);
-
-    if ((clientInfo.extendLen > 0) && (clientInfo.extendMsg != nullptr)) {
-        BuffPtr dataBuff = {
-            .buffSz = static_cast<uint32_t>(clientInfo.extendLen),
-            .buff = clientInfo.extendMsg,
-        };
-        IpcIoPushDataBuff(request, &dataBuff);
-    }
+    DataInfo dataInfo {clientInfo.extendMsg, clientInfo.extendLen};
+    ParcelDataInfo(request, &dataInfo);
 }
 
 void ParcelAlgorithmInfo(IpcIo *request, const AlgorithmInfo &algorithmInfo)
@@ -145,27 +116,9 @@ void ParcelAlgorithmInfo(IpcIo *request, const AlgorithmInfo &algorithmInfo)
     IpcIoPushBool(request, algorithmInfo.isCloud);
     IpcIoPushInt32(request, algorithmInfo.operateId);
     IpcIoPushInt32(request, algorithmInfo.requestId);
-    IpcIoPushInt32(request, algorithmInfo.extendLen);
 
-    if (algorithmInfo.extendLen > 0 && algorithmInfo.extendMsg != nullptr) {
-        BuffPtr dataBuff = {
-            .buffSz = static_cast<uint32_t>(algorithmInfo.extendLen),
-            .buff = algorithmInfo.extendMsg,
-        };
-        IpcIoPushDataBuff(request, &dataBuff);
-    }
-}
-
-void ParcelDataInfo(IpcIo *request, const DataInfo &dataInfo)
-{
-    IpcIoPushInt32(request, dataInfo.length);
-    if (dataInfo.length > 0 && dataInfo.data != nullptr) {
-        BuffPtr dataBuff = {
-            .buffSz = static_cast<uint32_t>(dataInfo.length),
-            .buff = dataInfo.data,
-        };
-        IpcIoPushDataBuff(request, &dataBuff);
-    }
+    DataInfo dataInfo {algorithmInfo.extendMsg, algorithmInfo.extendLen};
+    ParcelDataInfo(request, &dataInfo);
 }
 
 int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo)
@@ -175,7 +128,7 @@ int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo)
     IpcIo request;
     char data[IPC_IO_DATA_MAX];
     IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
-    ParcelConfigInfo(&request, configInfo);
+    IpcIoPushString(&request, configInfo.description);
 
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     if (proxy.Invoke == nullptr) {
@@ -228,7 +181,7 @@ int SyncExecAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, co
 
     ParcelClientInfo(&request, clientInfo);
     ParcelAlgorithmInfo(&request, algoInfo);
-    ParcelDataInfo(&request, inputInfo);
+    ParcelDataInfo(&request, &inputInfo);
 
     struct NotifyBuff owner = {
         .ipcRetCode = RETCODE_SUCCESS,
@@ -261,7 +214,7 @@ int AsyncExecuteAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo
     IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
     ParcelClientInfo(&request, clientInfo);
     ParcelAlgorithmInfo(&request, algoInfo);
-    ParcelDataInfo(&request, inputInfo);
+    ParcelDataInfo(&request, &inputInfo);
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     if (proxy.Invoke == nullptr) {
         HILOGE("[SaClientProxy]Function pointer proxy.Invoke is nullptr.");
@@ -281,7 +234,7 @@ int LoadAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, const 
 
     ParcelClientInfo(&request, clientInfo);
     ParcelAlgorithmInfo(&request, algoInfo);
-    ParcelDataInfo(&request, inputInfo);
+    ParcelDataInfo(&request, &inputInfo);
     struct NotifyBuff owner = {
         .ipcRetCode = RETCODE_SUCCESS,
         .retCode = RETCODE_FAILURE,
@@ -313,7 +266,7 @@ int UnloadAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, cons
 
     ParcelClientInfo(&request, clientInfo);
     ParcelAlgorithmInfo(&request, algoInfo);
-    ParcelDataInfo(&request, inputInfo);
+    ParcelDataInfo(&request, &inputInfo);
 
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     if (proxy.Invoke == nullptr) {
@@ -334,7 +287,7 @@ int SetOptionProxy(IClientProxy &proxy, const ClientInfo &clientInfo, int option
 
     ParcelClientInfo(&request, clientInfo);
     IpcIoPushInt32(&request, optionType);
-    ParcelDataInfo(&request, inputInfo);
+    ParcelDataInfo(&request, &inputInfo);
 
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     if (proxy.Invoke == nullptr) {
@@ -356,7 +309,7 @@ int GetOptionProxy(IClientProxy &proxy, const ClientInfo &clientInfo, int option
 
     ParcelClientInfo(&request, clientInfo);
     IpcIoPushInt32(&request, optionType);
-    ParcelDataInfo(&request, inputInfo);
+    ParcelDataInfo(&request, &inputInfo);
 
     struct NotifyBuff owner = {
         .ipcRetCode = RETCODE_SUCCESS,

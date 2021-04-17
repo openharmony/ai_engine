@@ -18,6 +18,7 @@
 #include "liteipc_adapter.h"
 
 #include "communication_adapter/include/sa_client_proxy.h"
+#include "platform/os_wrapper/ipc/include/aie_ipc.h"
 #include "protocol/ipc_interface/ai_service.h"
 #include "protocol/retcode_inner/aie_retcode_inner.h"
 #include "utils/aie_macros.h"
@@ -47,37 +48,6 @@ int32_t OnAiDead(const IpcContext *context, void *ipcMsg, IpcIo *data, void *arg
 SaClient::SaClient() = default;
 
 SaClient::~SaClient() = default;
-
-static int UnParcelDataInfo(IpcIo *req, DataInfo *dataInfo)
-{
-    dataInfo->length = IpcIoPopInt32(req);
-    if (dataInfo->length <= 0) {
-        HILOGE("[SaClient]The input length is invalid.");
-        return RETCODE_SUCCESS;
-    }
-
-    BuffPtr *dataBuf = IpcIoPopDataBuff(req);
-    if ((dataBuf == nullptr) || (dataBuf->buff == nullptr)) {
-        HILOGE("[SaClient]The input dataBuf is nullptr.");
-        return RETCODE_NULL_PARAM;
-    }
-
-    dataInfo->data = (unsigned char *)malloc(sizeof(unsigned char) * dataInfo->length);
-    if (dataInfo->data == nullptr) {
-        HILOGE("[SaClient]Failed to request memory.");
-        FreeBuffer(nullptr, dataBuf->buff);
-        return RETCODE_OUT_OF_MEMORY;
-    }
-    errno_t retCode = memcpy_s(dataInfo->data, dataInfo->length, dataBuf->buff, dataBuf->buffSz);
-    if (retCode != EOK) {
-        HILOGE("[SaClient]Failed to memory copy, retCode[%d].", retCode);
-        free(dataInfo->data);
-        dataInfo->data = nullptr;
-        dataInfo->length = 0;
-    }
-    FreeBuffer(nullptr, dataBuf->buff);
-    return (retCode == EOK) ? RETCODE_SUCCESS : RETCODE_MEMORY_COPY_FAILURE;
-}
 
 SaClient *SaClient::GetInstance()
 {
@@ -202,16 +172,6 @@ int SaClient::GetOption(const ClientInfo &clientInfo, int optionType, const Data
     return GetOptionProxy(*proxy_, clientInfo, optionType, inputInfo, outputInfo);
 }
 
-void ReleaseBuffer(DataInfo &dataInfo, void *ipcMsg)
-{
-    FreeBuffer(nullptr, ipcMsg);
-    if (dataInfo.data != nullptr) {
-        free(dataInfo.data);
-        dataInfo.data = nullptr;
-        dataInfo.length = 0;
-    }
-}
-
 int32_t AsyncCallback(const IpcContext *ipcContext, void *ipcMsg, IpcIo *data, void *arg)
 {
     // the code is callback function id, was defined in ai_service.h
@@ -228,25 +188,28 @@ int32_t AsyncCallback(const IpcContext *ipcContext, void *ipcMsg, IpcIo *data, v
     SaClient *client = SaClient::GetInstance();
     if (client == nullptr) {
         HILOGE("[SaClient]The client is nullptr, maybe out of memory.");
-        ReleaseBuffer(outputInfo, ipcMsg);
+        FreeBuffer(nullptr, ipcMsg);
+        FreeDataInfo(&outputInfo);
         return RETCODE_FAILURE;
     }
     CallbackHandle callback = client->GetSaClientResultCb();
     if (callback == nullptr) {
         HILOGE("[SaClient]SA client callback is nullptr, maybe Release interface is called or the callback is deleted");
-        ReleaseBuffer(outputInfo, ipcMsg);
+        FreeBuffer(nullptr, ipcMsg);
+        FreeDataInfo(&outputInfo);
         return RETCODE_FAILURE;
     }
     // The asynchronous callback retCode is used only when the IPC is normal.
     int retCode = asyncCallbackRet;
     if (ipcGetCodeRet != LITEIPC_OK || ipcUnParcelRet != RETCODE_SUCCESS) {
         HILOGE("[SaClient]AsyncCallback failed, GetCode retCode[%d], UnParcelDataInfo retCode[%d].", ipcGetCodeRet,
-            ipcUnParcelRet);
+               ipcUnParcelRet);
         // The IPC is abnormal.
         retCode = RETCODE_FAILURE;
     }
     callback(sessionId, outputInfo, retCode, requestId);
-    ReleaseBuffer(outputInfo, ipcMsg);
+    FreeBuffer(nullptr, ipcMsg);
+    FreeDataInfo(&outputInfo);
     return retCode;
 }
 

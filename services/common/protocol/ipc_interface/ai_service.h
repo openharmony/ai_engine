@@ -131,16 +131,6 @@ typedef struct AiInterface {
         const DataInfo *inputInfo, DataInfo *outputInfo);
 
     /**
-     * @brief Register the callback function of the client to the server, and the server notifies the client of
-     *        the message through the callback.
-     *
-     * @param [in] clientInfo Client information.
-     * @param [in] sid The handle of callback.
-     * @return Returns 0 if the operation is successful, returns a non-zero value otherwise.
-     */
-    int (*RegisterCallback)(const ClientInfo *clientInfo, const SvcIdentity *sid);
-
-    /**
      * @brief Unregister callback function of client.
      *
      * @param [in] clientInfo Client information.

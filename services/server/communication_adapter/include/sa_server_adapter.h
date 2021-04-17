@@ -41,13 +41,19 @@ public:
      *
      * @param [in] sid Client async callback SVC handle identity
      */
-    void SaveEngineListener(const SvcIdentity *svcIdentity);
+    void SaveEngineListener(SvcIdentity *svcIdentity);
 
     /**
      * Delete the listener.
      */
     void ClearEngineListener();
-    SvcIdentity GetEngineListener();
+
+    /**
+     * Get listener to call client async process.
+     *
+     * @return Client async callback SVC handle.
+     */
+    SvcIdentity *GetEngineListener() const;
 
     /**
      * Initialize async task manager to execute algorithm inference asynchronously.
@@ -144,7 +150,7 @@ private:
     int adapterId_;
     std::atomic<int> refCount_;
     std::mutex mutex_;
-    SvcIdentity svcIdentity_ {};
+    SvcIdentity *svcIdentity_ = nullptr;
     using TransactionIds = std::set<long long>;
     TransactionIds transactionIds_;
 };
