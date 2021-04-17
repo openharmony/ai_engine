@@ -27,9 +27,6 @@
 
 namespace OHOS {
 namespace AI {
-const char * const ASYNC_PROCESS_WORKER = "AsyncProcessWorker";
-const int EVENT_WAIT_TIME_MS = 1000;
-
 class ClientListenerHandler;
 
 /**

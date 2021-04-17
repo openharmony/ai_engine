@@ -27,6 +27,11 @@
 
 namespace OHOS {
 namespace AI {
+namespace {
+const char * const ASYNC_PROCESS_WORKER = "AsyncProcessWorker";
+const int EVENT_WAIT_TIME_MS = 1000;
+} // anonymous namespace
+
 AsyncProcessWorker::AsyncProcessWorker(ClientListenerHandler *handler, int clientId, SaServerAdapter *adapter)
     : handler_(handler), clientId_(clientId), adapter_(adapter)
 {
