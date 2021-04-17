@@ -14,16 +14,16 @@
  */
 
 #include <stddef.h>
+#include <stdlib.h>
 
 #include "iproxy_server.h"
-#include "liteipc_adapter.h"
 #include "ohos_errno.h"
 #include "ohos_init.h"
 #include "samgr_lite.h"
-#include "securec.h"
 #include "service.h"
 
 #include "communication_adapter/include/adapter_wrapper.h"
+#include "platform/os_wrapper/ipc/include/aie_ipc.h"
 #include "protocol/ipc_interface/ai_service.h"
 #include "protocol/retcode_inner/aie_retcode_inner.h"
 #include "protocol/struct_definition/aie_info_define.h"
@@ -65,159 +65,77 @@ static TaskConfig GetTaskConfig(Service *service)
     return config;
 }
 
-static void UnParcelConfigInfo(IpcIo *req, ConfigInfo *configInfo)
+static int UnParcelClientInfo(IpcIo *request, ClientInfo *clientInfo)
 {
-    if (configInfo == NULL) {
-        HILOGE("[SaServer]The configInfo is nullptr.");
-        return;
-    }
-    size_t len = 0;
-    configInfo->description = (const char*)IpcIoPopString(req, &len);
-}
-
-static int UnParcelClientInfo(IpcIo *req, ClientInfo *clientInfo)
-{
-    if (clientInfo == NULL) {
-        HILOGE("[SaServer]The clientInfo is nullptr.");
+    if (request == NULL) {
+        HILOGE("[SaServer]The request is NULL.");
         return RETCODE_FAILURE;
     }
-    clientInfo->clientVersion = IpcIoPopInt64(req);
-    clientInfo->clientId = IpcIoPopInt32(req);
-    clientInfo->sessionId = IpcIoPopInt32(req);
-    clientInfo->extendLen = IpcIoPopInt32(req);
-    if (clientInfo->extendLen <= 0) {
-        HILOGI("[SaServer]The clientInfo extendLen is invalid.");
+    if (clientInfo == NULL) {
+        HILOGE("[SaServer]The clientInfo is NULL.");
+        return RETCODE_FAILURE;
+    }
+    clientInfo->clientVersion = IpcIoPopInt64(request);
+    clientInfo->clientId = IpcIoPopInt32(request);
+    clientInfo->sessionId = IpcIoPopInt32(request);
+
+    DataInfo dataInfo = {NULL, 0};
+    int retCode = UnParcelDataInfo(request, &dataInfo);
+    if (retCode == RETCODE_SUCCESS) {
+        clientInfo->extendLen = dataInfo.length;
+        clientInfo->extendMsg = dataInfo.data;
+    } else {
+        clientInfo->extendLen = 0;
         clientInfo->extendMsg = NULL;
-        return RETCODE_SUCCESS;
     }
+    return retCode;
+}
 
-    BuffPtr *dataBuf = IpcIoPopDataBuff(req);
-    if (dataBuf == NULL || dataBuf->buff == NULL) {
-        HILOGE("[SaServer]The clientInfo dataBuf is NULL.");
-        return RETCODE_NULL_PARAM;
+static int UnParcelAlgorithmInfo(IpcIo *request, AlgorithmInfo *algorithmInfo)
+{
+    if (request == NULL) {
+        HILOGE("[SaServer]The request is NULL.");
+        return RETCODE_FAILURE;
     }
+    if (algorithmInfo == NULL) {
+        HILOGE("[SaServer]The algorithmInfo is NULL.");
+        return RETCODE_FAILURE;
+    }
+    algorithmInfo->clientVersion = IpcIoPopInt64(request);
+    algorithmInfo->isAsync = IpcIoPopBool(request);
+    algorithmInfo->algorithmType = IpcIoPopInt32(request);
+    algorithmInfo->algorithmVersion = IpcIoPopInt64(request);
+    algorithmInfo->isCloud = IpcIoPopBool(request);
+    algorithmInfo->operateId = IpcIoPopInt32(request);
+    algorithmInfo->requestId = IpcIoPopInt32(request);
 
-    clientInfo->extendMsg = (unsigned char *)malloc(sizeof(unsigned char) * clientInfo->extendLen);
-    if (clientInfo->extendMsg == NULL) {
-        HILOGE("[SaServer]Failed to request memory.");
-        FreeBuffer(NULL, dataBuf->buff);
-        return RETCODE_OUT_OF_MEMORY;
+    DataInfo dataInfo = {NULL, 0};
+    int retCode = UnParcelDataInfo(request, &dataInfo);
+    if (retCode == RETCODE_SUCCESS) {
+        algorithmInfo->extendLen = dataInfo.length;
+        algorithmInfo->extendMsg = dataInfo.data;
+    } else {
+        algorithmInfo->extendLen = 0;
+        algorithmInfo->extendMsg = NULL;
     }
-    errno_t retCode = memcpy_s(clientInfo->extendMsg, clientInfo->extendLen, dataBuf->buff, dataBuf->buffSz);
-    if (retCode != EOK) {
-        HILOGE("[SaServer]Failed to memory copy, retCode[%d].", retCode);
+    return retCode;
+}
+
+static void FreeClientInfo(ClientInfo *clientInfo)
+{
+    if (clientInfo != NULL && clientInfo->extendMsg != NULL) {
         free(clientInfo->extendMsg);
         clientInfo->extendMsg = NULL;
         clientInfo->extendLen = 0;
     }
-    FreeBuffer(NULL, dataBuf->buff);
-    return (retCode == EOK) ? RETCODE_SUCCESS : RETCODE_MEMORY_COPY_FAILURE;
 }
 
-static int UnParcelAlgorithmInfo(IpcIo *req, AlgorithmInfo *algorithmInfo)
+static void FreeAlgorithmInfo(AlgorithmInfo *algorithmInfo)
 {
-    if (algorithmInfo == NULL) {
-        HILOGE("[SaServer]The algorithmInfo is nullptr.");
-        return RETCODE_FAILURE;
-    }
-    algorithmInfo->clientVersion = IpcIoPopInt64(req);
-    algorithmInfo->isAsync = IpcIoPopBool(req);
-    algorithmInfo->algorithmType = IpcIoPopInt32(req);
-    algorithmInfo->algorithmVersion = IpcIoPopInt64(req);
-    algorithmInfo->isCloud = IpcIoPopBool(req);
-    algorithmInfo->operateId = IpcIoPopInt32(req);
-    algorithmInfo->requestId = IpcIoPopInt32(req);
-    algorithmInfo->extendLen = IpcIoPopInt32(req);
-    if (algorithmInfo->extendLen <= 0) {
-        HILOGI("[SaServer]The algorithmInfo extendLen is invalid.");
-        algorithmInfo->extendMsg = NULL;
-        return RETCODE_SUCCESS;
-    }
-
-    BuffPtr *dataBuf = IpcIoPopDataBuff(req);
-    if (dataBuf == NULL || dataBuf->buff == NULL) {
-        HILOGE("[SaServer]The algorithmInfo dataBuf is NULL.");
-        return RETCODE_NULL_PARAM;
-    }
-
-    algorithmInfo->extendMsg = (unsigned char *)malloc(sizeof(unsigned char) * algorithmInfo->extendLen);
-    if (algorithmInfo->extendMsg == NULL) {
-        HILOGE("[SaServer]Failed to request memory.");
-        FreeBuffer(NULL, dataBuf->buff);
-        return RETCODE_OUT_OF_MEMORY;
-    }
-    errno_t retCode = memcpy_s(algorithmInfo->extendMsg, algorithmInfo->extendLen,
-        dataBuf->buff, dataBuf->buffSz);
-    if (retCode != EOK) {
-        HILOGE("[SaServer]Failed to memory copy, retCode[%d].", retCode);
+    if (algorithmInfo != NULL && algorithmInfo->extendMsg != NULL) {
         free(algorithmInfo->extendMsg);
         algorithmInfo->extendMsg = NULL;
         algorithmInfo->extendLen = 0;
-    }
-    FreeBuffer(NULL, dataBuf->buff);
-    return (retCode == EOK) ? RETCODE_SUCCESS : RETCODE_MEMORY_COPY_FAILURE;
-}
-
-static int UnParcelDataInfo(IpcIo *req, DataInfo *dataInfo)
-{
-    if (dataInfo == NULL) {
-        HILOGE("[SaServer]The dataInfo is nullptr.");
-        return RETCODE_FAILURE;
-    }
-    dataInfo->length = IpcIoPopInt32(req);
-    if (dataInfo->length <= 0) {
-        HILOGI("[SaServer]The data length is invalid.");
-        dataInfo->data = NULL;
-        return RETCODE_SUCCESS;
-    }
-
-    BuffPtr *dataBuf = IpcIoPopDataBuff(req);
-    if (dataBuf == NULL || dataBuf->buff == NULL) {
-        HILOGE("[SaServer]The input dataBuf is NULL.");
-        return RETCODE_NULL_PARAM;
-    }
-
-    dataInfo->data = (unsigned char *)malloc(sizeof(unsigned char) * dataInfo->length);
-    if (dataInfo->data == NULL) {
-        HILOGE("[SaServer]Failed to request memory.");
-        FreeBuffer(NULL, dataBuf->buff);
-        return RETCODE_OUT_OF_MEMORY;
-    }
-    errno_t retCode = memcpy_s(dataInfo->data, dataInfo->length, dataBuf->buff, dataBuf->buffSz);
-    if (retCode != EOK) {
-        HILOGE("[SaServer]Failed to memory copy, retCode[%d].", retCode);
-        free(dataInfo->data);
-        dataInfo->data = NULL;
-        dataInfo->length = 0;
-    }
-    FreeBuffer(NULL, dataBuf->buff);
-    return (retCode == EOK) ? RETCODE_SUCCESS : RETCODE_MEMORY_COPY_FAILURE;
-}
-
-static void FreeDataInfo(struct DataInfo *dataInfo)
-{
-    if (dataInfo->data != NULL) {
-        free(dataInfo->data);
-        dataInfo->data = NULL;
-        dataInfo->length = 0;
-    }
-}
-
-static void FreeClientInfo(struct ClientInfo *clientInfo)
-{
-    if (clientInfo->extendMsg != NULL) {
-        free(clientInfo->extendMsg);
-        clientInfo->extendMsg = NULL;
-        clientInfo->extendLen = 0;
-    }
-}
-
-static void FreeAlgorithmInfo(struct AlgorithmInfo *algoInfo)
-{
-    if (algoInfo->extendMsg != NULL) {
-        free(algoInfo->extendMsg);
-        algoInfo->extendMsg = NULL;
-        algoInfo->extendLen = 0;
     }
 }
 
@@ -232,31 +150,17 @@ static int UnParcelInfo(IpcIo *req, ClientInfo *clientInfo, AlgorithmInfo *algor
     retCode = UnParcelAlgorithmInfo(req, algorithmInfo);
     if (retCode != RETCODE_SUCCESS) {
         HILOGE("[SaServer]UnParcelAlgorithmInfo failed, retCode[%d].", retCode);
-        FreeClientInfo(&clientInfo);
+        FreeClientInfo(clientInfo);
         return retCode;
     }
 
     retCode = UnParcelDataInfo(req, dataInfo);
     if (retCode != RETCODE_SUCCESS) {
         HILOGE("[SaServer]UnParcelDataInfo failed, retCode[%d].", retCode);
-        FreeClientInfo(&clientInfo);
-        FreeAlgorithmInfo(&algorithmInfo);
+        FreeClientInfo(clientInfo);
+        FreeAlgorithmInfo(algorithmInfo);
     }
     return retCode;
-}
-
-void ParcelDataInfo(IpcIo *reply, const DataInfo *dataInfo)
-{
-    IpcIoPushInt32(reply, dataInfo->length);
-    if (dataInfo->length <= 0 || dataInfo->data == NULL) {
-        HILOGE("[SaServer]The dataInfo is invalid.");
-        return;
-    }
-    BuffPtr dataBuff = {
-        .buffSz = (uint32_t)dataInfo->length,
-        .buff = dataInfo->data,
-    };
-    IpcIoPushDataBuff(reply, &dataBuff);
 }
 
 static int InitEngine(const ConfigInfo *configInfo)
@@ -334,7 +238,8 @@ static int InvokeInitSaEngine(AiInterface *aiInterface, IpcIo *req, IpcIo *reply
 {
     HILOGI("[SaServer]InvokeInitSaEngine start.");
     ConfigInfo configInfo;
-    UnParcelConfigInfo(req, &configInfo);
+    size_t len = 0;
+    configInfo.description = (char*) IpcIoPopString(req, &len);
     int32_t clientId = aiInterface->InitEngine(&configInfo);
     IpcIoPushInt32(reply, clientId);
     return clientId;
@@ -503,13 +408,18 @@ static int InvokeRegisterCallback(AiInterface *aiInterface, IpcIo *req, IpcIo *r
         HILOGE("[SaServer]sid is null.");
         return RETCODE_NULL_PARAM;
     }
+#ifdef __LINUX__
+    BinderAcquire(sid->ipcContext, sid->handle);
+#endif
     ClientInfo clientInfo = {0};
     int retCode = UnParcelClientInfo(req, &clientInfo);
     if (retCode != RETCODE_SUCCESS) {
         HILOGE("[SaServer]UnParcelClientInfo failed, retCode[%d].", retCode);
         return retCode;
     }
-    retCode = aiInterface->RegisterCallback(&clientInfo, sid);
+    retCode = RegisterCallbackWrapper(&clientInfo, sid);
+    HILOGD("[SaServer][clientId:%d]RegisterCallbackWrapper finished, retCode is [%d].", clientInfo.clientId, retCode);
+
     FreeClientInfo(&clientInfo);
     IpcIoPushInt32(reply, retCode);
     return retCode;
@@ -527,13 +437,6 @@ static int InvokeUnregisterCallback(AiInterface *aiInterface, IpcIo *req, IpcIo 
     retCode = aiInterface->UnregisterCallback(&clientInfo);
     FreeClientInfo(&clientInfo);
     IpcIoPushInt32(reply, retCode);
-    return retCode;
-}
-
-static int RegisterCallback(const ClientInfo *clientInfo, const SvcIdentity *sid)
-{
-    int retCode = RegisterCallbackWrapper(clientInfo, sid);
-    HILOGD("[SaServer][clientId:%d]RegisterCallbackWrapper finished, retCode is [%d].", clientInfo->clientId, retCode);
     return retCode;
 }
 
@@ -647,7 +550,6 @@ static AiEngineService g_aiEngine = {
     .DestroyEngine = DestroyEngine,
     .SetOption = SetOption,
     .GetOption = GetOption,
-    .RegisterCallback = RegisterCallback,
     .UnregisterCallback = UnregisterCallback,
     .LoadAlgorithm = LoadAlgorithm,
     IPROXY_END,

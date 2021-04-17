@@ -292,3 +292,64 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy004, TestSize.Level0)
     EXPECT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
     EXPECT_EQ(clientInfo.clientId, INVALID_SESSION_ID);
 }
+
+/**
+ * @tc.name: TestAieClientDestroy005
+ * @tc.desc: Test the execution of destroying interface, after initializing, preparing.
+ * @tc.type: FUNC
+ * @tc.require: AR000F77NL
+ */
+HWTEST_F(DestroyFunctionTest, TestAieClientDestroy005, TestSize.Level0)
+{
+    HILOGI("[Test]TestAieClientDestroy005.");
+
+    ConfigInfo configInfo {.description = CONFIG_DESCRIPTION};
+
+    const char *str = INPUT_CHARACTER;
+    char *inputData = const_cast<char*>(str);
+    int len = strlen(str) + 1;
+
+    ClientInfo clientInfo = {
+            .clientVersion = CLIENT_INFO_VERSION,
+            .clientId = CLIENT_ID,
+            .sessionId = SESSION_ID,
+            .extendLen = len,
+            .extendMsg = (unsigned char*)inputData,
+    };
+
+    AlgorithmInfo algoInfo = {
+            .clientVersion = ALGORITHM_INFO_CLIENT_VERSION,
+            .isAsync = false,
+            .algorithmType = ALGORITHM_TYPE_SYNC,
+            .algorithmVersion = ALGORITHM_VERSION,
+            .isCloud = true,
+            .operateId = OPERATE_ID,
+            .requestId = REQUEST_ID,
+            .extendLen = len,
+            .extendMsg = (unsigned char*)inputData,
+    };
+
+    DataInfo inputInfo = {
+            .data = (unsigned char*)inputData,
+            .length = len,
+    };
+
+    ServiceDeadCb cb = ServiceDeadCb();
+    int resultCodeInit = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
+    ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
+    EXPECT_TRUE(clientInfo.clientId > 0);
+
+    IClientCb *callback = nullptr;
+    DataInfo outputInfo;
+    int resultCodePrepare = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, callback);
+    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
+    EXPECT_TRUE(clientInfo.clientId > 0);
+
+    int resultCodeRelease = AieClientRelease(clientInfo, algoInfo, inputInfo);
+    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
+    EXPECT_TRUE(clientInfo.clientId > 0);
+
+    int resultCodeDestroy = AieClientDestroy(clientInfo);
+    EXPECT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
+    EXPECT_EQ(clientInfo.clientId, INVALID_SESSION_ID);
+}

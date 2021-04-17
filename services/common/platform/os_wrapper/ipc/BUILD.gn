@@ -10,18 +10,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//build/lite/config/component/lite_component.gni")
 
-shared_library("ai_client") {
-  deps = [
-    "client_executor",
-    "communication_adapter:ai_communication_adapter",
-    "//foundation/ai/engine/services/common/platform/os_wrapper/ipc:aie_ipc",
-    "//foundation/ai/engine/services/common/platform/threadpool:threadpool",
-    "//foundation/distributedschedule/samgr_lite/samgr:samgr",
+source_set("aie_ipc") {
+  sources = [ "source/aie_ipc.cpp" ]
+
+  cflags = [ "-fPIC" ]
+  cflags_cc = cflags
+  include_dirs = [
+    "//foundation/ai/engine/services/common",
+    "//foundation/communication/ipc_lite/frameworks/liteipc/include",
+    "//foundation/communication/ipc_lite/interfaces/kits",
+    "//third_party/bounds_checking_function/include",
   ]
-}
-
-lite_component("client") {
-  features = [ ":ai_client" ]
+  deps = [ "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared" ]
 }
