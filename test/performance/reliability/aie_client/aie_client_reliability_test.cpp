@@ -47,6 +47,7 @@ namespace {
     const int REQUEST_ID = 3;
     const int ALGORITHM_EXTEND_LENGTH = 0;
     const time_t TIME_TEST = 60 * 10;
+    constexpr uid_t INVALID_UID = 0;
 }
 
 class AieClientReliabilityTest : public testing::Test {
@@ -106,6 +107,8 @@ HWTEST_F(AieClientReliabilityTest, AieClientSyncReliabilityTest001, TestSize.Lev
             .clientVersion = CLIENT_INFO_VERSION,
             .clientId = CLIENT_ID,
             .sessionId = SESSION_ID,
+            .serverUid = INVALID_UID,
+            .clientUid = INVALID_UID,
             .extendLen = len,
             .extendMsg = (unsigned char*)inputData,
         };
@@ -176,6 +179,8 @@ HWTEST_F(AieClientReliabilityTest, AieClientAsyncReliabilityTest001, TestSize.Le
             .clientVersion = CLIENT_INFO_VERSION,
             .clientId = CLIENT_ID,
             .sessionId = SESSION_ID,
+            .serverUid = INVALID_UID,
+            .clientUid = INVALID_UID,
             .extendLen = len,
             .extendMsg = (unsigned char*)inputData,
         };

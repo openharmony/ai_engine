@@ -24,15 +24,53 @@
 
 namespace OHOS {
 namespace AI {
+namespace {
+constexpr long long ALG_VERSION = 1;
+const char *ALG_NAME = "SAMPLE_PLUGIN_2";
+const char * const PLUGIN_INFER_MODEL = "ASYNC";
+const char * const DEFAULT_PROCESS_STRING = "sample_plugin_2 AsyncProcess default data";
+
+void FreeDataInfo(DataInfo *dataInfo)
+{
+    if (dataInfo != nullptr && dataInfo->data != nullptr) {
+        free(dataInfo->data);
+        dataInfo->data = nullptr;
+        dataInfo->length = 0;
+    }
+}
+
+int ReturnDataCopyOrDefaultData(const DataInfo &inputInfo, DataInfo &outputInfo)
+{
+    errno_t retCode;
+    DataInfo sourceData {};
+    if (inputInfo.length <= 0 || inputInfo.data == nullptr) {
+        sourceData.data = reinterpret_cast<unsigned char*>(const_cast<char*>(DEFAULT_PROCESS_STRING));
+        sourceData.length = strlen(DEFAULT_PROCESS_STRING) + 1;
+    } else {
+        sourceData = inputInfo;
+    }
+
+    outputInfo.length = sourceData.length;
+    outputInfo.data = reinterpret_cast<unsigned char*>(malloc(sourceData.length));
+    if (outputInfo.data == nullptr) {
+        HILOGE("[SamplePlugin2]malloc failed.");
+        return RETCODE_FAILURE;
+    }
+    retCode = memcpy_s(outputInfo.data, outputInfo.length, sourceData.data, sourceData.length);
+    if (retCode != EOK) {
+        HILOGE("[SamplePlugin2]memcpy_s failed[%d].", retCode);
+        FreeDataInfo(&outputInfo);
+        return RETCODE_FAILURE;
+    }
+    return RETCODE_SUCCESS;
+}
+} // anonymous namespace
+
 SamplePlugin2::SamplePlugin2() = default;
 
 SamplePlugin2::~SamplePlugin2()
 {
-    if (optionData != nullptr) {
-        free(optionData);
-        optionData = nullptr;
-        optionLength = 0;
-    }
+    FreeDataInfo(&optionData_);
 }
 
 const long long SamplePlugin2::GetVersion() const
@@ -52,117 +90,54 @@ const char *SamplePlugin2::GetInferMode() const
 
 int SamplePlugin2::SyncProcess(IRequest *request, IResponse *&response)
 {
-    DataInfo inputInfo = request->GetMsg();
-    if (inputInfo.data != nullptr) {
-        HILOGE("[SamplePlugin2]inputInfo data is %p.", inputInfo.data);
-    }
-    response = IResponse::Create(request);
-    CHK_RET(response == nullptr, RETCODE_FAILURE);
-
-    const char *str = "sample_plugin_2 Process outputInfo";
-    char *outputData = const_cast<char*>(str);
-    int len = strlen(str) + 1;
-    DataInfo outputInfo = {
-        .data = (unsigned char*)outputData,
-        .length = len,
-    };
-    response->SetResult(outputInfo);
-    response->SetRetCode(RETCODE_SUCCESS);
-    return RETCODE_SUCCESS;
+    HILOGE("[SamplePlugin2]Async plugin, can't run SyncProcess.");
+    return RETCODE_FAILURE;
 }
 
 int SamplePlugin2::AsyncProcess(IRequest *request, IPluginCallback *callback)
 {
     DataInfo inputInfo = request->GetMsg();
-    if (inputInfo.data != nullptr) {
-        HILOGE("[SamplePlugin2]inputInfo data is %p.", inputInfo.data);
+    if (inputInfo.data != nullptr && inputInfo.length <= 0) {
+        HILOGE("[SamplePlugin2]inputInfo data is invalid.");
+        return RETCODE_FAILURE;
     }
+
     IResponse *response = IResponse::Create(request);
     CHK_RET(response == nullptr, RETCODE_FAILURE);
 
-    const char *str = "sample_plugin_2 AsyncProcess outputInfo";
-    char *outputData = const_cast<char*>(str);
-    int len = strlen(str) + 1;
-    DataInfo outputInfo = {
-        .data = (unsigned char*)outputData,
-        .length = len,
-    };
+    DataInfo outputInfo {};
+    int retCode = ReturnDataCopyOrDefaultData(inputInfo, outputInfo);
+
     response->SetResult(outputInfo);
-    response->SetRetCode(RETCODE_SUCCESS);
-    int retCode = callback->OnEvent(ON_PLUGIN_SUCCEED, response);
-    return retCode;
+    response->SetRetCode(retCode);
+    return callback->OnEvent(ON_PLUGIN_SUCCEED, response);
 }
 
 int SamplePlugin2::Prepare(long long transactionId, const DataInfo &inputInfo, DataInfo &outputInfo)
 {
-    const char *str = "sample_plugin_2 Prepare outputInfo";
-    char *outputData = const_cast<char*>(str);
-    int len = strlen(str) + 1;
-    outputInfo = {
-        .data = (unsigned char*)outputData,
-        .length = len,
-    };
-    return RETCODE_SUCCESS;
+    return ReturnDataCopyOrDefaultData(inputInfo, outputInfo);
 }
 
 int SamplePlugin2::Release(bool isFullUnload, long long transactionId, const DataInfo &inputInfo)
 {
-    if (optionData != nullptr) {
-        free(optionData);
-        optionData = nullptr;
-        optionLength = 0;
-    }
+    FreeDataInfo(&optionData_);
     return RETCODE_SUCCESS;
 }
 
 int SamplePlugin2::SetOption(int optionType, const DataInfo &inputInfo)
 {
-    if (optionData != nullptr) {
-        free(optionData);
-        optionData = nullptr;
-        optionLength = 0;
-    }
+    FreeDataInfo(&optionData_);
+
     if (inputInfo.data == nullptr) {
         return RETCODE_SUCCESS;
     }
-    optionLength = inputInfo.length;
-    optionData = (unsigned char *)malloc(sizeof(unsigned char) * optionLength);
-    if (optionData == nullptr) {
-        HILOGE("[SamplePlugin2]Failed to request memory.");
-        return RETCODE_OUT_OF_MEMORY;
-    }
-    errno_t retCode = memcpy_s(optionData, optionLength, inputInfo.data, optionLength);
-    if (retCode != EOK) {
-        HILOGE("[SamplePlugin2]Failed to memory copy, retCode[%d].", retCode);
-        free(optionData);
-        optionData = nullptr;
-        return RETCODE_MEMORY_COPY_FAILURE;
-    }
-    return RETCODE_SUCCESS;
+
+    return ReturnDataCopyOrDefaultData(inputInfo, optionData_);
 }
 
 int SamplePlugin2::GetOption(int optionType, const DataInfo &inputInfo, DataInfo &outputInfo)
 {
-    if (optionData == nullptr) {
-        optionLength = strlen(DEFAULT_OPTION_DATA) + 1;
-        optionData = (unsigned char *)malloc(sizeof(unsigned char) * optionLength);
-        if (optionData == nullptr) {
-            HILOGE("[SamplePlugin1]Failed to request memory.");
-            return RETCODE_OUT_OF_MEMORY;
-        }
-        errno_t retCode = memcpy_s(optionData, optionLength, DEFAULT_OPTION_DATA, optionLength);
-        if (retCode != EOK) {
-            HILOGE("[SamplePlugin1]Failed to memory copy, retCode[%d].", retCode);
-            free(optionData);
-            optionData = nullptr;
-            return RETCODE_MEMORY_COPY_FAILURE;
-        }
-    }
-    outputInfo = {
-        .data = optionData,
-        .length = optionLength
-    };
-    return RETCODE_SUCCESS;
+    return ReturnDataCopyOrDefaultData(optionData_, outputInfo);
 }
 
 PLUGIN_INTERFACE_IMPL(SamplePlugin2);

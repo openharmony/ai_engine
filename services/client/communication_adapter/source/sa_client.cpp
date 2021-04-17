@@ -122,13 +122,14 @@ int SaClient::Init(const ConfigInfo &configInfo, ClientInfo &clientInfo)
         return RETCODE_SA_SERVICE_EXCEPTION;
     }
 
-    clientInfo.clientId = InitSaEngine(*proxy_, configInfo);
-    if (clientInfo.clientId == INVALID_CLIENT_ID) {
-        HILOGE("[SaClient]InitServer result failed, errorCode[%d]", clientInfo.clientId);
+    int retCode = InitSaEngine(*proxy_, configInfo, clientInfo);
+    if (retCode != RETCODE_SUCCESS || clientInfo.clientId == INVALID_CLIENT_ID) {
+        HILOGE("[SaClient]InitServer result failed, clientId: %d, errorCode: [%d]", clientInfo.clientId, retCode);
         ReleaseIUnknown(*((IUnknown *)proxy_));
         proxy_ = nullptr;
         return RETCODE_FAILURE;
     }
+    clientInfo.clientUid = getuid();
 
     // Register SA Death Callback
     svc_ = SAMGR_GetRemoteIdentity(AI_SERVICE, nullptr);

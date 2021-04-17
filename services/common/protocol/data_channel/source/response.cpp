@@ -91,6 +91,16 @@ void Response::SetRetCode(int retCode)
     retCode_ = retCode;
 }
 
+uid_t Response::GetClientUid() const
+{
+    return clientUid_;
+}
+
+void Response::SetClientUid(const uid_t clientUid)
+{
+    clientUid_ = clientUid;
+}
+
 const std::string &Response::GetRetDesc() const
 {
     return retDesc_;
@@ -151,6 +161,16 @@ int IResponse::GetRetCode() const
 void IResponse::SetRetCode(int retCode)
 {
     ResponseCast::Ref(this).SetRetCode(retCode);
+}
+
+uid_t IResponse::GetClientUid() const
+{
+    return ResponseCast::Ref(this).GetClientUid();
+}
+
+void IResponse::SetClientUid(const uid_t clientUid)
+{
+    ResponseCast::Ref(this).SetClientUid(clientUid);
 }
 
 const std::string &IResponse::GetRetDesc() const

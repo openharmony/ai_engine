@@ -58,6 +58,7 @@ namespace {
     const char * const PREPARE_INPUT_SYNC = "Sync prepare inputData";
     const char * const PREPARE_INPUT_ASYNC = "Async prepare inputData";
     const int EXCEPTED_SYNC_PROCESS_TIME = 100;
+    constexpr uid_t INVALID_UID = 0;
 }
 
 class SyncProcessTimeTest : public testing::Test {
@@ -123,6 +124,8 @@ HWTEST_F(SyncProcessTimeTest, TestSyncTime001, TestSize.Level0)
             .clientVersion = CLIENT_INFO_VERSION,
             .clientId = INVALID_CLIENT_ID,
             .sessionId = SESSION_ID,
+            .serverUid = INVALID_UID,
+            .clientUid = INVALID_UID,
             .extendLen = len,
             .extendMsg = (unsigned char*)inputData,
         };

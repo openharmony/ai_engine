@@ -44,6 +44,7 @@ namespace {
     const int OPERATE_ID = 2;
     const int REQUEST_ID = 3;
     const int ALGORITHM_EXTEND_LENGTH = 0;
+    constexpr uid_t INVALID_UID = 0;
 }
 
 int main()
@@ -55,6 +56,8 @@ int main()
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = -1,
         .sessionId = -1,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = inputData,
     };

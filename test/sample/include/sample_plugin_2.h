@@ -23,17 +23,10 @@
 namespace OHOS {
 namespace AI {
 class SamplePlugin2 : public IPlugin {
-    const long long ALG_VERSION = 1;
-    const char *ALG_NAME = "SAMPLE_PLUGIN_2";
-    const char * const PLUGIN_INFER_MODEL = "ASYNC";
-    const char *DEFAULT_OPTION_DATA = "default option data";
-    unsigned char *optionData = nullptr;
-    int optionLength = 0;
-
 public:
     SamplePlugin2();
 
-    ~SamplePlugin2();
+    ~SamplePlugin2() override;
 
     const long long GetVersion() const override;
 
@@ -52,6 +45,9 @@ public:
     int SetOption(int optionType, const DataInfo &inputInfo) override;
 
     int GetOption(int optionType, const DataInfo &inputInfo, DataInfo &outputInfo) override;
+
+private:
+    DataInfo optionData_ {};
 };
 }
 }
