@@ -46,17 +46,17 @@ void ParcelDataInfo(IpcIo *request, const DataInfo *dataInfo)
 int UnParcelDataInfo(IpcIo *request, DataInfo *dataInfo)
 {
     if (request == nullptr) {
-        HILOGE("[AieIpcUnParcel]The request is nullptr.");
+        HILOGE("[AieIpc]The request is nullptr.");
         return RETCODE_FAILURE;
     }
     if (dataInfo == nullptr) {
-        HILOGE("[AieIpcUnParcel]The dataInfo is nullptr.");
+        HILOGE("[AieIpc]The dataInfo is nullptr.");
         return RETCODE_FAILURE;
     }
 
     dataInfo->length = IpcIoPopInt32(request);
     if (dataInfo->length < 0) {
-        HILOGE("[AieIpcUnParcel]The dataInfo length is invalid.");
+        HILOGE("[AieIpc]The dataInfo length is invalid.");
         return RETCODE_FAILURE;
     }
     if (dataInfo->length == 0) { // no following buffer to unparcel.
@@ -66,18 +66,18 @@ int UnParcelDataInfo(IpcIo *request, DataInfo *dataInfo)
     uint32_t dataBufSize = 0;
     void *dataBuf = IpcIoPopFlatObj(request, &dataBufSize);
     if (dataBuf == nullptr || static_cast<int32_t>(dataBufSize) != dataInfo->length) {
-        HILOGE("[AieIpcUnParcel]The UnParcel dataBuf is invalid.");
+        HILOGE("[AieIpc]The UnParcel dataBuf is invalid.");
         return RETCODE_NULL_PARAM;
     }
 
     dataInfo->data = reinterpret_cast<unsigned char *>(malloc(sizeof(unsigned char) * dataBufSize));
     if (dataInfo->data == nullptr) {
-        HILOGE("[AieIpcUnParcel]Failed to malloc memory.");
+        HILOGE("[AieIpc]Failed to malloc memory.");
         return RETCODE_OUT_OF_MEMORY;
     }
     errno_t retCode = memcpy_s(dataInfo->data, dataInfo->length, dataBuf, dataBufSize);
     if (retCode != EOK) {
-        HILOGE("[AieIpcUnParcel]Failed to memory copy, retCode[%d].", retCode);
+        HILOGE("[AieIpc]Failed to memory copy, retCode[%d].", retCode);
         free(dataInfo->data);
         dataInfo->data = nullptr;
         dataInfo->length = 0;
