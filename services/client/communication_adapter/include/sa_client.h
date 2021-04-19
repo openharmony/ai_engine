@@ -75,7 +75,7 @@ public:
      * and register server dead callback handle to SA manager.
      *
      * @param [in] configInfo Engine configuration information.
-     * @param [in] clientInfo Client information.
+     * @param [out] clientInfo Client information.
      * @return Returns 0 if the operation is successful, returns a non-zero value otherwise.
      */
     int Init(const ConfigInfo &configInfo, ClientInfo &clientInfo);

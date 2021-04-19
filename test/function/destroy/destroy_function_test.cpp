@@ -256,7 +256,7 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy003, TestSize.Level0)
  */
 HWTEST_F(DestroyFunctionTest, TestAieClientDestroy004, TestSize.Level0)
 {
-    HILOGI("[Test]TestAieClientDestroy003.");
+    HILOGI("[Test]TestAieClientDestroy004.");
 
     ConfigInfo configInfo {.description = CONFIG_DESCRIPTION};
 
