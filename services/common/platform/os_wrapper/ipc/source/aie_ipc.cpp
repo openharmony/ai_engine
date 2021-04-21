@@ -216,18 +216,18 @@ void ParcelDataInfo(IpcIo *request, const DataInfo *dataInfo, const uid_t receiv
         HILOGE("[AieIpc]The request is nullptr.");
         return;
     }
-    if (dataInfo->data != nullptr && dataInfo->length <= 0) {
+    if (dataInfo->data != nullptr && dataInfo->length <= 0) { // invalid datainfo
         HILOGE("[AieIpc]dataInfo->data != nullptr, dataInfo->length <= 0.");
         return;
     }
-    if (dataInfo->data == nullptr && dataInfo->length != 0) {
+    if (dataInfo->data == nullptr && dataInfo->length != 0) {  // invalid datainfo
         HILOGE("[AieIpc]dataInfo->data == nullptr, dataInfo->length != 0.");
         return;
     }
 
     // parcel data length first.
     IpcIoPushInt32(request, dataInfo->length);
-    if (dataInfo->data == nullptr && dataInfo->length == 0) {
+    if (dataInfo->data == nullptr && dataInfo->length == 0) { // empty datainfo, no need to parcel, save length(0) only.
         return;
     }
     // parcel the data only if the data length > 0
@@ -255,7 +255,6 @@ int UnParcelDataInfo(IpcIo *request, DataInfo *dataInfo)
         return RETCODE_FAILURE;
     }
     if (dataInfo->length == 0) { // no following buffer to unparcel.
-        dataInfo->length = 0;
         dataInfo->data = nullptr;
         return RETCODE_SUCCESS;
     }
