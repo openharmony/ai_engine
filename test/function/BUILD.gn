@@ -15,7 +15,7 @@ import("//build/lite/config/test.gni")
 
 unittest("ai_test_function") {
   output_extension = "bin"
-  output_dir = "$root_out_dir/test/unittest/ai"
+  output_dir = "$root_out_dir"
   ldflags = [
     "-lstdc++",
     "-ldl",
@@ -55,13 +55,9 @@ unittest("ai_test_function") {
     "prepare/prepare_function_test.cpp",
     "release/release_function_test.cpp",
     "set_get_option/option_function_test.cpp",
+    "share_memory/share_memory_test.cpp",
     "sync_process/sync_process_function_test.cpp",
   ]
-
-  # liteOS doesn't support share memory > 2MB
-  if (ohos_kernel_type == "linux") {
-    sources += [ "share_memory/share_memory_test.cpp" ]
-  }
 }
 
 group("function") {
