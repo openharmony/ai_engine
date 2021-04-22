@@ -15,7 +15,7 @@ import("//build/lite/config/test.gni")
 
 unittest("ai_test_function") {
   output_extension = "bin"
-  output_dir = "$root_out_dir"
+  output_dir = "$root_out_dir/test/unittest/ai"
   ldflags = [
     "-lstdc++",
     "-ldl",
