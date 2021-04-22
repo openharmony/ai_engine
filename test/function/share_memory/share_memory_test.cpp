@@ -32,7 +32,11 @@ const char * const CONFIG_DESCRIPTION = "config information";
 constexpr int ALGORITHM_TYPE_SYNC = 0; // identity for sync algorithm, determines ALGORITHM_TYPE_ID_LIST[algorithmType]
 constexpr int ALGORITHM_TYPE_ASYNC = 1; // identity for async algorithm, determines ALGORITHM_TYPE_ID_LIST[algorithmType]
 constexpr long long ALGORITHM_VERSION = 1;
+#ifdef __LINUX__
 constexpr uint32_t LONG_MEMORY_LENGTH = 2U * 1024U * 1024U; // 2 MB long data
+#else // liteos device may not have enough remaining memory.
+constexpr uint32_t LONG_MEMORY_LENGTH = 1U * 1024U * 1024U; // 1 MB long data
+#endif
 constexpr int RAND = 2;
 constexpr char DUMP_CONTENT = 'm'; // randomly chosen to stuff inputInfo.
 
