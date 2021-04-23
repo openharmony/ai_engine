@@ -94,9 +94,9 @@ void SaServerAdapter::SaveEngineListener(SvcIdentity *svcIdentity)
 void SaServerAdapter::ClearEngineListener()
 {
 #ifdef __LINUX__
-    BinderRelease(svcIdentity_.ipcContext, svcIdentity_.handle);
+    BinderRelease(svcIdentity_->ipcContext, svcIdentity_->handle);
 #endif
-    (void) memset_s(&svcIdentity_, sizeof(svcIdentity_), 0, sizeof(svcIdentity_));
+    svcIdentity_ = nullptr;
 }
 
 SvcIdentity *SaServerAdapter::GetEngineListener() const
