@@ -16,6 +16,7 @@
 #include "client_executor/include/client_factory.h"
 
 #include <thread>
+#include <unistd.h>
 
 #include "client_executor/include/i_client_cb.h"
 #include "communication_adapter/include/sa_async_handler.h"
@@ -63,6 +64,9 @@ int ClientFactory::ClientInit(const ConfigInfo &configInfo, ClientInfo &clientIn
     retCode = WaitConnection();
     CHK_RET(retCode != RETCODE_SUCCESS, retCode);
     clientInfo.clientId = clientId_;
+    clientInfo.serverUid = serverUid_;
+    clientInfo.clientUid = getuid();
+
     return RegisterDeadCb(clientInfo.sessionId, cb);
 }
 
@@ -217,6 +221,16 @@ int ClientFactory::GetClientId() const
     return clientId_;
 }
 
+void ClientFactory::SetServerUid(const uid_t clientId)
+{
+    serverUid_ = clientId;
+}
+
+uid_t ClientFactory::GetServerUid() const
+{
+    return serverUid_;
+}
+
 int ClientFactory::GenerateSessionId()
 {
     std::lock_guard<std::mutex> lock(sessionIdMutex_);
@@ -340,6 +354,8 @@ void ClientFactory::ResetClient()
 {
     clientId_ = INVALID_CLIENT_ID;
     sessionId_ = INVALID_SESSION_ID;
+    serverUid_ = INVALID_UID;
+    clientId_ = INVALID_UID;
 }
 } // namespace AI
 } // namespace OHOS

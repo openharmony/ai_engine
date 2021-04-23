@@ -43,7 +43,6 @@ namespace {
     const char * const EXTEND_INFORMATION = "Extended information";
     const char * const SET_OPTION_INPUT = "First set option inputData";
     const char * const SET_OPTION_DATA = "Second set option inputData";
-    constexpr uid_t INVALID_UID = 0;
 }
 
 class OptionFunctionTest : public testing::Test {

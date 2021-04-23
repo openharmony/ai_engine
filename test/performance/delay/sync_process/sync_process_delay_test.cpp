@@ -58,7 +58,6 @@ namespace {
     const char * const PREPARE_INPUT_SYNC = "Sync prepare inputData";
     const char * const PREPARE_INPUT_ASYNC = "Async prepare inputData";
     const int EXCEPTED_SYNC_PROCESS_TIME = 100;
-    constexpr uid_t INVALID_UID = 0;
 }
 
 class SyncProcessTimeTest : public testing::Test {

@@ -74,7 +74,6 @@ namespace {
     long long g_getOptionTotalTime;
     long long g_releaseTotalTime;
     long long g_destroyTotalTime;
-    constexpr uid_t INVALID_UID = 0;
 }
 
 class ClientCallback : public IClientCb {

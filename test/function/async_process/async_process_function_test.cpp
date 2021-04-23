@@ -45,7 +45,6 @@ namespace {
     const long long ALGORITHM_VERSION = 1;
     const int DATA_INFO_LEN = 6;
     const int WAIT_CALLBACK_TIME_MS = 2000;
-    constexpr uid_t INVALID_UID = 0;
 }
 
 class AsyncProcessFunctionTest : public testing::Test {
