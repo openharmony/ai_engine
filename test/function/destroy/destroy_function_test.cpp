@@ -42,7 +42,6 @@ namespace {
     const long long ALGORITHM_VERSION = 1;
     const int OPERATE_ID = 2;
     const int REQUEST_ID = 3;
-    constexpr uid_t INVALID_UID = 0;
 }
 
 class DestroyFunctionTest : public testing::Test {

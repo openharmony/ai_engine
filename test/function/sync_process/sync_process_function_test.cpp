@@ -43,7 +43,6 @@ namespace {
     const int REQUEST_ID = 3;
     const int ALGORITHM_EXTEND_LENGTH = 0;
     const int CYCLENUMS = 5;
-    constexpr uid_t INVALID_UID = 0;
 }
 
 class SyncProcessFunctionTest : public testing::Test {

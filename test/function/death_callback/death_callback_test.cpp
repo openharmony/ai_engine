@@ -44,7 +44,6 @@ namespace {
     const int OPERATE_ID = 2;
     const int REQUEST_ID = 3;
     const int ALGORITHM_EXTEND_LENGTH = 0;
-    constexpr uid_t INVALID_UID = 0;
 }
 
 int main()

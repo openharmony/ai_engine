@@ -129,7 +129,6 @@ int SaClient::Init(const ConfigInfo &configInfo, ClientInfo &clientInfo)
         proxy_ = nullptr;
         return RETCODE_FAILURE;
     }
-    clientInfo.clientUid = getuid();
 
     // Register SA Death Callback
     svc_ = SAMGR_GetRemoteIdentity(AI_SERVICE, nullptr);

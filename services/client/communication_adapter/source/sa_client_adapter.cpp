@@ -67,6 +67,7 @@ bool ConnectMgrWorker::OneAction()
         return true;
     }
     clientAdapter->SetClientId(clientInfo_.clientId);
+    clientAdapter->SetServerUid(clientInfo_.serverUid);
     return true;
 }
 

@@ -49,7 +49,6 @@ namespace {
     const int CHAR_TYPE_LOWER_CASE = 2;
     const int CHAR_TYPE_WHITE_SPACE = 3;
     const char WHITE_SPACE = ' ';
-    constexpr uid_t INVALID_UID = 0;
 }
 
 class InitFunctionTest : public testing::Test {
