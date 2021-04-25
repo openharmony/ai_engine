@@ -28,7 +28,7 @@ include_directories(../../../../../foundation/communication/ipc_lite/interfaces/
 include_directories(../../../../../foundation/multimedia/audio_lite/interfaces/kits)
 include_directories(../../../../../foundation/multimedia/hals/camera_lite)
 include_directories(../../../../../foundation/multimedia/utils/lite/hals)
-include_directories(../../../../../foundation/multimedia/utils/lite/include)
+include_directories(../../../../../foundation/multimedia/utils/lite/interfaces/kits)
 include_directories(../../../../../third_party/bounds_checking_function/include)
 
 add_executable(common
