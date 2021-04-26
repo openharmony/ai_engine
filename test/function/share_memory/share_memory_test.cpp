@@ -20,6 +20,7 @@
 #include "securec.h"
 
 #include "client_executor/include/i_aie_client.inl"
+#include "platform/time/include/time.h"
 #include "service_dead_cb.h"
 #include "utils/constants/constants.h"
 #include "utils/log/aie_log.h"
@@ -39,6 +40,7 @@ constexpr uint32_t LONG_MEMORY_LENGTH = 1U * 1024U * 1024U; // 1 MB long data
 #endif
 constexpr int RAND = 2;
 constexpr char DUMP_CONTENT = 'm'; // randomly chosen to stuff inputInfo.
+constexpr int WAIT_CALLBACK_TIME_MS = 2000;
 
 void FreeDataInfo(DataInfo *dataInfo)
 {
@@ -131,10 +133,6 @@ public:
             .extendMsg = nullptr,
         };
 
-        auto extMsg = reinterpret_cast<unsigned char*>(malloc(LONG_MEMORY_LENGTH));
-        ASSERT_NE(extMsg, nullptr);
-        ASSERT_EQ(
-            memset_s(extMsg, LONG_MEMORY_LENGTH, DUMP_CONTENT, LONG_MEMORY_LENGTH), EOK);
         algorithmInfo_ = {
             .clientVersion = 0,
             .isAsync = false,
@@ -143,11 +141,11 @@ public:
             .isCloud = false,
             .operateId = 0,
             .requestId = 0,
-            .extendLen = LONG_MEMORY_LENGTH,
-            .extendMsg = extMsg,
+            .extendLen = 0,
+            .extendMsg = nullptr,
         };
 
-        extMsg = reinterpret_cast<unsigned char*>(malloc(LONG_MEMORY_LENGTH));
+        auto extMsg = reinterpret_cast<unsigned char*>(malloc(LONG_MEMORY_LENGTH));
         ASSERT_NE(extMsg, nullptr);
         ASSERT_EQ(
             memset_s(extMsg, LONG_MEMORY_LENGTH, DUMP_CONTENT, LONG_MEMORY_LENGTH), EOK);
@@ -217,6 +215,7 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemoryPrepareRelease, TestSi
     EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
     EXPECT_EQ(outputInfo_.length, inputInfo_.length);
     EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    FreeDataInfo(&outputInfo_);
 
     DataInfo dummy {};
     int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
@@ -251,6 +250,7 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemorySyncProcess, TestSize.
     EXPECT_EQ(resultCodeSyncProcess, RETCODE_SUCCESS);
     EXPECT_EQ(outputInfo_.length, inputInfo_.length);
     EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    FreeDataInfo(&outputInfo_);
 
     DataInfo dummy {};
     int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
@@ -285,10 +285,13 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemoryAsyncProcess, TestSize
     FreeDataInfo(&outputInfo_);
 
     auto asyncFuture = std::async(AieClientAsyncProcess, clientInfo_, algorithmInfo_, inputInfo_);
+    StepSleepMs(WAIT_CALLBACK_TIME_MS);
     EXPECT_EQ(asyncFuture.get(), RETCODE_SUCCESS);
     outputInfo_ = callback.GetResult();
     EXPECT_EQ(outputInfo_.length, inputInfo_.length);
     EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    FreeDataInfo(&outputInfo_);
+
 
     DataInfo dummy {};
     int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
@@ -317,6 +320,7 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemorySetGetOption, TestSize
     EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
     EXPECT_EQ(outputInfo_.length, inputInfo_.length);
     EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    FreeDataInfo(&outputInfo_);
 
     int dummyOptionType = 0;
     int resultCodeSetOption = AieClientSetOption(clientInfo_, dummyOptionType, inputInfo_);
@@ -327,6 +331,7 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemorySetGetOption, TestSize
     EXPECT_EQ(resultCodeGetOption, RETCODE_SUCCESS);
     EXPECT_EQ(outputInfo_.length, inputInfo_.length);
     EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    FreeDataInfo(&outputInfo_);
 
     resultCodeSetOption = AieClientSetOption(clientInfo_, dummyOptionType, inputInfo_);
     EXPECT_EQ(resultCodeSetOption, RETCODE_SUCCESS);
@@ -335,6 +340,7 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemorySetGetOption, TestSize
     EXPECT_EQ(resultCodeGetOption, RETCODE_SUCCESS);
     EXPECT_EQ(outputInfo_.length, inputInfo_.length);
     EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    FreeDataInfo(&outputInfo_);
 
     int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
     EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
