@@ -26,7 +26,7 @@ config("libaudio_common_config") {
     "//foundation/multimedia/audio_lite/interfaces/kits",
     "//foundation/multimedia/hals/camera_lite",
     "//foundation/multimedia/utils/lite/hals",
-    "//foundation/multimedia/utils/lite/include",
+    "//foundation/multimedia/utils/lite/interfaces/kits",
     "//drivers/peripheral/audio/interfaces/include",
     "//drivers/peripheral/codec/interfaces/include",
     "//drivers/peripheral/format/interfaces/include",
