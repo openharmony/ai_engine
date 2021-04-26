@@ -277,6 +277,7 @@ static int InvokeLoadAlgorithm(AiInterface *aiInterface, IpcIo *req, IpcIo *repl
     IpcIoPushInt32(reply, retCode);
     ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
 
+    FreeDataInfo(&outputInfo);
     FreeClientInfo(&clientInfo);
     FreeAlgorithmInfo(&algorithmInfo);
     FreeDataInfo(&inputInfo);
@@ -302,6 +303,7 @@ static int InvokeSyncExecute(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
     retCode = aiInterface->SyncExecuteAlgorithm(&clientInfo, &algorithmInfo, &inputInfo, &outputInfo);
     IpcIoPushInt32(reply, retCode);
     ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
+    FreeDataInfo(&outputInfo);
 
     // inputInfo is hold by request, and freed when request is destructed in SaServerAdapter::SyncExecute().
     FreeClientInfo(&clientInfo);
@@ -401,6 +403,7 @@ static int InvokeGetOption(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
     IpcIoPushInt32(reply, retCode);
     ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
 
+    FreeDataInfo(&outputInfo);
     FreeClientInfo(&clientInfo);
     FreeDataInfo(&inputInfo);
     return retCode;
