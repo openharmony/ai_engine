@@ -86,19 +86,6 @@ public:
         HILOGI("[Test]ShareMemoryFunctionTest OnResult retCode[%d], requestId[%d], resultLength[%d].",
             resultCode, requestId, result.length);
         DataInfo outputInfo {};
-        if (resultCode == RETCODE_SUCCESS && result.data != nullptr && result.length > 0) {
-            outputInfo.length = result.length;
-            outputInfo.data = reinterpret_cast<unsigned char*>(malloc(outputInfo.length));
-            if (outputInfo.data == nullptr) {
-                HILOGE("[OnResult]malloc failed.");
-                return;
-            }
-            if (memcpy_s(outputInfo.data, outputInfo.length, result.data, result.length) != EOK) {
-                HILOGE("[OnResult]memcpy_s failed.");
-                FreeDataInfo(&outputInfo);
-                return;
-            }
-        }
         promiseResult_->set_value(outputInfo);
     }
 
@@ -251,47 +238,6 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemorySyncProcess, TestSize.
     EXPECT_EQ(outputInfo_.length, inputInfo_.length);
     EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
     FreeDataInfo(&outputInfo_);
-
-    DataInfo dummy {};
-    int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
-    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
-
-    int resultCodeDestroy = AieClientDestroy(clientInfo_);
-    EXPECT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
-    EXPECT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
-}
-
-/**
- * @tc.name: TestAieClientShareMemoryAsyncProcess
- * @tc.desc: Test the execution of AsyncProcess function with share memory.
- * @tc.type: FUNC
- * @tc.require: AR000F77NL
- */
-HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemoryAsyncProcess, TestSize.Level0)
-{
-    HILOGI("[Test]TestAieClientShareMemoryAsyncProcess.");
-    algorithmInfo_.isAsync = true;
-    algorithmInfo_.algorithmType = ALGORITHM_TYPE_ASYNC;
-
-    int resultCodeInit = AieClientInit(configInfo_, clientInfo_, algorithmInfo_, &cb_);
-    ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
-
-    ClientCallback callback = ClientCallback();
-    int resultCodePrepare = AieClientPrepare(clientInfo_, algorithmInfo_, inputInfo_, outputInfo_, &callback);
-    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo_.length, inputInfo_.length);
-    EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
-    FreeDataInfo(&outputInfo_);
-
-    auto asyncFuture = std::async(AieClientAsyncProcess, clientInfo_, algorithmInfo_, inputInfo_);
-    StepSleepMs(WAIT_CALLBACK_TIME_MS);
-    EXPECT_EQ(asyncFuture.get(), RETCODE_SUCCESS);
-    outputInfo_ = callback.GetResult();
-    EXPECT_EQ(outputInfo_.length, inputInfo_.length);
-    EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
-    FreeDataInfo(&outputInfo_);
-
 
     DataInfo dummy {};
     int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
