@@ -22,7 +22,8 @@
 #include "protocol/retcode_inner/aie_retcode_inner.h"
 #include "utils/log/aie_log.h"
 
-namespace OHOS::AI {
+namespace OHOS {
+namespace AI {
 SamplePlugin1::SamplePlugin1() = default;
 
 SamplePlugin1::~SamplePlugin1()
@@ -165,4 +166,5 @@ int SamplePlugin1::GetOption(int optionType, const DataInfo &inputInfo, DataInfo
 }
 
 PLUGIN_INTERFACE_IMPL(SamplePlugin1);
+}
 }

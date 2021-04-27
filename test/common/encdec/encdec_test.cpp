@@ -212,7 +212,7 @@ void StructCheck(bool normalMode = true)
 
 void StructWithPointerCheck(bool normalMode = true)
 {
-    for (int classNum = 0; classNum <= ARRAY_LEN; ++classNum) {
+    for (size_t classNum = 0; classNum <= ARRAY_LEN; ++classNum) {
         HILOGD ("[Test]Normal test StructWithPointer, classNum = %d.************", classNum);
         StructWithPointer structWithPointer = GenStructWithPointer(classNum);
         DataInfo dataInfo {};
@@ -236,6 +236,8 @@ void StructWithPointerCheck(bool normalMode = true)
 }
 }
 
+namespace OHOS {
+namespace AI {
 template<>
 int DataEncoder::EncodeOneParameter(const StructWithPointer &val)
 {
@@ -261,7 +263,7 @@ int DataDecoder::DecodeOneParameter(StructWithPointer &val)
     }
     if (val.objectsNum > 0) {
         AIE_NEW(val.objects, StructWithPadding[val.objectsNum]);
-        for (int i = 0; i < val.objectsNum; ++i) {
+        for (size_t i = 0; i < val.objectsNum; ++i) {
             if (RecursiveDecode(val.objects[i]) != RETCODE_SUCCESS) {
                 AIE_DELETE_ARRAY(val.objects);
                 return RETCODE_FAILURE;
@@ -270,6 +272,8 @@ int DataDecoder::DecodeOneParameter(StructWithPointer &val)
     }
     return RETCODE_SUCCESS;
 }
+} // namespace AI
+} // namespace OHOS
 
 class EncdecTest : public testing::Test {
 public:

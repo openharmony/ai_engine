@@ -15,6 +15,9 @@
 
 #include "communication_adapter/include/sa_server_adapter.h"
 
+#include "liteipc_adapter.h"
+#include "securec.h"
+
 #include "protocol/retcode_inner/aie_retcode_inner.h"
 #include "server_executor/include/i_async_task_manager.h"
 #include "server_executor/include/i_engine_manager.h"
@@ -83,19 +86,20 @@ void SaServerAdapter::Uninitialize()
     transactionIds_.clear();
 }
 
-void SaServerAdapter::SaveEngineListener(const SvcIdentity *svcIdentity)
+void SaServerAdapter::SaveEngineListener(SvcIdentity *svcIdentity)
 {
-    svcIdentity_.handle = svcIdentity->handle;
-    svcIdentity_.token = svcIdentity->token;
+    svcIdentity_ = svcIdentity;
 }
 
 void SaServerAdapter::ClearEngineListener()
 {
-    svcIdentity_.handle = 0;
-    svcIdentity_.token = 0;
+#ifdef __LINUX__
+    BinderRelease(svcIdentity_.ipcContext, svcIdentity_.handle);
+#endif
+    (void) memset_s(&svcIdentity_, sizeof(svcIdentity_), 0, sizeof(svcIdentity_));
 }
 
-SvcIdentity SaServerAdapter::GetEngineListener()
+SvcIdentity *SaServerAdapter::GetEngineListener() const
 {
     return svcIdentity_;
 }

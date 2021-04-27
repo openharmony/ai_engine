@@ -16,7 +16,10 @@ import("//build/lite/config/test.gni")
 unittest("ai_test_common") {
   output_extension = "bin"
   output_dir = "$root_out_dir/test/unittest/ai"
-  ldflags = [ "-lstdc++" ]
+  ldflags = [
+    "-lstdc++",
+    "-ldl",
+  ]
   include_dirs = [
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
     "//foundation/ai/engine/interfaces",

@@ -79,7 +79,7 @@ int Plugin::LoadPluginAlgorithm()
     }
     void *handle = AieDlopen(libPath.c_str());
     if (handle == nullptr) {
-#ifdef DEBUG
+#ifdef OHOS_DEBUG
         HILOGE("[Plugin]Failed to open lib(%s), ret: %s.", libPath.c_str(), AieDlerror());
 #else
         HILOGE("[Plugin]Failed to open lib(%s).", libPath.c_str());
