@@ -114,7 +114,7 @@ private:
  * @tc.type: FUNC
  * @tc.require: AR000F77TL
  */
-HWTEST_F(ThreadPoolTest, TestWorker001, TestSize.Level0)
+HWTEST_F(ThreadPoolTest, TestWorker001, TestSize.Level1)
 {
     HILOGD("[Test]Test worker begin");
     CWorker worker;
@@ -134,7 +134,7 @@ HWTEST_F(ThreadPoolTest, TestWorker001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77TL
  */
-HWTEST_F(ThreadPoolTest, TestThread001, TestSize.Level0)
+HWTEST_F(ThreadPoolTest, TestThread001, TestSize.Level1)
 {
     HILOGD("[Test]Test thread1 begin");
     Thread testThread;
@@ -159,7 +159,7 @@ HWTEST_F(ThreadPoolTest, TestThread001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77TL
  */
-HWTEST_F(ThreadPoolTest, ThreadPoolTest001, TestSize.Level0)
+HWTEST_F(ThreadPoolTest, ThreadPoolTest001, TestSize.Level1)
 {
     HILOGD("[Test]ThreadPoolTest001 begin");
     ThreadPool *threadPool = ThreadPool::GetInstance();
@@ -176,7 +176,7 @@ HWTEST_F(ThreadPoolTest, ThreadPoolTest001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77TL
  */
-HWTEST_F(ThreadPoolTest, ThreadPoolTest002, TestSize.Level0)
+HWTEST_F(ThreadPoolTest, ThreadPoolTest002, TestSize.Level1)
 {
     HILOGD("[Test]ThreadPoolTest002 begin");
     ThreadPool *threadPool = ThreadPool::GetInstance();
@@ -192,7 +192,7 @@ HWTEST_F(ThreadPoolTest, ThreadPoolTest002, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77TL
  */
-HWTEST_F(ThreadPoolTest, ThreadPoolTest003, TestSize.Level0)
+HWTEST_F(ThreadPoolTest, ThreadPoolTest003, TestSize.Level1)
 {
     HILOGD("[Test]ThreadPoolTest003 begin");
     ThreadPool *threadPool = ThreadPool::GetInstance();
@@ -208,7 +208,7 @@ HWTEST_F(ThreadPoolTest, ThreadPoolTest003, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77TL
  */
-HWTEST_F(ThreadPoolTest, TestThreadWithManyWorker001, TestSize.Level0)
+HWTEST_F(ThreadPoolTest, TestThreadWithManyWorker001, TestSize.Level1)
 {
     HILOGD("[Test]Test worker begin");
     string workerName("MultiWorker");

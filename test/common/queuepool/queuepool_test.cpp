@@ -49,7 +49,7 @@ public:
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueuePool001, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueuePool001, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -63,7 +63,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueuePool002, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueuePool002, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -79,7 +79,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool002, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueuePool003, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueuePool003, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -95,7 +95,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool003, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueuePool004, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueuePool004, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -113,7 +113,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool004, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueuePool005, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueuePool005, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -132,7 +132,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool005, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueuePool006, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueuePool006, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -148,7 +148,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool006, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueuePool007, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueuePool007, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -171,7 +171,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool007, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueuePool008, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueuePool008, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -190,7 +190,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool008, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue001, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue001, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -208,7 +208,7 @@ HWTEST_F(QueuepoolTest, TestQueue001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue002, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue002, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -229,7 +229,7 @@ HWTEST_F(QueuepoolTest, TestQueue002, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue003, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue003, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -250,7 +250,7 @@ HWTEST_F(QueuepoolTest, TestQueue003, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue004, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue004, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -267,7 +267,7 @@ HWTEST_F(QueuepoolTest, TestQueue004, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue005, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue005, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -287,7 +287,7 @@ HWTEST_F(QueuepoolTest, TestQueue005, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue006, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue006, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -307,7 +307,7 @@ HWTEST_F(QueuepoolTest, TestQueue006, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue007, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue007, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -333,7 +333,7 @@ HWTEST_F(QueuepoolTest, TestQueue007, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue008, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue008, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -353,7 +353,7 @@ HWTEST_F(QueuepoolTest, TestQueue008, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue009, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue009, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -375,7 +375,7 @@ HWTEST_F(QueuepoolTest, TestQueue009, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue010, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue010, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -404,7 +404,7 @@ HWTEST_F(QueuepoolTest, TestQueue010, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue011, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue011, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -422,7 +422,7 @@ HWTEST_F(QueuepoolTest, TestQueue011, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue012, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue012, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -451,7 +451,7 @@ HWTEST_F(QueuepoolTest, TestQueue012, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue013, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue013, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
@@ -483,7 +483,7 @@ HWTEST_F(QueuepoolTest, TestQueue013, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77MS
  */
-HWTEST_F(QueuepoolTest, TestQueue014, TestSize.Level0)
+HWTEST_F(QueuepoolTest, TestQueue014, TestSize.Level1)
 {
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);

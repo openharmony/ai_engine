@@ -82,7 +82,7 @@ public:
  * @tc.type: FUNC
  * @tc.require: AR000F77NN
  */
-HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level0)
+HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level1)
 {
     HILOGI("[Test]TestAlgorithmInfo001.");
     const char *str = PREPARE_INPUT_SYNC;
@@ -133,7 +133,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NN
  */
-HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level0)
+HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level1)
 {
     HILOGI("[Test]TestAlgorithmInfo002.");
     const char *str = PREPARE_INPUT_ASYNC;
@@ -189,7 +189,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NN
  */
-HWTEST_F(PrepareFunctionTest, TestInputInfo001, TestSize.Level0)
+HWTEST_F(PrepareFunctionTest, TestInputInfo001, TestSize.Level1)
 {
     HILOGI("[Test]TestInputInfo001.");
     const char *str = PREPARE_INPUT_ASYNC;
@@ -244,7 +244,7 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NJ
  */
-HWTEST_F(PrepareFunctionTest, TestInputInfo002, TestSize.Level0)
+HWTEST_F(PrepareFunctionTest, TestInputInfo002, TestSize.Level1)
 {
     HILOGI("[Test]TestInputInfo002.");
     const char *str = PREPARE_INPUT_ASYNC;
@@ -300,7 +300,7 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo002, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NJ
  */
-HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level0)
+HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level1)
 {
     HILOGI("[Test]TestCallback001.");
     const char *str = PREPARE_INPUT_ASYNC;
@@ -356,7 +356,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77NJ
  */
-HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level0)
+HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
 {
     HILOGI("[Test]TestCallback002.");
     const char *str = PREPARE_INPUT_ASYNC;

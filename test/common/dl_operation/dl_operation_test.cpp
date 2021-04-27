@@ -51,7 +51,7 @@ public:
  * @tc.type: FUNC
  * @tc.require: AR000F77MR
  */
-HWTEST_F(DlOperationTest, TestDlOption001, TestSize.Level0)
+HWTEST_F(DlOperationTest, TestDlOption001, TestSize.Level1)
 {
     void *handle = AieDlopen(TEST_SO_PATH);
     HILOGD("[Test]Begin to excute handle.");

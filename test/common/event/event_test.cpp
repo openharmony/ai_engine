@@ -55,7 +55,7 @@ public:
  * @tc.type: FUNC
  * @tc.require: AR000F77MR
  */
-HWTEST_F(EventTest, EventTest001, TestSize.Level0)
+HWTEST_F(EventTest, EventTest001, TestSize.Level1)
 {
     EXPECT_TRUE(g_event->Signal());
     EXPECT_TRUE(g_event->Wait(EVENT_WAIT_TIME_MS));

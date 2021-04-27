@@ -57,7 +57,7 @@ public:
  * @tc.type: FUNC
  * @tc.require: AR000F77TL
  */
-HWTEST_F(SemaphoreTest, SemaphoreTest001, TestSize.Level0)
+HWTEST_F(SemaphoreTest, SemaphoreTest001, TestSize.Level1)
 {
     HILOGD("[Test]Begin to main. test ISemaphore.");
     std::shared_ptr<ISemaphore> semaphoreExample = ISemaphore::MakeShared(0);
@@ -73,7 +73,7 @@ HWTEST_F(SemaphoreTest, SemaphoreTest001, TestSize.Level0)
  * @tc.type: FUNC
  * @tc.require: AR000F77TL
  */
-HWTEST_F(SemaphoreTest, SimpleNotifierTest001, TestSize.Level0)
+HWTEST_F(SemaphoreTest, SimpleNotifierTest001, TestSize.Level1)
 {
     HILOGD("[Test]Test simple notifier.");
     SimpleEventNotifier<int> simpleNotifier = SimpleEventNotifier<int>(nullptr);
