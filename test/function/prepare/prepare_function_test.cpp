@@ -95,6 +95,8 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -146,6 +148,8 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -202,6 +206,8 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo001, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -257,6 +263,8 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo002, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -313,6 +321,8 @@ HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -369,6 +379,8 @@ HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };

@@ -198,6 +198,8 @@ HWTEST_F(AsyncProcessTimeTest, TestAsyncTime001, TestSize.Level0)
                 .clientVersion = CLIENT_INFO_VERSION,
                 .clientId = INVALID_CLIENT_ID,
                 .sessionId = SESSION_ID,
+                .serverUid = INVALID_UID,
+                .clientUid = INVALID_UID,
                 .extendLen = len,
                 .extendMsg = (unsigned char*)inputData,
         };

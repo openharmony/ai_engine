@@ -91,6 +91,8 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy001, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -137,6 +139,8 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy002, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -202,6 +206,8 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy003, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -268,6 +274,8 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy004, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -310,28 +318,30 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy005, TestSize.Level0)
     int len = strlen(str) + 1;
 
     ClientInfo clientInfo = {
-            .clientVersion = CLIENT_INFO_VERSION,
-            .clientId = CLIENT_ID,
-            .sessionId = SESSION_ID,
-            .extendLen = len,
-            .extendMsg = (unsigned char*)inputData,
+        .clientVersion = CLIENT_INFO_VERSION,
+        .clientId = CLIENT_ID,
+        .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
+        .extendLen = len,
+        .extendMsg = (unsigned char*)inputData,
     };
 
     AlgorithmInfo algoInfo = {
-            .clientVersion = ALGORITHM_INFO_CLIENT_VERSION,
-            .isAsync = false,
-            .algorithmType = ALGORITHM_TYPE_SYNC,
-            .algorithmVersion = ALGORITHM_VERSION,
-            .isCloud = true,
-            .operateId = OPERATE_ID,
-            .requestId = REQUEST_ID,
-            .extendLen = len,
-            .extendMsg = (unsigned char*)inputData,
+        .clientVersion = ALGORITHM_INFO_CLIENT_VERSION,
+        .isAsync = false,
+        .algorithmType = ALGORITHM_TYPE_SYNC,
+        .algorithmVersion = ALGORITHM_VERSION,
+        .isCloud = true,
+        .operateId = OPERATE_ID,
+        .requestId = REQUEST_ID,
+        .extendLen = len,
+        .extendMsg = (unsigned char*)inputData,
     };
 
     DataInfo inputInfo = {
-            .data = (unsigned char*)inputData,
-            .length = len,
+        .data = (unsigned char*)inputData,
+        .length = len,
     };
 
     ServiceDeadCb cb = ServiceDeadCb();

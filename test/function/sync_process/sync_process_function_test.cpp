@@ -83,6 +83,8 @@ static void TestGetRightInfo(ConfigInfo &configInfo, ClientInfo &clientInfo, Alg
     clientInfo.clientVersion = CLIENT_INFO_VERSION;
     clientInfo.clientId = CLIENT_ID;
     clientInfo.sessionId = SESSION_ID;
+    clientInfo.serverUid = INVALID_UID,
+    clientInfo.clientUid = INVALID_UID,
     clientInfo.extendLen = EXTEND_LENGTH;
     clientInfo.extendMsg = (unsigned char*)inputData;
 
@@ -161,6 +163,8 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess002, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -227,6 +231,8 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess003, TestSize.Level0)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = CLIENT_ID,
         .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = (unsigned char*)inputData,
     };

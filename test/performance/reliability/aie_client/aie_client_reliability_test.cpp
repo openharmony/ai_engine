@@ -106,6 +106,8 @@ HWTEST_F(AieClientReliabilityTest, AieClientSyncReliabilityTest001, TestSize.Lev
             .clientVersion = CLIENT_INFO_VERSION,
             .clientId = CLIENT_ID,
             .sessionId = SESSION_ID,
+            .serverUid = INVALID_UID,
+            .clientUid = INVALID_UID,
             .extendLen = len,
             .extendMsg = (unsigned char*)inputData,
         };
@@ -176,6 +178,8 @@ HWTEST_F(AieClientReliabilityTest, AieClientAsyncReliabilityTest001, TestSize.Le
             .clientVersion = CLIENT_INFO_VERSION,
             .clientId = CLIENT_ID,
             .sessionId = SESSION_ID,
+            .serverUid = INVALID_UID,
+            .clientUid = INVALID_UID,
             .extendLen = len,
             .extendMsg = (unsigned char*)inputData,
         };

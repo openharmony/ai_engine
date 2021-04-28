@@ -37,13 +37,14 @@ void HosInit();
 IClientProxy *GetRemoteIUnknown(void);
 
 /**
- * Invoke SA server, to connect the server and get the client ID.
+ * Invoke SA server, to connect the server and get the client ID and server uid.
  *
  * @param [in] proxy SA proxy to call ai server interfaces.
  * @param [in] configInfo Engine configuration information.
+ * @param [out] clientInfo Client information.
  * @return Returns 0 if the operation is successful, returns a non-zero value otherwise.
  */
-int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo);
+int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo, ClientInfo &clientInfo);
 
 /**
  * Invoke SA server, to load algorithm plugin and model.

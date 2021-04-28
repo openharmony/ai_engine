@@ -41,6 +41,7 @@ add_executable(test
         function/prepare/prepare_function_test.cpp
         function/release/release_function_test.cpp
         function/set_get_option/option_function_test.cpp
+        function/share_memory/share_memory_test.cpp
         function/sync_process/sync_process_function_test.cpp
         performance/delay/async_process/async_process_delay_test.cpp
         performance/delay/sync_process/sync_process_delay_test.cpp

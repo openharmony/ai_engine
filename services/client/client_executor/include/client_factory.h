@@ -28,6 +28,7 @@
 namespace OHOS {
 namespace AI {
 const int AIE_SESSION_ID_BEGIN = 0;
+constexpr uid_t INVALID_UID = 0;
 
 class ClientFactory {
 public:
@@ -131,6 +132,8 @@ public:
 
     void SetClientId(int clientId);
     int GetClientId() const;
+    void SetServerUid(const uid_t clientId);
+    uid_t GetServerUid() const;
     int GetSessionInfo(int sessionId, int &algorithmType);
     void ResetClient();
 
@@ -163,6 +166,7 @@ private:
     static std::mutex sessionIdMutex_;
 
     int clientId_ {INVALID_CLIENT_ID};
+    uid_t serverUid_ {INVALID_UID};
     std::atomic<int> sessionId_ {AIE_SESSION_ID_BEGIN};
 
     // map <sessionId, algorithmType>

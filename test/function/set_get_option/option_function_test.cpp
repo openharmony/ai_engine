@@ -89,6 +89,8 @@ static void GetClientInfo(ClientInfo &clientInfo)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = INVALID_SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -150,7 +152,7 @@ HWTEST_F(OptionFunctionTest, TestOption001, TestSize.Level0)
 
     // Randomly generate synchronous or asynchronous algorithm information.
     AlgorithmInfo algoInfo;
-    if (rand() % RAND == RETCODE_SUCCESS) {
+    if (rand() % RAND == 0) {
         HILOGI("[Test]The current algorithm information is asynchronous.");
         GetAsyncAlgorithmInfo(algoInfo);
     } else {
@@ -225,7 +227,7 @@ HWTEST_F(OptionFunctionTest, TestOption002, TestSize.Level0)
 
     // Randomly generate synchronous or asynchronous algorithm information.
     AlgorithmInfo algoInfo;
-    if (rand() % RAND == RETCODE_SUCCESS) {
+    if (rand() % RAND == 0) {
         HILOGI("[Test]The current algorithm information is asynchronous.");
         GetAsyncAlgorithmInfo(algoInfo);
     } else {
@@ -309,7 +311,7 @@ HWTEST_F(OptionFunctionTest, TestOption003, TestSize.Level0)
 
     // Randomly generate synchronous or asynchronous algorithm information.
     AlgorithmInfo algoInfo;
-    if (rand() % RAND == RETCODE_SUCCESS) {
+    if (rand() % RAND == 0) {
         HILOGI("[Test]The current algorithm information is asynchronous.");
         GetAsyncAlgorithmInfo(algoInfo);
     } else {
@@ -362,7 +364,7 @@ HWTEST_F(OptionFunctionTest, TestOption004, TestSize.Level0)
 
     // Randomly generate synchronous or asynchronous algorithm information.
     AlgorithmInfo algoInfo;
-    if (rand() % RAND == RETCODE_SUCCESS) {
+    if (rand() % RAND == 0) {
         HILOGI("[Test]The current algorithm information is asynchronous.");
         GetAsyncAlgorithmInfo(algoInfo);
     } else {

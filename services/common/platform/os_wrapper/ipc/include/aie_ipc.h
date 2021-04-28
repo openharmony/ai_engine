@@ -23,12 +23,36 @@
 extern "C" {
 #endif
 
-void ParcelDataInfo(IpcIo *request, const DataInfo *dataInfo);
+/**
+ * Use ipc to transfer memory.
+ *
+ * Memory larger than IPC_MAX_TRANS_CAPACITY(200) would be transferred by shared memory, otherwise by ipc.
+ *
+ * @param [in] request Ipc handle.
+ * @param [in] dataInfo Data to transfer.
+ * @param [in] receiverUid receiver's uid.
+ */
+void ParcelDataInfo(IpcIo *request, const DataInfo *dataInfo, const uid_t receiverUid);
+
+/**
+ * Use ipc to receive memory.
+ * Note: the returned dataInfo must release by {@link FreeDataInfo}.
+ *
+ * @param [in] request Ipc handle.
+ * @param [out] dataInfo Data received.
+ * @return Returns 0 if the operation is successful, returns a non-zero value otherwise.
+ */
 int UnParcelDataInfo(IpcIo *request, DataInfo *dataInfo);
+
+/**
+ * Free dataInfo.
+ *
+ * @param [in] dataInfo data to be freed.
+ */
 void FreeDataInfo(DataInfo *dataInfo);
 
 #ifdef __cplusplus
 }
-#endif //
+#endif
 
 #endif // AIE_IPC_H
