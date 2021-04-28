@@ -27,8 +27,47 @@
 
 namespace OHOS {
 namespace AI {
-std::mutex SaClient::instance_mutex_;
-SaClient *SaClient::instance_ = nullptr;
+namespace {
+int32_t AsyncCallback(const IpcContext *ipcContext, void *ipcMsg, IpcIo *data, void *arg)
+{
+    // the code is callback function id, which is defined in ai_service.h
+    uint32_t code;
+    int32_t ipcGetCodeRet = GetCode(ipcMsg, &code);
+    int asyncCallbackRet = IpcIoPopInt32(data);
+    int requestId = IpcIoPopInt32(data);
+    int sessionId = IpcIoPopInt32(data);
+    DataInfo outputInfo = {
+        .data = nullptr,
+        .length = 0,
+    };
+    int ipcUnParcelRet = UnParcelDataInfo(data, &outputInfo);
+    SaClient *client = SaClient::GetInstance();
+    if (client == nullptr) {
+        HILOGE("[SaClient]The client is nullptr, maybe out of memory.");
+        FreeBuffer(nullptr, ipcMsg);
+        FreeDataInfo(&outputInfo);
+        return RETCODE_FAILURE;
+    }
+    CallbackHandle callback = client->GetSaClientResultCb();
+    if (callback == nullptr) {
+        HILOGE("[SaClient]SA client callback is nullptr, maybe Release interface is called or the callback is deleted");
+        FreeBuffer(nullptr, ipcMsg);
+        FreeDataInfo(&outputInfo);
+        return RETCODE_FAILURE;
+    }
+    // The asynchronous callback retCode is used only when the IPC is normal.
+    int retCode = asyncCallbackRet;
+    if (ipcGetCodeRet != LITEIPC_OK || ipcUnParcelRet != RETCODE_SUCCESS) {
+        HILOGE("[SaClient]AsyncCallback failed, GetCode retCode[%d], UnParcelDataInfo retCode[%d].", ipcGetCodeRet,
+               ipcUnParcelRet);
+        // The IPC is abnormal.
+        retCode = RETCODE_FAILURE;
+    }
+    callback(sessionId, outputInfo, retCode, requestId);
+    FreeBuffer(nullptr, ipcMsg);
+    FreeDataInfo(&outputInfo);
+    return retCode;
+}
 
 int32_t OnAiDead(const IpcContext *context, void *ipcMsg, IpcIo *data, void *arg)
 {
@@ -44,6 +83,10 @@ int32_t OnAiDead(const IpcContext *context, void *ipcMsg, IpcIo *data, void *arg
     onDead();
     return RETCODE_SUCCESS;
 }
+} // anonymous namespaces
+
+std::mutex SaClient::instance_mutex_;
+SaClient *SaClient::instance_ = nullptr;
 
 SaClient::SaClient() = default;
 
@@ -170,47 +213,6 @@ int SaClient::GetOption(const ClientInfo &clientInfo, int optionType, const Data
         return RETCODE_SA_SERVICE_EXCEPTION;
     }
     return GetOptionProxy(*proxy_, clientInfo, optionType, inputInfo, outputInfo);
-}
-
-int32_t AsyncCallback(const IpcContext *ipcContext, void *ipcMsg, IpcIo *data, void *arg)
-{
-    // the code is callback function id, was defined in ai_service.h
-    uint32_t code;
-    int32_t ipcGetCodeRet = GetCode(ipcMsg, &code);
-    int asyncCallbackRet = IpcIoPopInt32(data);
-    int requestId = IpcIoPopInt32(data);
-    int sessionId = IpcIoPopInt32(data);
-    DataInfo outputInfo = {
-        .data = nullptr,
-        .length = 0,
-    };
-    int ipcUnParcelRet = UnParcelDataInfo(data, &outputInfo);
-    SaClient *client = SaClient::GetInstance();
-    if (client == nullptr) {
-        HILOGE("[SaClient]The client is nullptr, maybe out of memory.");
-        FreeBuffer(nullptr, ipcMsg);
-        FreeDataInfo(&outputInfo);
-        return RETCODE_FAILURE;
-    }
-    CallbackHandle callback = client->GetSaClientResultCb();
-    if (callback == nullptr) {
-        HILOGE("[SaClient]SA client callback is nullptr, maybe Release interface is called or the callback is deleted");
-        FreeBuffer(nullptr, ipcMsg);
-        FreeDataInfo(&outputInfo);
-        return RETCODE_FAILURE;
-    }
-    // The asynchronous callback retCode is used only when the IPC is normal.
-    int retCode = asyncCallbackRet;
-    if (ipcGetCodeRet != LITEIPC_OK || ipcUnParcelRet != RETCODE_SUCCESS) {
-        HILOGE("[SaClient]AsyncCallback failed, GetCode retCode[%d], UnParcelDataInfo retCode[%d].", ipcGetCodeRet,
-               ipcUnParcelRet);
-        // The IPC is abnormal.
-        retCode = RETCODE_FAILURE;
-    }
-    callback(sessionId, outputInfo, retCode, requestId);
-    FreeBuffer(nullptr, ipcMsg);
-    FreeDataInfo(&outputInfo);
-    return retCode;
 }
 
 int SaClient::RegisterCallback(const ClientInfo &clientInfo)

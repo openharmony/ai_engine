@@ -38,7 +38,7 @@ public:
      * Connect the server to get the client ID and initialize the client.
      *
      * @param [in] configInfo Engine configuration information.
-     * @param [in] clientInfo Client information.
+     * @param [out] clientInfo Client information.
      * @param [in] algorithmInfo Algorithm information.
      * @param [in] cb Service dead callback, Called when the service is dead.
      * @return Returns 0 if the operation is successful, returns a non-zero value otherwise.

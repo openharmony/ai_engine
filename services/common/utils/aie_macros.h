@@ -22,7 +22,7 @@
 namespace OHOS {
 namespace AI {
 /**
- * If x is not true, return ret, pass otherwise
+ * If x is true, return ret, pass otherwise
  */
 #define CHK_RET(x, ret) \
     do { \
