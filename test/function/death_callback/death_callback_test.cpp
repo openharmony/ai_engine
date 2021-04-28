@@ -55,6 +55,8 @@ int main()
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = -1,
         .sessionId = -1,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = inputData,
     };

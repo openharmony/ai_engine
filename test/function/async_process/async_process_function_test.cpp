@@ -87,6 +87,8 @@ static void PreBuildInfo(ConfigInfo &configInfo, ClientInfo &clientInfo, Algorit
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = INVALID_CLIENT_ID,
         .sessionId = INVALID_SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = len,
         .extendMsg = (unsigned char*)extendMsg,
     };

@@ -35,6 +35,11 @@ struct Notify {
     int retCode;
 };
 
+typedef struct {
+    int clientId;
+    uid_t serverUid;
+} NotificationInitServer;
+
 struct NotifyBuff {
     int ipcRetCode;
     int retCode;
@@ -49,8 +54,9 @@ int Callback(void *owner, int code, IpcIo *reply)
         HILOGE("[SaClientProxy]Callback owner is nullptr.");
         return RETCODE_NULL_PARAM;
     }
-    auto notify = reinterpret_cast<struct Notify *>(owner);
-    notify->retCode = IpcIoPopInt32(reply);
+    auto notify = reinterpret_cast<NotificationInitServer *>(owner);
+    notify->clientId = IpcIoPopInt32(reply);
+    notify->serverUid = IpcIoPopUint32(reply);
     return RETCODE_SUCCESS;
 }
 
@@ -82,11 +88,14 @@ void ParcelClientInfo(IpcIo *request, const ClientInfo &clientInfo)
     IpcIoPushInt64(request, clientInfo.clientVersion);
     IpcIoPushInt32(request, clientInfo.clientId);
     IpcIoPushInt32(request, clientInfo.sessionId);
+    IpcIoPushUint32(request, clientInfo.serverUid);
+    IpcIoPushUint32(request, clientInfo.clientUid);
+
     DataInfo dataInfo {clientInfo.extendMsg, clientInfo.extendLen};
-    ParcelDataInfo(request, &dataInfo);
+    ParcelDataInfo(request, &dataInfo, clientInfo.serverUid);
 }
 
-void ParcelAlgorithmInfo(IpcIo *request, const AlgorithmInfo &algorithmInfo)
+void ParcelAlgorithmInfo(IpcIo *request, const AlgorithmInfo &algorithmInfo, const uid_t serverUid)
 {
     IpcIoPushInt64(request, algorithmInfo.clientVersion);
     IpcIoPushBool(request, algorithmInfo.isAsync);
@@ -97,7 +106,7 @@ void ParcelAlgorithmInfo(IpcIo *request, const AlgorithmInfo &algorithmInfo)
     IpcIoPushInt32(request, algorithmInfo.requestId);
 
     DataInfo dataInfo {algorithmInfo.extendMsg, algorithmInfo.extendLen};
-    ParcelDataInfo(request, &dataInfo);
+    ParcelDataInfo(request, &dataInfo, serverUid);
 }
 } // anonymous namespace
 
@@ -123,7 +132,7 @@ IClientProxy *GetRemoteIUnknown(void)
     return proxy;
 }
 
-int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo)
+int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo, ClientInfo &clientInfo)
 {
     HILOGI("[SaClientProxy]Begin to call InitSaEngine.");
 
@@ -132,13 +141,18 @@ int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo)
     IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
     IpcIoPushString(&request, configInfo.description);
 
-    struct Notify owner = {.retCode = RETCODE_FAILURE};
+    NotificationInitServer owner = {
+        .clientId = INVALID_CLIENT_ID,
+        .serverUid = 0
+    };
     if (proxy.Invoke == nullptr) {
         HILOGE("[SaClientProxy]Function pointer proxy.Invoke is nullptr.");
         return RETCODE_NULL_PARAM;
     }
     proxy.Invoke(&proxy, ID_INIT_ENGINE, &request, &owner, Callback);
-    return owner.retCode;
+    clientInfo.clientId = owner.clientId;
+    clientInfo.serverUid = owner.serverUid;
+    return RETCODE_SUCCESS;
 }
 
 int DestroyEngineProxy(IClientProxy &proxy, const ClientInfo &clientInfo)
@@ -182,8 +196,8 @@ int SyncExecAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, co
     IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
-    ParcelAlgorithmInfo(&request, algoInfo);
-    ParcelDataInfo(&request, &inputInfo);
+    ParcelAlgorithmInfo(&request, algoInfo, clientInfo.serverUid);
+    ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
 
     struct NotifyBuff owner = {
         .ipcRetCode = RETCODE_SUCCESS,
@@ -215,8 +229,9 @@ int AsyncExecuteAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo
     char data[IPC_IO_DATA_MAX];
     IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
     ParcelClientInfo(&request, clientInfo);
-    ParcelAlgorithmInfo(&request, algoInfo);
-    ParcelDataInfo(&request, &inputInfo);
+    ParcelAlgorithmInfo(&request, algoInfo, clientInfo.serverUid);
+    ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
+
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     if (proxy.Invoke == nullptr) {
         HILOGE("[SaClientProxy]Function pointer proxy.Invoke is nullptr.");
@@ -235,8 +250,8 @@ int LoadAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, const 
     IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
-    ParcelAlgorithmInfo(&request, algoInfo);
-    ParcelDataInfo(&request, &inputInfo);
+    ParcelAlgorithmInfo(&request, algoInfo, clientInfo.serverUid);
+    ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
     struct NotifyBuff owner = {
         .ipcRetCode = RETCODE_SUCCESS,
         .retCode = RETCODE_FAILURE,
@@ -267,8 +282,8 @@ int UnloadAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, cons
     IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
-    ParcelAlgorithmInfo(&request, algoInfo);
-    ParcelDataInfo(&request, &inputInfo);
+    ParcelAlgorithmInfo(&request, algoInfo, clientInfo.serverUid);
+    ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
 
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     if (proxy.Invoke == nullptr) {
@@ -289,7 +304,7 @@ int SetOptionProxy(IClientProxy &proxy, const ClientInfo &clientInfo, int option
 
     ParcelClientInfo(&request, clientInfo);
     IpcIoPushInt32(&request, optionType);
-    ParcelDataInfo(&request, &inputInfo);
+    ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
 
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     if (proxy.Invoke == nullptr) {
@@ -311,7 +326,7 @@ int GetOptionProxy(IClientProxy &proxy, const ClientInfo &clientInfo, int option
 
     ParcelClientInfo(&request, clientInfo);
     IpcIoPushInt32(&request, optionType);
-    ParcelDataInfo(&request, &inputInfo);
+    ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
 
     struct NotifyBuff owner = {
         .ipcRetCode = RETCODE_SUCCESS,

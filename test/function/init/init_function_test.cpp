@@ -110,6 +110,8 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo001, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = -1,
         .sessionId = -1,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -156,6 +158,8 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo002, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = -1,
         .sessionId = -1,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -202,6 +206,8 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo003, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = -1,
         .sessionId = -1,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -246,6 +252,8 @@ HWTEST_F(InitFunctionTest, TestAieClientInitClientInfo001, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = -1,
         .sessionId = -1,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -289,6 +297,8 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo001, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = -1,
         .sessionId = -1,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = (unsigned char*)inputData,
     };
@@ -332,6 +342,8 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo002, TestSize.Level1)
         .clientVersion = CLIENT_INFO_VERSION,
         .clientId = -1,
         .sessionId = -1,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
         .extendMsg = (unsigned char*)inputData,
     };

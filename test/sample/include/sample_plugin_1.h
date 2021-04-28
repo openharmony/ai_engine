@@ -16,24 +16,15 @@
 #ifndef SAMPLE_PLUGIN_1_H
 #define SAMPLE_PLUGIN_1_H
 
-#include <cstring>
-
 #include "plugin/i_plugin.h"
 
 namespace OHOS {
 namespace AI {
 class SamplePlugin1 : public IPlugin {
-    const long long ALG_VERSION = 1;
-    const char *ALG_NAME = "SAMPLE_PLUGIN_1";
-    const char * const PLUGIN_INFER_MODEL = "SYNC";
-    const char *DEFAULT_OPTION_DATA = "default option data";
-    unsigned char *optionData = nullptr;
-    int optionLength = 0;
-
 public:
     SamplePlugin1();
 
-    ~SamplePlugin1();
+    ~SamplePlugin1() override;
 
     const long long GetVersion() const override;
 
@@ -52,6 +43,9 @@ public:
     int SetOption(int optionType, const DataInfo &inputInfo) override;
 
     int GetOption(int optionType, const DataInfo &inputInfo, DataInfo &outputInfo) override;
+
+private:
+    DataInfo optionData_ {};
 };
 }
 }
