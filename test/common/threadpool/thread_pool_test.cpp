@@ -212,7 +212,7 @@ HWTEST_F(ThreadPoolTest, TestThreadWithManyWorker001, TestSize.Level1)
 {
     HILOGD("[Test]Test worker begin");
     string workerName("MultiWorker");
-    int maxThreadNum = 50;
+    int maxThreadNum = 40;
     MultiWorker *workerList[maxThreadNum];
     std::shared_ptr<Thread> threadList[maxThreadNum];
     ThreadPool *threadPool = ThreadPool::GetInstance();
