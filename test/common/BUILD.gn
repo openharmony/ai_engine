@@ -13,7 +13,7 @@
 import("//build/lite/config/component/lite_component.gni")
 import("//build/lite/config/test.gni")
 
-unittest("ai_test_common") {
+unittest("ai_test_common_door") {
   output_extension = "bin"
   output_dir = "$root_out_dir/test/unittest/ai"
   ldflags = [
@@ -49,7 +49,7 @@ unittest("ai_test_common") {
 
 group("common") {
   deps = [
-    ":ai_test_common",
+    ":ai_test_common_door",
     "dl_operation:testDlOperationSo",
   ]
 }
