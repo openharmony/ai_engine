@@ -146,6 +146,7 @@ void SaServerAdapter::ConvertToRequest(const ClientInfo &clientInfo, const Algor
     request->SetTransactionId(GetTransactionId(clientInfo.sessionId));
     request->SetAlgoPluginType(algoInfo.algorithmType);
     request->SetMsg(inputInfo);
+    request->SetClientUid(clientInfo.clientUid);
 }
 
 int SaServerAdapter::LoadAlgorithm(long long transactionId, const AlgorithmInfo &algoInfo,

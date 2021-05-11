@@ -69,6 +69,20 @@ public:
     void SetOperationId(int operationId);
 
     /**
+     * Get client uid.
+     *
+     * @return Client uid.
+     */
+    uid_t GetClientUid() const;
+
+    /**
+     * Set client uid.
+     *
+     * @param [in] Client uid.
+     */
+    void SetClientUid(const uid_t clientUid);
+
+    /**
      * Get request transaction Id.
      *
      * @return Request transaction Id.
@@ -114,6 +128,7 @@ private:
     long long innerSequenceId_;
     int requestId_;
     int operationId_;
+    uid_t clientUid_;
     long long transactionId_;
     int algoPluginType_;
     DataInfo msg_;
