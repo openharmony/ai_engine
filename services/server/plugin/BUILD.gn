@@ -10,26 +10,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import("//build/lite/config/component/lite_component.gni")
 import("//foundation/ai/engine/services/ai_plugin_config.gni")
 
-source_set("encdec") {
-  sources = [
-    "source/data_decoder.cpp",
-    "source/data_encoder.cpp",
+lite_component("plugin") {
+  features = [
+    "cv",
+    "asr",
   ]
-  cflags = [ "-fPIC" ]
-  cflags_cc = cflags
-  include_dirs = [
-    "include",
-    "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
-    "//foundation/ai/engine/interfaces",
-    "//foundation/ai/engine/services/common",
-    "//third_party/bounds_checking_function/include",
-  ]
-
-  deps = []
 
   if (enable_private_cv_plugin) {
-    deps += [ "//foundation/ai/plugin_cv/services/common/utils/encdec:encdec" ]
+    features += [ "//foundation/ai/plugin_cv/services/server/plugin/cv:cv" ]
   }
 }

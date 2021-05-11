@@ -11,6 +11,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import("//build/lite/config/component/lite_component.gni")
+import("//foundation/ai/engine/services/ai_plugin_config.gni")
+
 
 lite_component("test") {
   features = [
@@ -18,4 +20,8 @@ lite_component("test") {
     "function:function",
     "performance:performance",
   ]
+
+if (enable_private_cv_plugin) {
+  features += [ "//foundation/ai/plugin_cv/test:cv_test" ]
+}
 }
