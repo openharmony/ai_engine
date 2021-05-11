@@ -72,7 +72,14 @@ public:
         if (DecodeOneParameter(dataSize) != RETCODE_SUCCESS) {
             return false;
         }
-        return (pos_ - sizeof(size_t)) == dataSize; // memory length should match dataSize.
+        if ((pos_ != size_) || (pos_ != dataSize + sizeof(dataSize))) {
+            HILOGE("[Encdec]Decoded length[%zu], encoded length[%zu], whole length[%zu] don't match.", 
+                pos_, dataSize, size_);
+            HILOGE("[Encdec]Possible reason: the caller doesn't include the specialized "\
+                "EncodeOneParameter/DecoderOneParameter function.");
+            return false;
+        }
+        return true;
     }
 
 private:
