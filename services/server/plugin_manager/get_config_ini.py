@@ -41,9 +41,13 @@ INI_LICENSE = """;
 ;
 
 """
-AIE_INI_CONFIG_FOLDER = \
-    "foundation/ai/engine/services/common/protocol/" \
+AIE_INI_CONFIG_FOLDER = [
+    "foundation/ai/engine/services/common/protocol/"
+    "plugin_config/plugin_config_ini",
+    "foundation/ai/plugin_cv/services/common/protocol/"
     "plugin_config/plugin_config_ini"
+    ]
+
 # Ini config file relative path in build folder
 OUT_INI_CONFIG_PATH = "etc/ai_engine_plugin.ini"
 # Ini config file relative path in out folder
@@ -94,14 +98,18 @@ class IniManager:
     def __init__(self):
         pass
 
-    def get_files_in_folder(self, folder_path):
+    def get_files_in_folder(self, build_folder):
         """
-        Get all file path in folder
+        Get all file path in AIE_INI_CONFIG_FOLDER
         :return: file path list
         """
         file_path_list = []
-        for path in os.listdir(folder_path):
-            file_path_list.append(os.path.join(folder_path, path))
+        config_folder = [os.path.join(build_folder, folder) for folder in AIE_INI_CONFIG_FOLDER]
+        for path in config_folder:
+            if not os.path.isdir(path):
+                continue
+            for file in os.listdir(path):
+                file_path_list.append(os.path.join(path, file))
         return file_path_list
 
     def get_config_ini(self, file_path_list, board_name):
@@ -136,16 +144,15 @@ class IniManager:
 
     def copy_config_ini(self, build_folder, out_folder, board_name):
         """
-        Copy needed config ini in AIE_INI_CONFIG_FOLDER
+        Copy needed config ini in build_folder
         :param build_folder: The root path of build scripts
         :param out_folder: The out path for all outputs
         :param board_name: The board name
         :return:
         """
 
-        config_folder = os.path.join(build_folder, AIE_INI_CONFIG_FOLDER)
         out_config_path = os.path.join(out_folder, OUT_INI_CONFIG_PATH)
-        ini_file_list = self.get_files_in_folder(config_folder)
+        ini_file_list = self.get_files_in_folder(build_folder)
         ini_cfg_obj = self.get_config_ini(ini_file_list, board_name)
         out_config_folder = os.path.dirname(out_config_path)
         if not os.path.exists(out_config_folder):
