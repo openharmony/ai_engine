@@ -34,6 +34,7 @@ Response::Response(IRequest *request) : requestId_(0), innerSequenceId_(0), tran
         innerSequenceId_ = (reinterpret_cast<Request *>(request))->GetInnerSequenceId();
         transactionId_ = request->GetTransactionId();
         algoPluginType_ = request->GetAlgoPluginType();
+        clientUid_ = request->GetClientUid();
     }
 }
 
