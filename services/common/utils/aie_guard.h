@@ -54,8 +54,12 @@ private:
 template<class T>
 class MallocPointerGuard {
 public:
-    explicit MallocPointerGuard(T *&t) : t_(t), isValid_(true)
+    MallocPointerGuard() : t_(nullptr), isValid_(true)
     {}
+
+    explicit MallocPointerGuard(T *t) : t_(t), isValid_(true)
+    {}
+
     ~MallocPointerGuard()
     {
         CHK_RET_NONE(t_ == nullptr || !isValid_);
@@ -63,6 +67,11 @@ public:
         t_ = nullptr;
     }
 
+    void setPointer(T *t)
+    {
+        t_ = t;
+        isValid_ = true;
+    }
     /**
      * Detach the pointer guard.
      */
@@ -72,8 +81,8 @@ public:
     }
 
 private:
-    T *&t_;
-    bool isValid_;
+    T *t_ = nullptr;
+    bool isValid_ = false;
 };
 
 /**
