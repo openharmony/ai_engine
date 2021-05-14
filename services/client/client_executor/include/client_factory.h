@@ -28,7 +28,6 @@
 namespace OHOS {
 namespace AI {
 const int AIE_SESSION_ID_BEGIN = 0;
-constexpr uid_t INVALID_UID = 0;
 
 class ClientFactory {
 public:
