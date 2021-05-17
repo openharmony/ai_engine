@@ -69,6 +69,11 @@ static int ProcessEncode(DataInfo &dataInfo, const Type &arg, const Types &...ar
         HILOGE("[Encdec]Memory error when GetSerializedData.");
         return retCode;
     }
+    
+    if (dataInfo.length <= 0 || dataInfo.data == nullptr) {
+        HILOGE("[Encdec]dataInfo is invalid.");
+        return RETCODE_FAILURE;
+    }
 
     return RETCODE_SUCCESS;
 }
@@ -86,6 +91,7 @@ template<typename Type, typename... Types>
 static int ProcessDecode(const DataInfo &dataInfo, Type &arg, Types &...args)
 {
     if (dataInfo.data == nullptr || dataInfo.length <= 0) {
+        HILOGE("[Encdec]dataInfo is invalid.");
         return RETCODE_FAILURE;
     }
 
