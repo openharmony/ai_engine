@@ -431,3 +431,4 @@ Dependency repositories:
 
 -   [AI Engine Framework Development Guide](https://gitee.com/openharmony/docs/blob/master/en/device-dev/subsystems/development-examples.md)
 
+-   [AI](https://gitee.com/openharmony/docs/blob/master/en/readme/ai.md)
