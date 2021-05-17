@@ -431,5 +431,4 @@ AI业务子系统是OpenHarmony提供原生的分布式AI能力的子系统。�
 
 -   [《AI插件开发指南》](https://gitee.com/openharmony/docs/blob/master/zh-cn/device-dev/subsystems/%E5%BC%80%E5%8F%91%E7%A4%BA%E4%BE%8B.md)
 
--   [《AI业务子系统》](https://gitee.com/openharmony/docs/blob/master/zh-cn/readme/AI%E4%B8%9A%E5%8A%A1%E5%AD%90%E7%B3%BB%E7%BB%9F.md)
 
