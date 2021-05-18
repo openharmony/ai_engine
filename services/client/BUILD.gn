@@ -29,7 +29,7 @@ lite_component("client") {
     "algorithm_sdk:algorithm_sdk",
   ]
 
-  if (enable_private_cv_plugin) {
-    features += [ "//foundation/ai/plugin_cv/services/client/algorithm_sdk:algorithm_sdk" ]
+  foreach(plugin, activate_plugin_list) {
+    features += [ "//foundation/ai/plugin/services/client/algorithm_sdk:algorithm_sdk" ]
   }
 }

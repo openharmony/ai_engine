@@ -19,7 +19,7 @@ lite_component("plugin") {
     "asr",
   ]
 
-  if (enable_private_cv_plugin) {
-    features += [ "//foundation/ai/plugin_cv/services/server/plugin/cv:cv" ]
+  foreach(plugin, activate_plugin_list) {
+    features += [ "//foundation/ai/$plugin/services/server/plugin/cv:cv" ]
   }
 }

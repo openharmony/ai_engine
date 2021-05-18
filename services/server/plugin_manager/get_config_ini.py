@@ -21,7 +21,7 @@ import traceback
 try:
     from configparser import ConfigParser as cfgParser
     USE_ENCODING = True
-except Exception:
+except ImportError:
     from ConfigParser import ConfigParser as cfgParser
     USE_ENCODING = False
 
@@ -41,18 +41,16 @@ INI_LICENSE = """;
 ;
 
 """
-AIE_INI_CONFIG_FOLDER = [
-    "foundation/ai/engine/services/common/protocol/"
-    "plugin_config/plugin_config_ini",
-    "foundation/ai/plugin_cv/services/common/protocol/"
-    "plugin_config/plugin_config_ini"
-    ]
+INI_CONFIG_PATH_PREFIX = "foundation/ai/"
+
+INI_CONFIG_PATH_SUFFIX = "/services/common/protocol/plugin_config" \
+                         "/plugin_config_ini"
 
 # Ini config file relative path in build folder
 OUT_INI_CONFIG_PATH = "etc/ai_engine_plugin.ini"
 # Ini config file relative path in out folder
 FAIL_CODE = -1
-PARA_NUM = 4
+PARA_NUM = 5
 BASE_SESSION = "base"
 SUPPORTED_BOARDS = "supported_boards"
 RELATED_SESSIONS = "related_sessions"
@@ -82,9 +80,7 @@ def get_ini_object(config_file_path, encoding=None):
             try:
                 config.read(config_file_path, encoding=code)
                 break
-            except Exception as exception:
-                if not "codec can't decode byte " in str(exception):
-                    raise exception
+            except UnicodeDecodeError as exception:
                 if code == all_encodings[-1]:
                     print(traceback.format_exc())
                     print(repr(exception))
@@ -98,18 +94,30 @@ class IniManager:
     def __init__(self):
         pass
 
-    def get_files_in_folder(self, build_folder):
+    def get_files_in_folder(self, build_folder, plugin_list):
         """
-        Get all file path in AIE_INI_CONFIG_FOLDER
+        Get all ini file path
         :return: file path list
         """
+
+        plugin_list = plugin_list.split(',')
+        plugin_list = [plugin.strip('[]\\ "') for plugin in plugin_list]
+        plugin_list.append('engine')
+
+        ini_config_folder = [
+            INI_CONFIG_PATH_PREFIX + folder + INI_CONFIG_PATH_SUFFIX
+            for folder in plugin_list
+        ]
+        config_folder = [
+            os.path.join(build_folder, folder) for folder in ini_config_folder
+        ]
+
         file_path_list = []
-        config_folder = [os.path.join(build_folder, folder) for folder in AIE_INI_CONFIG_FOLDER]
         for path in config_folder:
             if not os.path.isdir(path):
                 continue
-            for file in os.listdir(path):
-                file_path_list.append(os.path.join(path, file))
+            for file_name in os.listdir(path):
+                file_path_list.append(os.path.join(path, file_name))
         return file_path_list
 
     def get_config_ini(self, file_path_list, board_name):
@@ -142,17 +150,19 @@ class IniManager:
                     cfg.set(session, key, val)
         return cfg
 
-    def copy_config_ini(self, build_folder, out_folder, board_name):
+    def copy_config_ini(self, build_folder, out_folder, board_name,
+                        plugin_list):
         """
         Copy needed config ini in build_folder
         :param build_folder: The root path of build scripts
         :param out_folder: The out path for all outputs
         :param board_name: The board name
+        :param board_name: The plugin list
         :return:
         """
 
         out_config_path = os.path.join(out_folder, OUT_INI_CONFIG_PATH)
-        ini_file_list = self.get_files_in_folder(build_folder)
+        ini_file_list = self.get_files_in_folder(build_folder, plugin_list)
         ini_cfg_obj = self.get_config_ini(ini_file_list, board_name)
         out_config_folder = os.path.dirname(out_config_path)
         if not os.path.exists(out_config_folder):
@@ -169,10 +179,12 @@ class IniManager:
 if __name__ == "__main__":
     if len(sys.argv) != PARA_NUM:
         print("[ERROR]The input para number is not correct!")
-        print("usage: copy_config_ini.py  [build_dir] [out_dir] [board_name]")
+        print("usage: copy_config_ini.py "
+              "[build_dir] [out_dir] [board_name] [plugin_list]")
         sys.exit(FAIL_CODE)
     else:
-        BUILD_PATH, OUT_PATH, BOARD_NAME = sys.argv[1:]
+        BUILD_PATH, OUT_PATH, BOARD_NAME, PLUGIN_LIST = sys.argv[1:]
         INI_MANAGER = IniManager()
-        INI_MANAGER.copy_config_ini(BUILD_PATH, OUT_PATH, BOARD_NAME)
+        INI_MANAGER.copy_config_ini(BUILD_PATH, OUT_PATH, BOARD_NAME,
+                                    PLUGIN_LIST)
 

@@ -10,8 +10,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//foundation/ai/engine/services/ai_plugin_config.gni")
-
 source_set("encdec") {
   sources = [
     "source/data_decoder.cpp",
@@ -26,10 +24,4 @@ source_set("encdec") {
     "//foundation/ai/engine/services/common",
     "//third_party/bounds_checking_function/include",
   ]
-
-  deps = []
-
-  if (enable_private_cv_plugin) {
-    deps += [ "//foundation/ai/plugin_cv/services/common/utils/encdec:encdec" ]
-  }
 }

@@ -12,6 +12,9 @@
 # limitations under the License.
 
 declare_args() {
-    # default closed, could be overridden by vendor/product/config.json
-    enable_private_cv_plugin = false
+    # default empty, cumstomed in vendor/product/config.json
+    # all the elements should be the directory name of plugins.
+    # e.g.
+    # { "component": "ai_engine", "features":[ "activate_plugin_list = [ \"plugin_cv\" ]" ] }
+    activate_plugin_list = []
 }
