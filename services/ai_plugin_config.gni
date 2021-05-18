@@ -10,18 +10,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//build/lite/config/component/lite_component.gni")
-import("//foundation/ai/engine/services/ai_plugin_config.gni")
 
-
-lite_component("test") {
-  features = [
-    "common:common",
-    "function:function",
-    "performance:performance",
-  ]
-
-  foreach(plugin, activate_plugin_list) {
-    features += [ "//foundation/ai/$plugin/test:cv_test" ]
-}
+declare_args() {
+    # default empty, cumstomed in vendor/product/config.json
+    # all the elements should be the directory name of plugins.
+    # e.g.
+    # { "component": "ai_engine", "features":[ "activate_plugin_list = [ \"plugin_cv\" ]" ] }
+    activate_plugin_list = []
 }
