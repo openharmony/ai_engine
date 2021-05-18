@@ -21,7 +21,7 @@ lite_component("test") {
     "performance:performance",
   ]
 
-if (enable_private_cv_plugin) {
-  features += [ "//foundation/ai/plugin_cv/test:cv_test" ]
+  foreach(plugin, activate_plugin_list) {
+    features += [ "//foundation/ai/$plugin/test:cv_test" ]
 }
 }
