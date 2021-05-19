@@ -13,27 +13,8 @@
  * limitations under the License.
  */
 
-/**
- * @addtogroup cr_sdk
- * @{
- *
- * @brief Defines the development tool functions, constants, and error codes for card rectification (CR).
- *
- * @since 1.0
- * @version 1.0
- */
-
-/**
- * @file cr_callback.h
- *
- * @brief Defines the callback for processing errors and prediction results of card rectification.
- *
- * @since 1.0
- * @version 1.0
- */
-
-#ifndef CR_CALLBACK_H
-#define CR_CALLBACK_H
+#ifndef AI_CALLBACK_H
+#define AI_CALLBACK_H
 
 namespace OHOS {
 namespace AI {
@@ -43,7 +24,7 @@ public:
     /**
      * @brief Defines the destructor for the callback.
      *
-     * @since 1.0
+     * @since 2.2
      * @version 1.0
      */
     virtual ~ICallback() = default;
@@ -53,7 +34,7 @@ public:
      *
      * @param result Indicates the prediction result.
      *
-     * @since 1.0
+     * @since 2.2
      * @version 1.0
      */
     virtual void OnDetectedResult(const int resultCode, const T &result) = 0;
@@ -61,5 +42,5 @@ public:
 } // namespace AI
 } // namespace OHOS
 
-#endif // CR_CALLBACK_H
+#endif // AI_CALLBACK_H
 /** @} */

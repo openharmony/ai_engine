@@ -19,7 +19,7 @@
  *
  * @brief Defines the development tool functions, constants, and error codes for card rectification (CR).
  *
- * @since 1.0
+ * @since 2.2
  * @version 1.0
  */
 
@@ -28,7 +28,7 @@
  *
  * @brief Defines the callback for processing errors and prediction results of card rectification.
  *
- * @since 1.0
+ * @since 2.2
  * @version 1.0
  */
 
@@ -36,17 +36,18 @@
 #define CR_CALLBACK_H
 
 #include "cr_constants.h"
-#include "cr_retcode.h"
+#include "kits/ai_retcode.h"
+#include "kits/ai_callback.h"
 
 namespace OHOS {
 namespace AI {
 template<>
-class ICallback {
+class ICallback<RectifyCardOutput> {
 public:
     /**
      * @brief Defines the destructor for the callback.
      *
-     * @since 1.0
+     * @since 2.2
      * @version 1.0
      */
     virtual ~ICallback() = default;
@@ -56,7 +57,7 @@ public:
      *
      * @param result Indicates the prediction result.
      *
-     * @since 1.0
+     * @since 2.2
      * @version 1.0
      */
     virtual void OnDetectedResult(const int resultCode, const RectifyCardOutput &result) = 0;
