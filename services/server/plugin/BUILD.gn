@@ -17,6 +17,6 @@ lite_component("plugin") {
   features = []
 
   foreach(plugin, activate_plugin_list) {
-    features += [ "//foundation/ai/$plugin/services/server/plugin/cv:cv" ]
+    features += [ "//foundation/ai/$plugin/services/server/plugin:plugin" ]
   }
 }
