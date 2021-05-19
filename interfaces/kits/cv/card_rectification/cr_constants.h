@@ -19,7 +19,7 @@
  *
  * @brief Defines the development tool functions, constants and error codes for card rectification (CR).
  *
- * @since 1.0
+ * @since 2.2
  * @version 1.0
  */
 
@@ -28,17 +28,15 @@
  *
  * @brief Defines the constants and, input and output formats for calling the card rectification plugin.
  *
- * @since 1.0
+ * @since 2.2
  * @version 1.0
  */
 
 #ifndef CR_CONSTANTS_H
 #define CR_CONSTANTS_H
 
-#include "cv/ai_image.h"
+#include "kits/cv/ai_image.h"
 
-#include <cstddef>
-#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -49,7 +47,7 @@ namespace AI {
  *
  * it must match related_sessions in services/common/protocol/plugin_config/plugin_config_ini/cv_card_rectification.ini
  *
- * @since 1.0
+ * @since 2.2
  * @version 1.0
  */
 const long long ALGORITHM_TYPE_VERSION_CR = 20001001;

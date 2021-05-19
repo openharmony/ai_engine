@@ -19,7 +19,7 @@
  *
  * @brief Defines the development tool functions, constants, and error codes for card rectification (CR).
  *
- * @since 1.0
+ * @since 2.2
  * @version 1.0
  */
 
@@ -28,14 +28,12 @@
  *
  * @brief Defines the development tool functions for card rectification.
  *
- * @since 1.0
+ * @since 2.2
  * @version 1.0
  */
 
 #ifndef CR_SDK_H
 #define CR_SDK_H
-
-#include <memory>
 
 #include "cr_callback.h"
 #include "cr_constants.h"
@@ -52,9 +50,9 @@ public:
      * @brief Establishes a connection from the development tool to the AI server.
      *
      * @return Returns {@link CR_RETCODE_SUCCESS} if the operation is successful;
-     * returns a non-zero error code defined by {@link CrRetCode} otherwise.
+     * returns a non-zero error code defined by {@link PluginRetCode} otherwise.
      *
-     * @since 1.0
+     * @since 2.2
      * @version 1.0
      */
     int32_t Prepare();
@@ -65,9 +63,9 @@ public:
      * @param [in] input Indicates the input image.
      * @param [out] output Indicates the result.
      * @return Returns {@link CR_RETCODE_SUCCESS} if the operation is successful;
-     * returns a non-zero error code defined by {@link CrRetCode} otherwise.
+     * returns a non-zero error code defined by {@link PluginRetCode} otherwise.
      *
-     * @since 1.0
+     * @since 2.2
      * @version 1.0
      */
     int32_t RectifyCardSync(const RectifyCardInput &input, RectifyCardOutput &output);
@@ -78,20 +76,20 @@ public:
      * @param [in] input Indicates the input image.
      * @param [in] callback Indicates the specified callback.
      * @return Returns {@link CR_RETCODE_SUCCESS} if the operation is successful;
-     * returns a non-zero error code defined by {@link CrRetCode} otherwise.
+     * returns a non-zero error code defined by {@link PluginRetCode} otherwise.
      *
-     * @since 1.0
+     * @since 2.2
      * @version 1.0
      */
-    int32_t RectifyCardAsync(const RectifyCardInput &input, const ICallback &callback);
+    int32_t RectifyCardAsync(const RectifyCardInput &input, const ICallback<RectifyCardOutput> &callback);
 
     /**
      * @brief Destroys the loaded model and related resources.
      *
      * @return Returns {@link CR_RETCODE_SUCCESS} if the operation is successful;
-     * returns a non-zero error code defined by {@link CrRetCode} otherwise.
+     * returns a non-zero error code defined by {@link PluginRetCode} otherwise.
      *
-     * @since 1.0
+     * @since 2.2
      * @version 1.0
      */
     int32_t Release();
