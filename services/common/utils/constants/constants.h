@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+#include <sys/types.h>
+
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
@@ -25,5 +27,6 @@ const int STARTING_REQ_ID = 0;
 const int INVALID_CLIENT_ID = -1;
 const int INVALID_SESSION_ID = -1;
 const int INVALID_REQUEST_ID = -1;
+const uid_t INVALID_UID = 0;
 
 #endif // CONSTANTS_H

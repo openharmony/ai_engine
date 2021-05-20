@@ -70,6 +70,16 @@ void Request::SetOperationId(int operationId)
     operationId_ = operationId;
 }
 
+uid_t Request::GetClientUid() const
+{
+    return clientUid_;
+}
+
+void Request::SetClientUid(const uid_t clientUid)
+{
+    clientUid_ = clientUid;
+}
+
 long long Request::GetTransactionId() const
 {
     return transactionId_;
@@ -130,6 +140,16 @@ int IRequest::GetOperationId() const
 void IRequest::SetOperationId(int operationId)
 {
     RequestCast::Ref(this).SetOperationId(operationId);
+}
+
+uid_t IRequest::GetClientUid() const
+{
+    return RequestCast::Ref(this).GetClientUid();
+}
+
+void IRequest::SetClientUid(const uid_t clientUid)
+{
+    RequestCast::Ref(this).SetClientUid(clientUid);
 }
 
 long long IRequest::GetTransactionId() const

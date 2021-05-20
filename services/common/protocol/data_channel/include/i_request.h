@@ -70,6 +70,20 @@ public:
     void SetOperationId(int OperationId);
 
     /**
+     * Get client uid.
+     *
+     * @return Client uid.
+     */
+    uid_t GetClientUid() const;
+
+    /**
+     * Set client uid.
+     *
+     * @param [in] Client uid.
+     */
+    void SetClientUid(const uid_t clientUid);
+
+    /**
      * Get request transaction Id.
      * The transaction Id indicates which client the task is from.
      *
