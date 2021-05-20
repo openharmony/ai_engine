@@ -11,17 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import("//build/lite/config/component/lite_component.gni")
-import("//foundation/ai/engine/services/ai_plugin_config.gni")
 
-
-lite_component("test") {
-  features = [
-    "common:common",
-    "function:function",
-    "performance:performance",
-  ]
-
-  foreach(plugin, activate_plugin_list) {
-    features += [ "//foundation/ai/$plugin/test:test" ]
-}
+lite_component("algorithm_sdk") {
+  features = []
 }

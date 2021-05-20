@@ -10,6 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import("//foundation/ai/engine/services/ai_plugin_config.gni")
 
 action("gen_etc_ini") {
   outputs = [ "${root_out_dir}/etc/ai_engine_plugin.ini" ]
@@ -18,6 +19,7 @@ action("gen_etc_ini") {
   args = [ rebase_path(get_path_info("//", "abspath")) ]
   args += [ rebase_path("$root_out_dir") ]
   args += [ "${board_name}" ]
+  args += [ "$activate_plugin_list"]
 }
 
 source_set("plugin_manager") {

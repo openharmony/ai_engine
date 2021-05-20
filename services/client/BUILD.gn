@@ -11,6 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import("//build/lite/config/component/lite_component.gni")
+import("//foundation/ai/engine/services/ai_plugin_config.gni")
 
 shared_library("ai_client") {
   deps = [
@@ -23,5 +24,12 @@ shared_library("ai_client") {
 }
 
 lite_component("client") {
-  features = [ ":ai_client" ]
+  features = [
+    ":ai_client",
+    "algorithm_sdk:algorithm_sdk",
+  ]
+
+  foreach(plugin, activate_plugin_list) {
+    features += [ "//foundation/ai/$plugin/services/client/algorithm_sdk:algorithm_sdk" ]
+  }
 }

@@ -42,5 +42,8 @@ lite_component("ai_server") {
 }
 
 lite_component("server") {
-  features = [ ":ai_server" ]
+  features = [
+    ":ai_server",
+    "plugin:plugin",
+  ]
 }
