@@ -30,6 +30,6 @@ lite_component("client") {
   ]
 
   foreach(plugin, activate_plugin_list) {
-    features += [ "//foundation/ai/plugin/services/client/algorithm_sdk:algorithm_sdk" ]
+    features += [ "//foundation/ai/$plugin/services/client/algorithm_sdk:algorithm_sdk" ]
   }
 }
