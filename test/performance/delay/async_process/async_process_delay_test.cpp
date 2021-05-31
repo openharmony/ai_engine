@@ -131,49 +131,49 @@ static void CheckTimeInit()
 {
     std::time_t duration = g_initTotalTime / EXECUTE_TIMES;
     HILOGI("[Test][CheckTimeInit][%lld]", duration);
-    EXPECT_TRUE((duration > 0) && (duration <= EXCEPTED_INIT_TIME));
+    ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_INIT_TIME));
 }
 
 static void CheckTimePrepare()
 {
     std::time_t duration = g_prepareTotalTime / EXECUTE_TIMES;
     HILOGI("[Test][CheckTimePrepare][%lld]", duration);
-    EXPECT_TRUE((duration > 0) && (duration <= EXCEPTED_PREPARE_TIME));
+    ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_PREPARE_TIME));
 }
 
 static void CheckTimeAsyncProcess()
 {
     std::time_t duration = g_processTotalTime / EXECUTE_TIMES;
     HILOGI("[Test][CheckTimeAsyncProcess][%lld]", duration);
-    EXPECT_TRUE((duration > 0) && (duration <= EXCEPTED_ASYNC_PROCESS_TIME));
+    ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_ASYNC_PROCESS_TIME));
 }
 
 static void CheckTimeRelease()
 {
     std::time_t duration = g_releaseTotalTime / EXECUTE_TIMES;
     HILOGI("[Test][CheckTimeRelease][%lld]", duration);
-    EXPECT_TRUE((duration > 0) && (duration <= EXCEPTED_RELEASE_TIME));
+    ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_RELEASE_TIME));
 }
 
 static void CheckTimeDestroy()
 {
     std::time_t duration = g_destroyTotalTime / EXECUTE_TIMES;
     HILOGI("[Test][CheckTimeDestroy][%lld]", duration);
-    EXPECT_TRUE((duration > 0) && (duration <= EXCEPTED_DESTROY_TIME));
+    ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_DESTROY_TIME));
 }
 
 static void CheckTimeSetOption()
 {
     std::time_t duration = g_setOptionTotalTime / EXECUTE_TIMES;
     HILOGI("[Test][CheckTimeSetOption][%lld]", duration);
-    EXPECT_TRUE((duration > 0) && (duration <= EXCEPTED_SETOPTION_TIME));
+    ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_SETOPTION_TIME));
 }
 
 static void CheckTimeGetOption()
 {
     std::time_t duration = g_getOptionTotalTime / EXECUTE_TIMES;
     HILOGI("[Test][CheckTimeGetOption][%lld]", duration);
-    EXPECT_TRUE((duration > 0) && (duration <= EXCEPTED_GETOPTION_TIME));
+    ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_GETOPTION_TIME));
 }
 
 /**

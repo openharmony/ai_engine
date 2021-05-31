@@ -131,23 +131,23 @@ HWTEST_F(AieClientReliabilityTest, AieClientSyncReliabilityTest001, TestSize.Lev
 
         ServiceDeadCb cb;
         int resultCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         DataInfo outputInfo;
 
         resultCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, nullptr);
         FreeDataInfo(outputInfo);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         resultCode = AieClientSyncProcess(clientInfo, algoInfo, inputInfo, outputInfo);
         FreeDataInfo(outputInfo);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         resultCode = AieClientRelease(clientInfo, algoInfo, inputInfo);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         resultCode = AieClientDestroy(clientInfo);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         time_t currentTime = GetCurTimeSec();
         if ((currentTime - asyncStart) >= TIME_TEST) {
@@ -203,24 +203,24 @@ HWTEST_F(AieClientReliabilityTest, AieClientAsyncReliabilityTest001, TestSize.Le
 
         ServiceDeadCb cb;
         int resultCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         ClientCallback callback;
 
         DataInfo outputInfo;
         resultCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
         FreeDataInfo(outputInfo);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         resultCode = AieClientAsyncProcess(clientInfo, algoInfo, inputInfo);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
         StepSleepMs(500);
 
         resultCode = AieClientRelease(clientInfo, algoInfo, inputInfo);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         resultCode = AieClientDestroy(clientInfo);
-        EXPECT_EQ(resultCode, RETCODE_SUCCESS);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         time_t currentTime = GetCurTimeSec();
         if ((currentTime - asyncStart) >= TIME_TEST) {

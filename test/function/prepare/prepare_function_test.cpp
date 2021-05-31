@@ -116,7 +116,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
         .data = (unsigned char*)inputData,
@@ -125,8 +125,12 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level1)
 
     DataInfo outputInfo;
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, nullptr);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -169,7 +173,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
         .data = (unsigned char*)inputData,
@@ -182,8 +186,12 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level1)
     };
     ClientCallback callback = ClientCallback();
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -227,7 +235,7 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo001, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
         .data = nullptr,
@@ -239,8 +247,12 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo001, TestSize.Level1)
         .length = 0
     };
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, nullptr);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -284,7 +296,7 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo002, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
         .data = nullptr,
@@ -297,8 +309,12 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo002, TestSize.Level1)
     };
     ClientCallback callback = ClientCallback();
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -342,7 +358,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
         .data = (unsigned char*)inputData,
@@ -355,8 +371,12 @@ HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level1)
     };
     ClientCallback callback = ClientCallback();
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -400,7 +420,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
         .data = (unsigned char*)inputData,
@@ -412,6 +432,10 @@ HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
         .length = 0
     };
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, nullptr);
-    EXPECT_NE(prepareRetCode, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo.data, nullptr);
+    ASSERT_NE(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo.data, nullptr);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }

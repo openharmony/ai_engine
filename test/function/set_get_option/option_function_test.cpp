@@ -162,7 +162,7 @@ HWTEST_F(OptionFunctionTest, TestOption001, TestSize.Level0)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     const char *str = PREPARE_INPUT_SYNC;
     char *inputData = const_cast<char*>(str);
@@ -183,9 +183,9 @@ HWTEST_F(OptionFunctionTest, TestOption001, TestSize.Level0)
         AIE_NEW(callback, ClientCallback());
     }
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, callback);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
-    EXPECT_TRUE(outputInfo.length > 0);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+    ASSERT_TRUE(outputInfo.length > 0);
 
     str = SET_OPTION_INPUT;
     inputData = const_cast<char*>(str);
@@ -197,16 +197,20 @@ HWTEST_F(OptionFunctionTest, TestOption001, TestSize.Level0)
     };
     int optionType = 0;
     int setOptionRetCode = AieClientSetOption(clientInfo, optionType, inputInfo);
-    EXPECT_EQ(setOptionRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(setOptionRetCode, RETCODE_SUCCESS);
 
     outputInfo = {
         .data = nullptr,
         .length = 0
     };
     int getRetCode = AieClientGetOption(clientInfo, optionType, inputInfo, outputInfo);
-    EXPECT_EQ(getRetCode, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo.length, inputInfo.length);
+    ASSERT_EQ(getRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo.length, inputInfo.length);
     AIE_DELETE(callback);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -237,7 +241,7 @@ HWTEST_F(OptionFunctionTest, TestOption002, TestSize.Level0)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     const char *str = PREPARE_INPUT_SYNC;
     char *inputData = const_cast<char*>(str);
@@ -257,10 +261,13 @@ HWTEST_F(OptionFunctionTest, TestOption002, TestSize.Level0)
         AIE_NEW(callback, ClientCallback());
     }
 
+    printf("%d!!!!!!!!!!!\n", clientInfo.clientId);
+    fflush(stdout);
+
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, callback);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
-    EXPECT_TRUE(outputInfo.length > 0);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+    ASSERT_TRUE(outputInfo.length > 0);
 
     str = SET_OPTION_INPUT;
     inputData = const_cast<char*>(str);
@@ -271,10 +278,10 @@ HWTEST_F(OptionFunctionTest, TestOption002, TestSize.Level0)
     };
     int optionType = 0;
     int setOptionRetCode = AieClientSetOption(clientInfo, optionType, inputInfo);
-    EXPECT_EQ(setOptionRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(setOptionRetCode, RETCODE_SUCCESS);
 
     int getOptionRetCode = AieClientGetOption(clientInfo, optionType, inputInfo, outputInfo);
-    EXPECT_EQ(getOptionRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(getOptionRetCode, RETCODE_SUCCESS);
 
     str = SET_OPTION_DATA;
     inputData = const_cast<char*>(str);
@@ -285,12 +292,16 @@ HWTEST_F(OptionFunctionTest, TestOption002, TestSize.Level0)
     };
 
     int setRetCode = AieClientSetOption(clientInfo, optionType, inputInfo);
-    EXPECT_EQ(setRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(setRetCode, RETCODE_SUCCESS);
 
     int getRetCode = AieClientGetOption(clientInfo, optionType, inputInfo, outputInfo);
-    EXPECT_EQ(getRetCode, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo.length, inputInfo.length);
+    ASSERT_EQ(getRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo.length, inputInfo.length);
     AIE_DELETE(callback);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -321,7 +332,7 @@ HWTEST_F(OptionFunctionTest, TestOption003, TestSize.Level0)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     const char *str = SET_OPTION_INPUT;
     char *inputData = const_cast<char*>(str);
@@ -333,16 +344,20 @@ HWTEST_F(OptionFunctionTest, TestOption003, TestSize.Level0)
     };
     int optionType = 0;
     int setOptionRetCode = AieClientSetOption(clientInfo, optionType, inputInfo);
-    EXPECT_NE(setOptionRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(setOptionRetCode, RETCODE_SUCCESS);
 
     DataInfo outputInfo = {
         .data = nullptr,
         .length = 0
     };
     int getOptionRetCode = AieClientGetOption(clientInfo, optionType, inputInfo, outputInfo);
-    EXPECT_NE(getOptionRetCode, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo.data, nullptr);
-    EXPECT_EQ(outputInfo.length, 0);
+    ASSERT_NE(getOptionRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo.data, nullptr);
+    ASSERT_EQ(outputInfo.length, 0);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -374,7 +389,7 @@ HWTEST_F(OptionFunctionTest, TestOption004, TestSize.Level0)
     ServiceDeadCb cb = ServiceDeadCb();
     int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     int optionType = 0;
 
@@ -392,7 +407,11 @@ HWTEST_F(OptionFunctionTest, TestOption004, TestSize.Level0)
         .length = 0
     };
     int getOptionRetCode = AieClientGetOption(clientInfo, optionType, inputInfo, outputInfo);
-    EXPECT_NE(getOptionRetCode, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo.data, nullptr);
-    EXPECT_EQ(outputInfo.length, 0);
+    ASSERT_NE(getOptionRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo.data, nullptr);
+    ASSERT_EQ(outputInfo.length, 0);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
