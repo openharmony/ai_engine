@@ -55,5 +55,5 @@ HWTEST_F(TimeTest, TimeTest001, TestSize.Level1)
     StepSleepMs(SLEEP_TIME);
     time_t curTime = GetCurTimeSec();
     HILOGD("[Test]Second time is %lld", curTime);
-    EXPECT_EQ((curTime - firstTime)*S_TO_MS, SLEEP_TIME);
+    ASSERT_EQ((curTime - firstTime)*S_TO_MS, SLEEP_TIME);
 }

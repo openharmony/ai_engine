@@ -134,14 +134,18 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess001, TestSize.Level0)
         .length = 0,
     };
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, nullptr);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
 
     outputInfo = {
         .data = nullptr,
         .length = 0,
     };
     int processRetCode = AieClientSyncProcess(clientInfo, algoInfo, inputInfo, outputInfo);
-    EXPECT_EQ(processRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(processRetCode, RETCODE_SUCCESS);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -196,7 +200,7 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess002, TestSize.Level0)
     };
 
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, prepareInputInfo, outputInfo, nullptr);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
 
     outputInfo = {
         .data = nullptr,
@@ -209,7 +213,11 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess002, TestSize.Level0)
     };
 
     int processRetCode = AieClientSyncProcess(clientInfo, algoInfo, processInputInfo, outputInfo);
-    EXPECT_EQ(processRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(processRetCode, RETCODE_SUCCESS);
+
+    AieClientRelease(clientInfo, algoInfo, processInputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -264,7 +272,7 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess003, TestSize.Level0)
     };
     ClientCallback callback = ClientCallback();
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
 
     outputInfo = {
         .data = nullptr,
@@ -272,7 +280,11 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess003, TestSize.Level0)
     };
 
     int processRetCode = AieClientSyncProcess(clientInfo, algoInfo, inputInfo, outputInfo);
-    EXPECT_NE(processRetCode, RETCODE_SUCCESS);
+    ASSERT_NE(processRetCode, RETCODE_SUCCESS);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -311,11 +323,15 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess004, TestSize.Level0)
     };
 
     int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, nullptr);
-    EXPECT_EQ(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(prepareRetCode, RETCODE_SUCCESS);
 
     for (int i = 0; i < CYCLENUMS; ++i) {
         HILOGI("[Test]CycleNum is [%d]", i);
         int processRetCode = AieClientSyncProcess(clientInfo, algoInfo, inputInfo, outputInfo);
-        EXPECT_EQ(processRetCode, RETCODE_SUCCESS);
+        ASSERT_EQ(processRetCode, RETCODE_SUCCESS);
     }
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
 }

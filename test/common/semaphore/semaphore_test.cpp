@@ -64,7 +64,7 @@ HWTEST_F(SemaphoreTest, SemaphoreTest001, TestSize.Level1)
     semaphoreExample->Signal();
     sleep(INTERVAL_TIME_S);
     bool ret = semaphoreExample->Wait(WAIT_TIME_MS);
-    EXPECT_TRUE(ret);
+    ASSERT_TRUE(ret);
 }
 
 /**
@@ -83,7 +83,7 @@ HWTEST_F(SemaphoreTest, SimpleNotifierTest001, TestSize.Level1)
     simpleNotifier.AddToBack(itemIn);
     sleep(INTERVAL_TIME_S);
     int ret = simpleNotifier.GetFromFront(TIME_OUT, itemOut);
-    EXPECT_EQ(*itemOut, CONST_VALUE);
-    EXPECT_TRUE(ret);
+    ASSERT_EQ(*itemOut, CONST_VALUE);
+    ASSERT_TRUE(ret);
     AIE_DELETE(itemIn);
 }

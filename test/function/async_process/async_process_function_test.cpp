@@ -124,7 +124,7 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess001, TestSize.Level0
     ServiceDeadCb cb = ServiceDeadCb();
     int returnInitCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(returnInitCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo;
     const char *str = INPUT_DATA;
@@ -136,20 +136,20 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess001, TestSize.Level0
     ClientCallback callback = ClientCallback();
     DataInfo outputInfo;
     int returnPrepareCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(returnPrepareCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
-    EXPECT_TRUE(outputInfo.length > 0);
+    ASSERT_EQ(returnPrepareCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+    ASSERT_TRUE(outputInfo.length > 0);
 
     int returnProcessCode = AieClientAsyncProcess(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(returnProcessCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnProcessCode, RETCODE_SUCCESS);
 
     StepSleepMs(WAIT_CALLBACK_TIME_MS);
 
     int returnReleaseCode = AieClientRelease(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(returnReleaseCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnReleaseCode, RETCODE_SUCCESS);
 
     int returnDestroyCode = AieClientDestroy(clientInfo);
-    EXPECT_EQ(returnDestroyCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnDestroyCode, RETCODE_SUCCESS);
 }
 
 /**
@@ -170,7 +170,7 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess002, TestSize.Level0
     ServiceDeadCb cb = ServiceDeadCb();
     int returnInitCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(returnInitCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo;
     const char *str = INPUT_DATA;
@@ -182,20 +182,20 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess002, TestSize.Level0
     ClientCallback callback = ClientCallback();
     DataInfo outputInfo;
     int returnPrepareCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(returnPrepareCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnPrepareCode, RETCODE_SUCCESS);
 
     inputInfo.data = nullptr;
     inputInfo.length = 0;
 
     int returnProcessCode = AieClientAsyncProcess(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(returnProcessCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnProcessCode, RETCODE_SUCCESS);
 
     StepSleepMs(WAIT_CALLBACK_TIME_MS);
     int returnReleaseCode = AieClientRelease(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(returnReleaseCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnReleaseCode, RETCODE_SUCCESS);
 
     int returnDestroyCode = AieClientDestroy(clientInfo);
-    EXPECT_EQ(returnDestroyCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnDestroyCode, RETCODE_SUCCESS);
 }
 
 /**
@@ -216,7 +216,7 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess003, TestSize.Level0
     ServiceDeadCb cb = ServiceDeadCb();
     int returnInitCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(returnInitCode, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo;
     const char *str = INPUT_DATA;
@@ -228,18 +228,18 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess003, TestSize.Level0
     ClientCallback callback = ClientCallback();
     DataInfo outputInfo;
     int returnPrepareCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(returnPrepareCode, RETCODE_SUCCESS);
-    EXPECT_NE(outputInfo.data, nullptr);
-    EXPECT_TRUE(outputInfo.length > 0);
+    ASSERT_EQ(returnPrepareCode, RETCODE_SUCCESS);
+    ASSERT_NE(outputInfo.data, nullptr);
+    ASSERT_TRUE(outputInfo.length > 0);
 
     int returnProcessCode = AieClientAsyncProcess(clientInfo, algoInfo, inputInfo);
-    EXPECT_NE(returnProcessCode, RETCODE_SUCCESS);
+    ASSERT_NE(returnProcessCode, RETCODE_SUCCESS);
 
     StepSleepMs(WAIT_CALLBACK_TIME_MS);
 
     int returnReleaseCode = AieClientRelease(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(returnReleaseCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnReleaseCode, RETCODE_SUCCESS);
 
     int returnDestroyCode = AieClientDestroy(clientInfo);
-    EXPECT_EQ(returnDestroyCode, RETCODE_SUCCESS);
+    ASSERT_EQ(returnDestroyCode, RETCODE_SUCCESS);
 }

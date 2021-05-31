@@ -118,10 +118,10 @@ HWTEST_F(ThreadPoolTest, TestWorker001, TestSize.Level1)
     HILOGD("[Test]Test worker begin");
     CWorker worker;
     worker.Initialize();
-    EXPECT_FALSE(worker.isHung(HUNG_TIME));
-    EXPECT_EQ(worker.GetStackSize(), THREAD_DEFAULT_STACK_SIZE);
-    EXPECT_EQ(worker.Status(), 0);
-    EXPECT_EQ((int)worker.GetThreadId(), INVALID_THREAD_ID);
+    ASSERT_FALSE(worker.isHung(HUNG_TIME));
+    ASSERT_EQ(worker.GetStackSize(), THREAD_DEFAULT_STACK_SIZE);
+    ASSERT_EQ(worker.Status(), 0);
+    ASSERT_EQ((int)worker.GetThreadId(), INVALID_THREAD_ID);
     Thread thread;
     worker.SetThread(&thread);
     HILOGD("[Test]Test worker end, GetThreadId is %lu.", worker.GetThreadId());
@@ -141,14 +141,14 @@ HWTEST_F(ThreadPoolTest, TestThread001, TestSize.Level1)
     HILOGD("[Test]Thread id %lu.", id);
     testThread.SetStackSize(SIZE);
     CWorker worker;
-    EXPECT_TRUE(testThread.StartThread(&worker));
+    ASSERT_TRUE(testThread.StartThread(&worker));
     id = testThread.GetThreadId();
     HILOGD("[Test]Thread id %lu.", id);
-    EXPECT_TRUE(testThread.IsRunning());
-    EXPECT_TRUE(testThread.IsActive());
-    EXPECT_TRUE(testThread.StopThread(STOP_TIME));
-    EXPECT_FALSE(testThread.IsRunning());
-    EXPECT_FALSE(testThread.IsActive());
+    ASSERT_TRUE(testThread.IsRunning());
+    ASSERT_TRUE(testThread.IsActive());
+    ASSERT_TRUE(testThread.StopThread(STOP_TIME));
+    ASSERT_FALSE(testThread.IsRunning());
+    ASSERT_FALSE(testThread.IsActive());
     HILOGD("[Test]Test thread1 end.");
 }
 
@@ -162,9 +162,9 @@ HWTEST_F(ThreadPoolTest, ThreadPoolTest001, TestSize.Level1)
 {
     HILOGD("[Test]ThreadPoolTest001 begin");
     ThreadPool *threadPool = ThreadPool::GetInstance();
-    EXPECT_EQ(threadPool->getStackSize(), 0);
+    ASSERT_EQ(threadPool->getStackSize(), 0);
     threadPool->SetStackSize(SIZE);
-    EXPECT_EQ(threadPool->getStackSize(), SIZE);
+    ASSERT_EQ(threadPool->getStackSize(), SIZE);
     threadPool->SetStackSize(SIZE_MIN);
     HILOGD("[Test]ThreadPoolTest001 end");
 }
@@ -220,7 +220,7 @@ HWTEST_F(ThreadPoolTest, TestThreadWithManyWorker001, TestSize.Level1)
         string tempWorkerName = workerName + to_string(i);
         AIE_NEW(workerList[i], MultiWorker(tempWorkerName));
         threadList[i] = threadPool->Pop();
-        EXPECT_TRUE(threadList[i]->StartThread(workerList[i]));
+        ASSERT_TRUE(threadList[i]->StartThread(workerList[i]));
     }
     for (int i = 0; i < maxThreadNum; i++) {
         threadList[i]->StopThread();

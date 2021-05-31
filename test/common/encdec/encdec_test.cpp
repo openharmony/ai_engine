@@ -156,7 +156,7 @@ void BasicTypesCheck(bool normalMode = true)
     DataInfo dataInfo {};
     int retCode = EncdecFacade::ProcessEncode(dataInfo, g_int, g_char, g_float, g_long, g_string, g_emptyString);
     MallocPointerGuard<unsigned char> dataInfoGuard(dataInfo.data);
-    EXPECT_EQ(retCode, RETCODE_SUCCESS);
+    ASSERT_EQ(retCode, RETCODE_SUCCESS);
     if (!normalMode) {
         PolluteData(dataInfo);
     }
@@ -170,15 +170,15 @@ void BasicTypesCheck(bool normalMode = true)
     retCode = EncdecFacade::ProcessDecode(dataInfo, outInt, outChar, outFloat, outLong, outString,
         outEmptyString);
     if (normalMode) {
-        EXPECT_EQ(retCode, RETCODE_SUCCESS);
-        EXPECT_TRUE(CompareData(g_int, outInt));
-        EXPECT_TRUE(CompareData(g_char, outChar));
-        EXPECT_TRUE(CompareData(g_float, outFloat));
-        EXPECT_TRUE(CompareData(g_long, outLong));
-        EXPECT_TRUE(CompareData(g_string, outString));
-        EXPECT_TRUE(CompareData(g_emptyString, outEmptyString));
+        ASSERT_EQ(retCode, RETCODE_SUCCESS);
+        ASSERT_TRUE(CompareData(g_int, outInt));
+        ASSERT_TRUE(CompareData(g_char, outChar));
+        ASSERT_TRUE(CompareData(g_float, outFloat));
+        ASSERT_TRUE(CompareData(g_long, outLong));
+        ASSERT_TRUE(CompareData(g_string, outString));
+        ASSERT_TRUE(CompareData(g_emptyString, outEmptyString));
     } else {
-        EXPECT_NE(retCode, RETCODE_SUCCESS);
+        ASSERT_NE(retCode, RETCODE_SUCCESS);
     }
 }
 
@@ -191,7 +191,7 @@ void StructCheck(bool normalMode = true)
 
     int retCode = EncdecFacade::ProcessEncode(dataInfo, structWithPadding, nestedStruct, structWithArray);
     MallocPointerGuard<unsigned char> dataInfoGuard(dataInfo.data);
-    EXPECT_EQ(retCode, RETCODE_SUCCESS);
+    ASSERT_EQ(retCode, RETCODE_SUCCESS);
     if (!normalMode) {
         PolluteData(dataInfo);
     }
@@ -201,12 +201,12 @@ void StructCheck(bool normalMode = true)
 
     retCode = EncdecFacade::ProcessDecode(dataInfo, outStructWithPadding, outNestedStruct, outStructWithArray);
     if (normalMode) {
-        EXPECT_EQ(retCode, RETCODE_SUCCESS);
-        EXPECT_TRUE(CompareData(structWithPadding, outStructWithPadding));
-        EXPECT_TRUE(CompareData(nestedStruct, outNestedStruct));
-        EXPECT_TRUE(CompareData(structWithArray, outStructWithArray));
+        ASSERT_EQ(retCode, RETCODE_SUCCESS);
+        ASSERT_TRUE(CompareData(structWithPadding, outStructWithPadding));
+        ASSERT_TRUE(CompareData(nestedStruct, outNestedStruct));
+        ASSERT_TRUE(CompareData(structWithArray, outStructWithArray));
     } else {
-        EXPECT_NE(retCode, RETCODE_SUCCESS);
+        ASSERT_NE(retCode, RETCODE_SUCCESS);
     }
 }
 
@@ -218,18 +218,18 @@ void StructWithPointerCheck(bool normalMode = true)
         DataInfo dataInfo {};
         int retCode = EncdecFacade::ProcessEncode(dataInfo, structWithPointer);
         MallocPointerGuard<unsigned char> dataInfoGuard(dataInfo.data);
-        EXPECT_EQ(retCode, RETCODE_SUCCESS);
+        ASSERT_EQ(retCode, RETCODE_SUCCESS);
         if (!normalMode) {
             PolluteData(dataInfo);
         }
         StructWithPointer res {};
         retCode = EncdecFacade::ProcessDecode(dataInfo, res);
         if (normalMode) {
-            EXPECT_EQ(retCode, RETCODE_SUCCESS);
-            EXPECT_TRUE(CompareData(structWithPointer, res));
+            ASSERT_EQ(retCode, RETCODE_SUCCESS);
+            ASSERT_TRUE(CompareData(structWithPointer, res));
             ReleaseStructWithPointer(res);
         } else {
-            EXPECT_NE(retCode, RETCODE_SUCCESS);
+            ASSERT_NE(retCode, RETCODE_SUCCESS);
         }
         ReleaseStructWithPointer(structWithPointer);
     }

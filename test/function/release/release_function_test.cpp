@@ -118,17 +118,19 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease001, TestSize.Level0)
     ServiceDeadCb deadCb = ServiceDeadCb();
     int resultCodeInit = AieClientInit(configInfo, clientInfo, algoInfo, &deadCb);
     ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     IClientCb *callback = nullptr;
     DataInfo outputInfo;
     int resultCodePrepare = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, callback);
-    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodePrepare, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     int resultCodeRelease = AieClientRelease(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodeRelease, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -178,17 +180,19 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease002, TestSize.Level0)
     ServiceDeadCb cb = ServiceDeadCb();
     int resultCodeInit = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     ClientCallback callback = ClientCallback();
     DataInfo outputInfo;
     int resultCodePrepare = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodePrepare, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     int resultCodeRelease = AieClientRelease(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodeRelease, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -238,21 +242,23 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease003, TestSize.Level0)
     ServiceDeadCb cb = ServiceDeadCb();
     int resultCodeInit = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     IClientCb *callback = nullptr;
     DataInfo outputInfo;
     int resultCodePrepare = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, callback);
-    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodePrepare, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     int resultCodeSyncProcess = AieClientSyncProcess(clientInfo, algoInfo, inputInfo, outputInfo);
-    EXPECT_EQ(resultCodeSyncProcess, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodeSyncProcess, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     int resultCodeRelease = AieClientRelease(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodeRelease, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
+
+    AieClientDestroy(clientInfo);
 }
 
 /**
@@ -302,19 +308,21 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease004, TestSize.Level0)
     ServiceDeadCb cb = ServiceDeadCb();
     int resultCodeInit = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     ClientCallback callback = ClientCallback();
     DataInfo outputInfo;
     int resultCodePrepare = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
-    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodePrepare, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     int resultCodeAsyncProcess = AieClientAsyncProcess(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(resultCodeAsyncProcess, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodeAsyncProcess, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
 
     int resultCodeRelease = AieClientRelease(clientInfo, algoInfo, inputInfo);
-    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
+    ASSERT_EQ(resultCodeRelease, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
+
+    AieClientDestroy(clientInfo);
 }
