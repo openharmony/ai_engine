@@ -228,4 +228,5 @@ HWTEST_F(ThreadPoolTest, TestThreadWithManyWorker001, TestSize.Level1)
         threadPool->Push(threadList[i]);
         AIE_DELETE(workerList[i]);
     }
+    threadPool->ReleaseInstance();
 }
