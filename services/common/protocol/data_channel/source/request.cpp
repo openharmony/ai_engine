@@ -24,6 +24,7 @@ Request::Request()
     : innerSequenceId_(0),
       requestId_(0),
       operationId_(0),
+      clientUid_(0),
       transactionId_(0),
       algoPluginType_(0)
 {
