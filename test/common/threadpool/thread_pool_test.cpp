@@ -74,9 +74,8 @@ public:
 
 class MultiWorker : public IWorker {
 public:
-    explicit MultiWorker(const string &workerName)
+    explicit MultiWorker(const string &workerName) : workerName_(workerName)
     {
-        workerName_ = workerName;
     }
 
     ~MultiWorker() override = default;
