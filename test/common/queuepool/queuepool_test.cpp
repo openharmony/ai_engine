@@ -84,7 +84,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool003, TestSize.Level1)
     QueuePool<int> *queuePool = QueuePool<int>::GetInstance(SINGLE_QUEUE_CAPACITY);
     ASSERT_NE(queuePool, nullptr);
     auto busyNum = queuePool->BusyQueueNum();
-    EXPECT_EQ(busyNum, 0);
+    ASSERT_EQ(busyNum, 0);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -102,7 +102,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool004, TestSize.Level1)
     std::shared_ptr<Queue<int>> queue = queuePool->Pop();
     ASSERT_NE(queue, nullptr);
     auto busyNum = queuePool->BusyQueueNum();
-    EXPECT_EQ(busyNum, 1);
+    ASSERT_EQ(busyNum, 1);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -121,7 +121,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool005, TestSize.Level1)
     ASSERT_NE(queue, nullptr);
     queuePool->Push(queue);
     auto busy = queuePool->BusyQueueNum();
-    EXPECT_EQ(busy, 0);
+    ASSERT_EQ(busy, 0);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -160,7 +160,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool007, TestSize.Level1)
     }
 
     queue = queuePool->Pop();
-    EXPECT_EQ(queue, nullptr);
+    ASSERT_EQ(queue, nullptr);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -179,7 +179,7 @@ HWTEST_F(QueuepoolTest, TestQueuePool008, TestSize.Level1)
     std::shared_ptr<Queue<int>> queue;
     queuePool->Push(queue);
     auto busyNum = queuePool->BusyQueueNum();
-    EXPECT_FALSE(busyNum < 0);
+    ASSERT_FALSE(busyNum < 0);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -197,7 +197,7 @@ HWTEST_F(QueuepoolTest, TestQueue001, TestSize.Level1)
     std::shared_ptr<Queue<int>> queue = queuePool->Pop();
 
     bool empty = queue->IsEmpty();
-    EXPECT_TRUE(empty);
+    ASSERT_TRUE(empty);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -218,7 +218,7 @@ HWTEST_F(QueuepoolTest, TestQueue002, TestSize.Level1)
     int iv = TEST_QUEUE_SINGLE_ELEMENT;
     queue->PushBack(iv);
     bool notEmpty = !queue->IsEmpty();
-    EXPECT_TRUE(notEmpty);
+    ASSERT_TRUE(notEmpty);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -239,7 +239,7 @@ HWTEST_F(QueuepoolTest, TestQueue003, TestSize.Level1)
     for (int i = 0; i < SINGLE_QUEUE_CAPACITY; ++i) {
         queue->PushBack(i);
     }
-    EXPECT_TRUE(queue->IsFull());
+    ASSERT_TRUE(queue->IsFull());
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -256,7 +256,7 @@ HWTEST_F(QueuepoolTest, TestQueue004, TestSize.Level1)
     ASSERT_NE(queuePool, nullptr);
     std::shared_ptr<Queue<int>> queue = queuePool->Pop();
     ASSERT_NE(queue, nullptr);
-    EXPECT_FALSE(queue->IsFull());
+    ASSERT_FALSE(queue->IsFull());
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -276,7 +276,7 @@ HWTEST_F(QueuepoolTest, TestQueue005, TestSize.Level1)
 
     int iv = TEST_QUEUE_SINGLE_ELEMENT;
     queue->PushBack(iv);
-    EXPECT_FALSE(queue->IsFull());
+    ASSERT_FALSE(queue->IsFull());
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -296,7 +296,7 @@ HWTEST_F(QueuepoolTest, TestQueue006, TestSize.Level1)
 
     int iv = TEST_QUEUE_SINGLE_ELEMENT;
     int result = queue->PushBack(iv);
-    EXPECT_EQ(result, RETCODE_SUCCESS);
+    ASSERT_EQ(result, RETCODE_SUCCESS);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -317,12 +317,12 @@ HWTEST_F(QueuepoolTest, TestQueue007, TestSize.Level1)
     int result;
     for (int i = 0; i < SINGLE_QUEUE_CAPACITY; ++i) {
         result = queue->PushBack(i);
-        EXPECT_EQ(result, RETCODE_SUCCESS);
+        ASSERT_EQ(result, RETCODE_SUCCESS);
     }
 
     int iv = TEST_QUEUE_SINGLE_ELEMENT;
     result = queue->PushBack(iv);
-    EXPECT_EQ(result, RETCODE_QUEUE_FULL);
+    ASSERT_EQ(result, RETCODE_QUEUE_FULL);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -342,7 +342,7 @@ HWTEST_F(QueuepoolTest, TestQueue008, TestSize.Level1)
 
     int iv;
     int result = queue->PopFront(iv);
-    EXPECT_EQ(result, RETCODE_QUEUE_EMPTY);
+    ASSERT_EQ(result, RETCODE_QUEUE_EMPTY);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -363,8 +363,8 @@ HWTEST_F(QueuepoolTest, TestQueue009, TestSize.Level1)
     int iv = TEST_QUEUE_SINGLE_ELEMENT;
     queue->PushBack(iv);
     int result = queue->PopFront(iv);
-    EXPECT_EQ(result, RETCODE_SUCCESS);
-    EXPECT_EQ(iv, TEST_QUEUE_SINGLE_ELEMENT);
+    ASSERT_EQ(result, RETCODE_SUCCESS);
+    ASSERT_EQ(iv, TEST_QUEUE_SINGLE_ELEMENT);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -385,14 +385,14 @@ HWTEST_F(QueuepoolTest, TestQueue010, TestSize.Level1)
     int result;
     for (int i = 0; i < SINGLE_QUEUE_CAPACITY; ++i) {
         result = queue->PushBack(i);
-        EXPECT_EQ(result, RETCODE_SUCCESS);
+        ASSERT_EQ(result, RETCODE_SUCCESS);
     }
 
     int iv = 0;
     for (int i = 0; i < SINGLE_QUEUE_CAPACITY; ++i) {
         result = queue->PopFront(iv);
-        EXPECT_EQ(result, RETCODE_SUCCESS);
-        EXPECT_EQ(iv, i);
+        ASSERT_EQ(result, RETCODE_SUCCESS);
+        ASSERT_EQ(iv, i);
     }
 
     QueuePool<int>::ReleaseInstance();
@@ -411,7 +411,7 @@ HWTEST_F(QueuepoolTest, TestQueue011, TestSize.Level1)
     std::shared_ptr<Queue<int>> queue = queuePool->Pop();
     ASSERT_NE(queue, nullptr);
     int count = queue->Count();
-    EXPECT_EQ(count, 0);
+    ASSERT_EQ(count, 0);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -435,12 +435,12 @@ HWTEST_F(QueuepoolTest, TestQueue012, TestSize.Level1)
     for (i = 0; i < SINGLE_QUEUE_CAPACITY; ++i) {
         queue->PushBack(i);
         count = queue->Count();
-        EXPECT_EQ(count, i + 1);
+        ASSERT_EQ(count, i + 1);
     }
 
     queue->PushBack(i);
     count = queue->Count();
-    EXPECT_EQ(count, SINGLE_QUEUE_CAPACITY);
+    ASSERT_EQ(count, SINGLE_QUEUE_CAPACITY);
 
     QueuePool<int>::ReleaseInstance();
 }
@@ -467,12 +467,12 @@ HWTEST_F(QueuepoolTest, TestQueue013, TestSize.Level1)
     for (int i = 0; i < SINGLE_QUEUE_CAPACITY; ++i) {
         queue->PopFront(iv);
         count = queue->Count();
-        EXPECT_EQ(count, SINGLE_QUEUE_CAPACITY - i - 1);
+        ASSERT_EQ(count, SINGLE_QUEUE_CAPACITY - i - 1);
     }
 
     queue->PopFront(iv);
     count = queue->Count();
-    EXPECT_EQ(count, 0);
+    ASSERT_EQ(count, 0);
 
     QueuePool<int>::ReleaseInstance();
 }

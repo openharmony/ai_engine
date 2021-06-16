@@ -181,5 +181,5 @@ HWTEST_F(SyncProcessTimeTest, TestSyncTime001, TestSize.Level0)
     }
     std::time_t duration = processTotalTime / EXECUTE_TIMES;
     HILOGI("[Test][CheckTimeSyncProcess][%lld]", duration);
-    EXPECT_TRUE((duration > 0) && (duration <= EXCEPTED_SYNC_PROCESS_TIME));
+    ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_SYNC_PROCESS_TIME));
 }
