@@ -55,12 +55,12 @@ static void TestPluginManager(std::string aid, bool isExceptedLoadPluginSuccess)
     long long version = ALGORITHM_VERSION_VALID;
     std::shared_ptr<Plugin> plugin = nullptr;
     pluginManager->GetPlugin(aid, version, plugin);
-    EXPECT_EQ(isExceptedLoadPluginSuccess, plugin != nullptr) << "pluginManager->GetPlugin test failed.";
+    ASSERT_EQ(isExceptedLoadPluginSuccess, plugin != nullptr) << "pluginManager->GetPlugin test failed.";
 
     if (plugin != nullptr) {
         const char *name = plugin->GetPluginAlgorithm()->GetName();
         HILOGD("[Test]The plugin name [%s].", name);
-        EXPECT_EQ(isExceptedLoadPluginSuccess, name != nullptr) << "Get plugin name failed.";
+        ASSERT_EQ(isExceptedLoadPluginSuccess, name != nullptr) << "Get plugin name failed.";
     }
 
     pluginManager->UnloadPlugin(aid, version);

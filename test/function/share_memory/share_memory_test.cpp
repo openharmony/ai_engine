@@ -177,11 +177,11 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemoryInitDestroy, TestSize.
 
     int resultCodeInit = AieClientInit(configInfo_, clientInfo_, algorithmInfo_, &cb_);
     ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
+    ASSERT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
 
     int resultCodeDestroy = AieClientDestroy(clientInfo_);
-    EXPECT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
-    EXPECT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
+    ASSERT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
+    ASSERT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
 }
 
 /**
@@ -196,21 +196,21 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemoryPrepareRelease, TestSi
 
     int resultCodeInit = AieClientInit(configInfo_, clientInfo_, algorithmInfo_, &cb_);
     ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
+    ASSERT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
 
     int resultCodePrepare = AieClientPrepare(clientInfo_, algorithmInfo_, inputInfo_, outputInfo_, nullptr);
-    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo_.length, inputInfo_.length);
-    EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    ASSERT_EQ(resultCodePrepare, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo_.length, inputInfo_.length);
+    ASSERT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
     FreeDataInfo(&outputInfo_);
 
     DataInfo dummy {};
     int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
-    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
+    ASSERT_EQ(resultCodeRelease, RETCODE_SUCCESS);
 
     int resultCodeDestroy = AieClientDestroy(clientInfo_);
-    EXPECT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
-    EXPECT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
+    ASSERT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
+    ASSERT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
 }
 
 /**
@@ -225,27 +225,27 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemorySyncProcess, TestSize.
 
     int resultCodeInit = AieClientInit(configInfo_, clientInfo_, algorithmInfo_, &cb_);
     ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
+    ASSERT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
 
     int resultCodePrepare = AieClientPrepare(clientInfo_, algorithmInfo_, inputInfo_, outputInfo_, nullptr);
-    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo_.length, inputInfo_.length);
-    EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    ASSERT_EQ(resultCodePrepare, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo_.length, inputInfo_.length);
+    ASSERT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
     FreeDataInfo(&outputInfo_);
 
     int resultCodeSyncProcess = AieClientSyncProcess(clientInfo_, algorithmInfo_, inputInfo_, outputInfo_);
-    EXPECT_EQ(resultCodeSyncProcess, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo_.length, inputInfo_.length);
-    EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    ASSERT_EQ(resultCodeSyncProcess, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo_.length, inputInfo_.length);
+    ASSERT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
     FreeDataInfo(&outputInfo_);
 
     DataInfo dummy {};
     int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
-    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
+    ASSERT_EQ(resultCodeRelease, RETCODE_SUCCESS);
 
     int resultCodeDestroy = AieClientDestroy(clientInfo_);
-    EXPECT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
-    EXPECT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
+    ASSERT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
+    ASSERT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
 }
 
 /**
@@ -260,38 +260,38 @@ HWTEST_F(ShareMemoryFunctionTest, TestAieClientShareMemorySetGetOption, TestSize
 
     int resultCodeInit = AieClientInit(configInfo_, clientInfo_, algorithmInfo_, &cb_);
     ASSERT_EQ(resultCodeInit, RETCODE_SUCCESS);
-    EXPECT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
+    ASSERT_NE(clientInfo_.clientId, INVALID_CLIENT_ID);
 
     int resultCodePrepare = AieClientPrepare(clientInfo_, algorithmInfo_, inputInfo_, outputInfo_, nullptr);
-    EXPECT_EQ(resultCodePrepare, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo_.length, inputInfo_.length);
-    EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    ASSERT_EQ(resultCodePrepare, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo_.length, inputInfo_.length);
+    ASSERT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
     FreeDataInfo(&outputInfo_);
 
     int dummyOptionType = 0;
     int resultCodeSetOption = AieClientSetOption(clientInfo_, dummyOptionType, inputInfo_);
-    EXPECT_EQ(resultCodeSetOption, RETCODE_SUCCESS);
+    ASSERT_EQ(resultCodeSetOption, RETCODE_SUCCESS);
 
     DataInfo dummy {};
     int resultCodeGetOption = AieClientGetOption(clientInfo_, dummyOptionType, dummy, outputInfo_);
-    EXPECT_EQ(resultCodeGetOption, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo_.length, inputInfo_.length);
-    EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    ASSERT_EQ(resultCodeGetOption, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo_.length, inputInfo_.length);
+    ASSERT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
     FreeDataInfo(&outputInfo_);
 
     resultCodeSetOption = AieClientSetOption(clientInfo_, dummyOptionType, inputInfo_);
-    EXPECT_EQ(resultCodeSetOption, RETCODE_SUCCESS);
+    ASSERT_EQ(resultCodeSetOption, RETCODE_SUCCESS);
 
     resultCodeGetOption = AieClientGetOption(clientInfo_, dummyOptionType, dummy, outputInfo_);
-    EXPECT_EQ(resultCodeGetOption, RETCODE_SUCCESS);
-    EXPECT_EQ(outputInfo_.length, inputInfo_.length);
-    EXPECT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
+    ASSERT_EQ(resultCodeGetOption, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo_.length, inputInfo_.length);
+    ASSERT_EQ(memcmp(outputInfo_.data, inputInfo_.data, inputInfo_.length), 0);
     FreeDataInfo(&outputInfo_);
 
     int resultCodeRelease = AieClientRelease(clientInfo_, algorithmInfo_, dummy);
-    EXPECT_EQ(resultCodeRelease, RETCODE_SUCCESS);
+    ASSERT_EQ(resultCodeRelease, RETCODE_SUCCESS);
 
     int resultCodeDestroy = AieClientDestroy(clientInfo_);
-    EXPECT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
-    EXPECT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
+    ASSERT_EQ(resultCodeDestroy, RETCODE_SUCCESS);
+    ASSERT_EQ(clientInfo_.clientId, INVALID_CLIENT_ID);
 }

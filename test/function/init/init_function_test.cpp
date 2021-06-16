@@ -131,11 +131,11 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo001, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initResult = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initResult, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
-    EXPECT_TRUE(clientInfo.sessionId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.sessionId > 0);
 
     int destroyResult = AieClientDestroy(clientInfo);
-    EXPECT_EQ(destroyResult, RETCODE_SUCCESS);
+    ASSERT_EQ(destroyResult, RETCODE_SUCCESS);
 }
 
 /**
@@ -179,11 +179,11 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo002, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initResult = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initResult, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
-    EXPECT_TRUE(clientInfo.sessionId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.sessionId > 0);
 
     int destroyResult = AieClientDestroy(clientInfo);
-    EXPECT_EQ(destroyResult, RETCODE_SUCCESS);
+    ASSERT_EQ(destroyResult, RETCODE_SUCCESS);
 }
 
 /**
@@ -227,11 +227,11 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo003, TestSize.Level1)
     ServiceDeadCb cb = ServiceDeadCb();
     int initResult = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
     ASSERT_EQ(initResult, RETCODE_SUCCESS);
-    EXPECT_TRUE(clientInfo.clientId > 0);
-    EXPECT_TRUE(clientInfo.sessionId > 0);
+    ASSERT_TRUE(clientInfo.clientId > 0);
+    ASSERT_TRUE(clientInfo.sessionId > 0);
 
     int destroyResult = AieClientDestroy(clientInfo);
-    EXPECT_EQ(destroyResult, RETCODE_SUCCESS);
+    ASSERT_EQ(destroyResult, RETCODE_SUCCESS);
 }
 
 /**
@@ -275,7 +275,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitClientInfo001, TestSize.Level1)
     ASSERT_EQ(initResult, RETCODE_SUCCESS);
 
     int destroyResult = AieClientDestroy(clientInfo);
-    EXPECT_EQ(destroyResult, RETCODE_SUCCESS);
+    ASSERT_EQ(destroyResult, RETCODE_SUCCESS);
 }
 
 /**
@@ -320,7 +320,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo001, TestSize.Level1)
     ASSERT_EQ(initResult, RETCODE_SUCCESS);
 
     int destroyResult = AieClientDestroy(clientInfo);
-    EXPECT_EQ(destroyResult, RETCODE_SUCCESS);
+    ASSERT_EQ(destroyResult, RETCODE_SUCCESS);
 }
 
 /**
@@ -365,5 +365,5 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo002, TestSize.Level1)
     ASSERT_EQ(initResult, RETCODE_SUCCESS);
 
     int destroyResult = AieClientDestroy(clientInfo);
-    EXPECT_EQ(destroyResult, RETCODE_SUCCESS);
+    ASSERT_EQ(destroyResult, RETCODE_SUCCESS);
 }

@@ -57,8 +57,8 @@ public:
  */
 HWTEST_F(EventTest, EventTest001, TestSize.Level1)
 {
-    EXPECT_TRUE(g_event->Signal());
-    EXPECT_TRUE(g_event->Wait(EVENT_WAIT_TIME_MS));
-    EXPECT_TRUE(g_event->Reset());
-    EXPECT_FALSE(g_event->IsSet());
+    ASSERT_TRUE(g_event->Signal());
+    ASSERT_TRUE(g_event->Wait(EVENT_WAIT_TIME_MS));
+    ASSERT_TRUE(g_event->Reset());
+    ASSERT_FALSE(g_event->IsSet());
 }

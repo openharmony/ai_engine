@@ -59,6 +59,6 @@ HWTEST_F(DlOperationTest, TestDlOption001, TestSize.Level1)
     FUNC_ADD addFunc = (FUNC_ADD)AieDlsym(handle, "AddFunc");
     ASSERT_NE(addFunc, nullptr);
     int result = addFunc(AIE_NUM1, AIE_NUM2);
-    EXPECT_EQ(result, AIE_RESULT);
+    ASSERT_EQ(result, AIE_RESULT);
     AieDlclose(handle);
 }
