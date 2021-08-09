@@ -21,7 +21,7 @@
     <oatconfig>
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files that do not need to be scanned">
-                <filteritem type="filename" name="*.wk"/>
+                <filteritem type="filename" name="*.wk|*.a"/>
             </filefilter>
         </filefilterlist>
     </oatconfig>
