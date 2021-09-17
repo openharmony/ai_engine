@@ -429,6 +429,6 @@ AI业务子系统是OpenHarmony提供原生的分布式AI能力的子系统。�
 
 ## AI引擎开发导航<a name="section6808423133718"></a>
 
--   [《AI插件开发指南》](https://gitee.com/openharmony/docs/blob/master/zh-cn/device-dev/subsystems/%E5%BC%80%E5%8F%91%E7%A4%BA%E4%BE%8B.md)
+-   [《AI插件开发指南》](https://gitee.com/openharmony/docs/blob/master/zh-cn/device-dev/subsystems/subsys-aiframework-guide.md)
 
 
