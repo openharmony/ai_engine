@@ -129,50 +129,50 @@ public:
 
 static void CheckTimeInit()
 {
-    std::time_t duration = g_initTotalTime / EXECUTE_TIMES;
-    HILOGI("[Test][CheckTimeInit][%lld]", duration);
+    double duration = (double) g_initTotalTime / EXECUTE_TIMES;
+    HILOGI("[Test][CheckTimeInit][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_INIT_TIME));
 }
 
 static void CheckTimePrepare()
 {
-    std::time_t duration = g_prepareTotalTime / EXECUTE_TIMES;
-    HILOGI("[Test][CheckTimePrepare][%lld]", duration);
+    double duration = (double) g_prepareTotalTime / EXECUTE_TIMES;
+    HILOGI("[Test][CheckTimePrepare][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_PREPARE_TIME));
 }
 
 static void CheckTimeAsyncProcess()
 {
-    std::time_t duration = g_processTotalTime / EXECUTE_TIMES;
-    HILOGI("[Test][CheckTimeAsyncProcess][%lld]", duration);
+    double duration = (double) g_processTotalTime / EXECUTE_TIMES;
+    HILOGI("[Test][CheckTimeAsyncProcess][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_ASYNC_PROCESS_TIME));
 }
 
 static void CheckTimeRelease()
 {
-    std::time_t duration = g_releaseTotalTime / EXECUTE_TIMES;
-    HILOGI("[Test][CheckTimeRelease][%lld]", duration);
+    double duration = (double) g_releaseTotalTime / EXECUTE_TIMES;
+    HILOGI("[Test][CheckTimeRelease][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_RELEASE_TIME));
 }
 
 static void CheckTimeDestroy()
 {
-    std::time_t duration = g_destroyTotalTime / EXECUTE_TIMES;
-    HILOGI("[Test][CheckTimeDestroy][%lld]", duration);
+    double duration = (double) g_destroyTotalTime / EXECUTE_TIMES;
+    HILOGI("[Test][CheckTimeDestroy][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_DESTROY_TIME));
 }
 
 static void CheckTimeSetOption()
 {
-    std::time_t duration = g_setOptionTotalTime / EXECUTE_TIMES;
-    HILOGI("[Test][CheckTimeSetOption][%lld]", duration);
+    double duration = (double) g_setOptionTotalTime / EXECUTE_TIMES;
+    HILOGI("[Test][CheckTimeSetOption][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_SETOPTION_TIME));
 }
 
 static void CheckTimeGetOption()
 {
-    std::time_t duration = g_getOptionTotalTime / EXECUTE_TIMES;
-    HILOGI("[Test][CheckTimeGetOption][%lld]", duration);
+    double duration = (double) g_getOptionTotalTime / EXECUTE_TIMES;
+    HILOGI("[Test][CheckTimeGetOption][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_GETOPTION_TIME));
 }
 
@@ -185,7 +185,7 @@ static void CheckTimeGetOption()
 HWTEST_F(AsyncProcessTimeTest, TestAsyncTime001, TestSize.Level0)
 {
     HILOGI("[Test]AsyncProcessTimeTest001.");
-    const char *str = PREPARE_INPUT_SYNC;
+    const char *str = PREPARE_INPUT_ASYNC;
     char *inputData = const_cast<char*>(str);
     int len = strlen(str) + 1;
 
@@ -202,7 +202,7 @@ HWTEST_F(AsyncProcessTimeTest, TestAsyncTime001, TestSize.Level0)
                 .clientUid = INVALID_UID,
                 .extendLen = len,
                 .extendMsg = (unsigned char*)inputData,
-        };
+                };
 
         AlgorithmInfo algoInfo = {
                 .clientVersion = ALGORITHM_INFO_CLIENT_VERSION,
@@ -214,7 +214,7 @@ HWTEST_F(AsyncProcessTimeTest, TestAsyncTime001, TestSize.Level0)
                 .requestId = REQUEST_ID,
                 .extendLen = len,
                 .extendMsg = (unsigned char*)inputData,
-        };
+                };
 
         std::time_t initStartTime = GetCurTimeMillSec();
         ServiceDeadCb *cb = nullptr;
@@ -228,7 +228,7 @@ HWTEST_F(AsyncProcessTimeTest, TestAsyncTime001, TestSize.Level0)
         DataInfo inputInfo = {
                 .data = (unsigned char*)inputData,
                 .length = len,
-        };
+                };
         DataInfo outputInfo;
 
         ClientCallback *callback = nullptr;
@@ -238,8 +238,12 @@ HWTEST_F(AsyncProcessTimeTest, TestAsyncTime001, TestSize.Level0)
         resultCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, callback);
         ASSERT_EQ(resultCode, RETCODE_SUCCESS);
         std::time_t prepareEndTime = GetCurTimeMillSec();
-
         g_prepareTotalTime += prepareEndTime - prepareStartTime;
+
+        g_processStartTime = GetCurTimeMillSec();
+        resultCode = AieClientAsyncProcess(clientInfo, algoInfo, inputInfo);
+        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
+        sleep(SLEEP_TIME);
 
         int optionType = 0;
         std::time_t setOptionStartTime = GetCurTimeMillSec();
@@ -258,10 +262,6 @@ HWTEST_F(AsyncProcessTimeTest, TestAsyncTime001, TestSize.Level0)
         std::time_t getOptionEndTime = GetCurTimeMillSec();
         g_getOptionTotalTime += getOptionEndTime - getOptionStartTime;
 
-        g_processStartTime = GetCurTimeMillSec();
-        resultCode = AieClientAsyncProcess(clientInfo, algoInfo, inputInfo);
-        ASSERT_EQ(resultCode, RETCODE_SUCCESS);
-        sleep(SLEEP_TIME);
         std::time_t releaseStartTime = GetCurTimeMillSec();
         resultCode = AieClientRelease(clientInfo, algoInfo, inputInfo);
         ASSERT_EQ(resultCode, RETCODE_SUCCESS);
