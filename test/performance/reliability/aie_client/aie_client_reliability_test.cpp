@@ -214,7 +214,7 @@ HWTEST_F(AieClientReliabilityTest, AieClientAsyncReliabilityTest001, TestSize.Le
 
         resultCode = AieClientAsyncProcess(clientInfo, algoInfo, inputInfo);
         ASSERT_EQ(resultCode, RETCODE_SUCCESS);
-        StepSleepMs(500);
+        StepSleepMs(2000);
 
         resultCode = AieClientRelease(clientInfo, algoInfo, inputInfo);
         ASSERT_EQ(resultCode, RETCODE_SUCCESS);
