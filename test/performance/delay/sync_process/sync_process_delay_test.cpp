@@ -42,7 +42,7 @@ namespace {
     const int ALGORITHM_SYNC_TYPE = 0;
     const int ALGORITHM_ASYNC_TYPE = 1;
     const long long ALGORITHM_VERSION = 1;
-    const int EXECUTE_TIMES = 100;
+    const int EXECUTE_TIMES = 20;
     const int CHAR_TYPE = 4;
     const int DESCRIPTION_LENGTH = 129;
     const int ALPHABET_LENGTH = 26;
@@ -57,7 +57,7 @@ namespace {
     const char * const CONFIG_DESCRIPTION = "Prepare config information";
     const char * const PREPARE_INPUT_SYNC = "Sync prepare inputData";
     const char * const PREPARE_INPUT_ASYNC = "Async prepare inputData";
-    const int EXCEPTED_SYNC_PROCESS_TIME = 100;
+    const int EXCEPTED_SYNC_PROCESS_TIME = 20;
 }
 
 class SyncProcessTimeTest : public testing::Test {
