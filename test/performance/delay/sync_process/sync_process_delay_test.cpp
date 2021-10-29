@@ -42,7 +42,8 @@ namespace {
     const int ALGORITHM_SYNC_TYPE = 0;
     const int ALGORITHM_ASYNC_TYPE = 1;
     const long long ALGORITHM_VERSION = 1;
-    const int EXECUTE_TIMES = 20;
+    const int EXECUTE_TIMES = 100;
+    const int COUNT = 20;
     const int CHAR_TYPE = 4;
     const int DESCRIPTION_LENGTH = 129;
     const int ALPHABET_LENGTH = 26;
@@ -114,7 +115,7 @@ HWTEST_F(SyncProcessTimeTest, TestSyncTime001, TestSize.Level0)
     char *inputData = const_cast<char*>(str);
     int len = strlen(str) + 1;
 
-    for (int i = 0; i < EXECUTE_TIMES; ++i) {
+    for (int i = 0; i < COUNT; ++i) {
         HILOGI("[Test]Test delay times:[%d]", i);
         char config[DESCRIPTION_LENGTH];
         RandStr(DESCRIPTION_LENGTH, config);
