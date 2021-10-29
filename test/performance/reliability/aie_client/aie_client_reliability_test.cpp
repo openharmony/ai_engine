@@ -46,7 +46,7 @@ namespace {
     const int OPERATE_ID = 2;
     const int REQUEST_ID = 3;
     const int ALGORITHM_EXTEND_LENGTH = 0;
-    const time_t TIME_TEST = 60 * 10;
+    const time_t TIME_TEST = 20;
 }
 
 class AieClientReliabilityTest : public testing::Test {
