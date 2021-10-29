@@ -44,6 +44,7 @@ namespace {
     const int ALGORITHM_ASYNC_TYPE = 1;
     const long long ALGORITHM_VERSION = 1;
     const int EXECUTE_TIMES = 100;
+    const int COUNT = 20;
     const int CHAR_TYPE = 4;
     const int DESCRIPTION_LENGTH = 129;
     const int ALPHABET_LENGTH = 26;
@@ -59,13 +60,13 @@ namespace {
     const char * const CONFIG_DESCRIPTION = "Prepare config information";
     const char * const PREPARE_INPUT_SYNC = "Sync prepare inputData";
     const char * const PREPARE_INPUT_ASYNC = "Async prepare inputData";
-    const int EXCEPTED_INIT_TIME = 100;
-    const int EXCEPTED_PREPARE_TIME = 300;
-    const int EXCEPTED_ASYNC_PROCESS_TIME = 150;
-    const int EXCEPTED_RELEASE_TIME = 300;
-    const int EXCEPTED_DESTROY_TIME = 100;
-    const int EXCEPTED_SETOPTION_TIME = 100;
-    const int EXCEPTED_GETOPTION_TIME = 100;
+    const int EXCEPTED_INIT_TIME = 20;
+    const int EXCEPTED_PREPARE_TIME = 60;
+    const int EXCEPTED_ASYNC_PROCESS_TIME = 30;
+    const int EXCEPTED_RELEASE_TIME = 60;
+    const int EXCEPTED_DESTROY_TIME = 20;
+    const int EXCEPTED_SETOPTION_TIME = 20;
+    const int EXCEPTED_GETOPTION_TIME = 20;
     std::time_t g_processStartTime;
     long long g_processTotalTime;
     long long g_initTotalTime;
@@ -189,7 +190,7 @@ HWTEST_F(AsyncProcessTimeTest, TestAsyncTime001, TestSize.Level0)
     char *inputData = const_cast<char*>(str);
     int len = strlen(str) + 1;
 
-    for (int i = 0; i < EXECUTE_TIMES; ++i) {
+    for (int i = 0; i < COUNT; ++i) {
         HILOGI("[Test]Test delay times:[%d]", i);
         char config[DESCRIPTION_LENGTH];
         RandStr(DESCRIPTION_LENGTH, config);
