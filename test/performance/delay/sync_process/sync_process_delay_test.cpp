@@ -58,7 +58,7 @@ namespace {
     const char * const CONFIG_DESCRIPTION = "Prepare config information";
     const char * const PREPARE_INPUT_SYNC = "Sync prepare inputData";
     const char * const PREPARE_INPUT_ASYNC = "Async prepare inputData";
-    const int EXCEPTED_SYNC_PROCESS_TIME = 20;
+    const int EXCEPTED_SYNC_PROCESS_TIME = 30;
 }
 
 class SyncProcessTimeTest : public testing::Test {
