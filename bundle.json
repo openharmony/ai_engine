@@ -1,0 +1,59 @@
+{
+    "name": "@ohos/ai_engine",
+    "version": "",
+    "description": "提供AI插件管理、模块管理和通信管理能力，对AI算法能力进行部署、调度和生命周期管理",
+    "homePage": "https://gitee.com/openharmony",
+    "license": "Apache V2",
+    "repository": "https://gitee.com/openharmony/ai_engine",
+    "domain": "os",
+    "language": "",
+    "publishAs": "code-segment",
+    "private": false,
+    "scripts": {},
+    "tags": [
+        "foundation"
+    ],
+    "keywords": [
+        "ai",
+        "engine"
+    ],
+    "envs": [],
+    "dirs": [],
+    "author": {
+        "name": "",
+        "email": "",
+        "url": ""
+    },
+    "contributors": [
+        {
+            "name": "",
+            "email": "",
+            "url": ""
+        }
+    ],
+    "segment": {
+        "destPath": "foundation/ai/engine"
+    },
+    "component": {
+        "name": "ai_engine",
+        "subsystem": "ai",
+        "syscap": [
+            "SysPart.ai.engine"
+        ],
+        "features": [],
+        "adated_system_type": [
+            "small"
+        ],
+        "rom": "",
+        "ram": "",
+        "deps": {
+            "components": [],
+            "third_party": []
+        },
+        "build": {
+            "sub_component": [],
+            "inner_kits": [],
+            "test": []
+        }
+    }
+}
