@@ -48,7 +48,7 @@ lite_library("audio_loader") {
   ]
   public_configs = [ ":libaudio_common_config" ]
   deps = [
-    "//device/hisilicon/hardware/multimedia:libhdi_media",
+    "//device/soc/hisilicon/common/hal/multimedia:libhdi_media",
     "//foundation/multimedia/audio_lite/frameworks:audio_capturer_lite",
     "//foundation/multimedia/utils/lite:media_common",
     "//third_party/bounds_checking_function:libsec_shared",
