@@ -50,7 +50,7 @@ lite_library("asr_keyword_spotting") {
   defines = [ "USE_NNIE" ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-    "//device/hisilicon/hardware/ai:engine_nnie_sdk",
+    "//device/soc/hisilicon/common/hal/ai:engine_nnie_sdk",
     "//foundation/ai/engine/services/common/platform/os_wrapper/feature:norm_processor_dep",
     "//foundation/ai/engine/services/common/platform/os_wrapper/feature:slide_window_processor_dep",
     "//foundation/ai/engine/services/common/platform/os_wrapper/utils:plugin_helper",
