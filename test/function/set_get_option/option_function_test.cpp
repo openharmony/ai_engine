@@ -29,8 +29,6 @@ using namespace testing::ext;
 
 namespace {
     const int REQUEST_ID = 1;
-    const int PRIORITY = 4;
-    const int TIME_OUT = 100;
     const int OPERATE_ID = 2;
     const long long CLIENT_INFO_VERSION = 1;
     const long long ALGORITHM_INFO_CLIENT_VERSION = 1;

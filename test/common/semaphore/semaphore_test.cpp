@@ -28,7 +28,6 @@ namespace OHOS {
 namespace AI {
 const int WAIT_TIME_MS = 1000;
 const int INTERVAL_TIME_S = 2;
-const int INT_VALUE = -1;
 const int TIME_OUT = 20;
 const int CONST_VALUE = 123;
 class ISemaphore;
