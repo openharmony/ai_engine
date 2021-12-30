@@ -14,6 +14,10 @@
  */
 
 #include <cstring>
+#ifdef __LINUX__
+#   include <unistd.h>
+#   include <fcntl.c>
+#endif
 
 #include "gtest/gtest.h"
 
@@ -76,23 +80,43 @@ public:
     void TearDown() {};
 };
 
+static int Random(void)
+{
+#ifndef __LINUX__
+    return -1;
+#else
+#ifndef O_RDONLY
+#define O_RDONLY 0u
+#endif
+    int r = -1;
+    int fd = open("/dev/random", O_RDONLY);
+    fd = open("/dev/random", O_RDONLY);
+    if (fd > 0) {
+        read(fd, &r, sizeof(int));
+    }
+    close(fd);
+
+    return r;
+#endif
+}
+
 static void RandStr(const int len, char *str)
 {
     srand(time(nullptr));
     int i;
     for (i = 0; i < len - 1; ++i) {
-        switch (rand() % CHAR_TYPE) {
+        switch (Random() % CHAR_TYPE) {
             case UPPER_POSITION:
-                str[i] = MIN_UPPER_CASE_CHAR + rand() % ALPHABET_LENGTH;
+                str[i] = MIN_UPPER_CASE_CHAR + Random() % ALPHABET_LENGTH;
                 break;
             case LOWER_POSITION:
-                str[i] = MIN_LOWER_CASE_CHAR + rand() % ALPHABET_LENGTH;
+                str[i] = MIN_LOWER_CASE_CHAR + Random() % ALPHABET_LENGTH;
                 break;
             case SPACE_POSITION:
                 str[i] = ' ';
                 break;
             default:
-                str[i] = MIN_NUMERIC_CHAR + rand() % DIGIT;
+                str[i] = MIN_NUMERIC_CHAR + Random() % DIGIT;
                 break;
         }
     }
