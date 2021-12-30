@@ -29,13 +29,9 @@ using namespace testing::ext;
 namespace {
     const char * const INPUT_CHARACTER = "inputData";
     const char * const CONFIG_DESCRIPTION = "config information";
-    const int INTERVAL = 10;
     const long long CLIENT_INFO_VERSION = 1;
     const int CLIENT_ID = -1;
     const int SESSION_ID = -1;
-    const int PRIORITY = 345;
-    const int TIME_OUT = 456;
-    const int EXTEND_LENGTH = 10;
     const long long ALGORITHM_INFO_CLIENT_VERSION = 2;
     const int ALGORITHM_TYPE_SYNC = 0;
     const int ALGORITHM_TYPE_ASYNC = 1;

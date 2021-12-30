@@ -32,20 +32,15 @@ using namespace testing::ext;
 namespace {
     const char * const INPUT_CHARACTER = "inputData";
     const char * const CONFIG_DESCRIPTION = "config information";
-    const int INTERVAL = 10;
     const long long CLIENT_INFO_VERSION = 1;
     const int CLIENT_ID = -1;
     const int SESSION_ID = -1;
-    const int PRIORITY = 345;
-    const int TIME_OUT = 456;
-    const int EXTEND_LENGTH = 10;
     const long long ALGORITHM_INFO_CLIENT_VERSION = 2;
     const int ALGORITHM_SYNC_TYPE = 0;
     const int ALGORITHM_ASYNC_TYPE = 1;
     const long long ALGORITHM_VERSION = 1;
     const int OPERATE_ID = 2;
     const int REQUEST_ID = 3;
-    const int ALGORITHM_EXTEND_LENGTH = 0;
     const time_t TIME_TEST = 20;
 }
 
