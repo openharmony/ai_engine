@@ -28,7 +28,6 @@ using namespace testing::ext;
 namespace OHOS {
 namespace AI {
 const int EVENT_WAIT_TIME_MS = 1000;
-const int INTERVAL_TIME_S = 1;
 class IEvent;
 std::shared_ptr<IEvent> g_event = IEvent::MakeShared();
 } // namespace AI
