@@ -29,21 +29,14 @@ using namespace OHOS::AI;
 namespace {
     unsigned char g_inputCharacter[] = "inputData";
     const char * const CONFIG_DESCRIPTION = "config information";
-    const int INVALID_CLIENT_ID = -1;
     const int INTERVAL = 10;
     const long long CLIENT_INFO_VERSION = 1;
-    const int CLIENT_ID = 1;
-    const int INVALID_SESSION_ID = -1;
-    const int SESSION_ID = 1;
-    const int PRIORITY = 345;
-    const int TIME_OUT = 456;
     const int EXTEND_LENGTH = 10;
     const long long ALGORITHM_INFO_CLIENT_VERSION = 2;
     const int ALGORITHM_TYPE = 66;
     const long long ALGORITHM_VERSION = 2;
     const int OPERATE_ID = 2;
     const int REQUEST_ID = 3;
-    const int ALGORITHM_EXTEND_LENGTH = 0;
 }
 
 int main()

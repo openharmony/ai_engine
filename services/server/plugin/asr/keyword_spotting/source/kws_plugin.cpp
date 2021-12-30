@@ -33,7 +33,6 @@ namespace {
     const std::string PLUGIN_MODEL_PATH = "/storage/data/keyword_spotting.wk";
     const std::string DEFAULT_INFER_MODE = "SYNC";
     const std::string ALGORITHM_NAME_KWS = "KWS";
-    const int32_t ALGORITHM_VERSION = 20001002;
     const int32_t OPTION_GET_INPUT_SIZE = 1001;
     const int32_t OPTION_GET_OUTPUT_SIZE = 1002;
     const intptr_t EMPTY_UINTPTR = 0;
@@ -119,9 +118,9 @@ int32_t KWSPlugin::Prepare(long long transactionId, const DataInfo &inputInfo, D
     }
     KWSWorkplace worker = {
         .config = config,
-        .slideProcessor = nullptr,
+        .normProcessor = nullptr,
         .typeConverter = nullptr,
-        .normProcessor = nullptr
+        .slideProcessor = nullptr
     };
     if (InitComponents(worker) != RETCODE_SUCCESS) {
         HILOGE("[KWSPlugin]InitComponents failed");
