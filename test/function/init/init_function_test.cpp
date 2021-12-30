@@ -30,8 +30,6 @@ namespace {
     const char * const INPUT_CHARACTER = "inputData";
     const char * const CONFIG_DESCRIPTION = "config information";
     const long long CLIENT_INFO_VERSION = 1;
-    const int PRIORITY = 345;
-    const int TIME_OUT = 456;
     const int EXTEND_LENGTH = 10;
     const long long ALGORITHM_INFO_CLIENT_VERSION = 2;
     const int ALGORITHM_TYPE = 66;
