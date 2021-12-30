@@ -15,8 +15,6 @@
 
 #include "platform/threadpool/include/thread.h"
 
-#include <thread>
-
 #include "platform/time/include/time.h"
 #include "platform/time/include/time_elapser.h"
 #include "protocol/retcode_inner/aie_retcode_inner.h"
