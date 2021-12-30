@@ -31,12 +31,6 @@ using namespace testing::ext;
 
 namespace {
     const int REQUEST_ID = 1;
-    const int TRANSACTION_ID = 10000001;
-    const int PRIORITY = 4;
-    const int TIME_OUT = 100;
-    const int ALGORITHM_PLUGIN_TYPE = 0;
-    const int IVP_PLUGIN = 0;
-    const int CHILDMODE_PLUGIN = 1;
     const int OPERATE_ID = 2;
     const long long CLIENT_INFO_VERSION = 1;
     const int SESSION_ID = -1;
