@@ -102,7 +102,6 @@ static int Random(void)
 
 static void RandStr(const int len, char *str)
 {
-    srand(time(nullptr));
     int i;
     for (i = 0; i < len - 1; ++i) {
         switch (Random() % CHAR_TYPE) {
