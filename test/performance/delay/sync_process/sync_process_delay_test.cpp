@@ -29,18 +29,11 @@ using namespace testing::ext;
 
 namespace {
     const int REQUEST_ID = 1;
-    const int TRANSACTION_ID = 10000001;
-    const int PRIORITY = 4;
-    const int TIME_OUT = 100;
-    const int ALGORITHM_PLUGIN_TYPE = 0;
-    const int IVP_PLUGIN = 0;
-    const int CHILD_MODE_PLUGIN = 1;
     const int OPERATE_ID = 2;
     const long long CLIENT_INFO_VERSION = 1;
     const int SESSION_ID = -1;
     const long long ALGORITHM_INFO_CLIENT_VERSION = 1;
     const int ALGORITHM_SYNC_TYPE = 0;
-    const int ALGORITHM_ASYNC_TYPE = 1;
     const long long ALGORITHM_VERSION = 1;
     const int EXECUTE_TIMES = 100;
     const int COUNT = 20;
@@ -55,9 +48,7 @@ namespace {
     const char MIN_LOWER_CASE_CHAR = 'a';
     const char MIN_NUMERIC_CHAR = '0';
     const char TRAILING_CHAR = '\0';
-    const char * const CONFIG_DESCRIPTION = "Prepare config information";
     const char * const PREPARE_INPUT_SYNC = "Sync prepare inputData";
-    const char * const PREPARE_INPUT_ASYNC = "Async prepare inputData";
     const int EXCEPTED_SYNC_PROCESS_TIME = 30;
 }
 

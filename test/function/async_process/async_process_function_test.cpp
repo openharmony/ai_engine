@@ -37,13 +37,10 @@ namespace {
     const char * const CONFIG_DESCRIPTION = "config information";
 
     const int REQUEST_ID = 1;
-    const int PRIORITY = 4;
-    const int TIME_OUT = 100;
     const int OPERATE_ID = 2;
     const long long CLIENT_INFO_VERSION = 1;
     const int ALGORITHM_ASYNC_TYPE = 1;
     const long long ALGORITHM_VERSION = 1;
-    const int DATA_INFO_LEN = 6;
     const int WAIT_CALLBACK_TIME_MS = 2000;
 }
 
