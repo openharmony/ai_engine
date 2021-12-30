@@ -27,8 +27,6 @@ using namespace OHOS::AI::Feature;
 
 namespace {
     const char NUMBER_DELIMITER = ' ';
-    const char DECIMAL_POINT = '.';
-    const size_t MAX_BUFFER_SIZE = 10000;
     const float EPSILON = 1e-6;
 }
 
