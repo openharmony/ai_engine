@@ -120,7 +120,7 @@ int32_t KWSPlugin::Prepare(long long transactionId, const DataInfo &inputInfo, D
         .config = config,
         .normProcessor = nullptr,
         .typeConverter = nullptr,
-        .slideProcessor = nullptr    
+        .slideProcessor = nullptr
     };
     if (InitComponents(worker) != RETCODE_SUCCESS) {
         HILOGE("[KWSPlugin]InitComponents failed");
