@@ -1,0 +1,38 @@
+{
+  "name": "@ohos/ai_engine",
+  "description": "AI engine framework.",
+  "version": "3.1",
+  "license": "Apache License 2.0",
+  "pubiishAs": "code-segment",
+  "segment": {
+    "destPath": "foundation/ai/engine"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "ai_engine",
+    "subsystem": "ai",
+    "syscap": [ "SystemCapability.Ai.AiEngine" ],
+    "feature": [],
+    "adapted_system_type": [ "small" ],
+    "rom": "130KB",
+    "ram": "~337KB",
+    "deps": {
+      "components": [
+        "hilog",
+        "utils_base",
+        "ipc_lite",
+        "samgr_lite"
+      ],
+      "third_party": [
+        "bounds_checking_function",
+        "iniparser"
+      ]
+    },
+    "build": {
+      "sub_component": [ "//foundation/ai/engine/services:ai" ],
+      "inner_kits": [],
+      "test": [ "//foundation/ai/engine/test" ]
+    }
+  }
+}
