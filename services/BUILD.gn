@@ -19,7 +19,4 @@ lite_component("ai") {
     "client:client",
     "server:server",
   ]
-  if (ohos_build_type == "debug") {
-    deps = [ "//foundation/ai/engine/test" ]
-  }
 }
