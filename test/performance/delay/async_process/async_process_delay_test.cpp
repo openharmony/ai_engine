@@ -112,7 +112,6 @@ static int Random(void)
 #endif
 }
 
-
 static void RandStr(const int len, char *str)
 {
     int i;
@@ -154,7 +153,7 @@ public:
 static void CheckTimeInit()
 {
     double duration = static_cast<double>(g_initTotalTime)
-                        /static_cast<double>(EXECUTE_TIMES);
+                        / static_cast<double>(EXECUTE_TIMES);
     HILOGI("[Test][CheckTimeInit][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_INIT_TIME));
 }
@@ -162,7 +161,7 @@ static void CheckTimeInit()
 static void CheckTimePrepare()
 {
     double duration = static_cast<double>(g_prepareTotalTime)
-                        /static_cast<double>(EXECUTE_TIMES);
+                        / static_cast<double>(EXECUTE_TIMES);
     HILOGI("[Test][CheckTimePrepare][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_PREPARE_TIME));
 }
@@ -170,7 +169,7 @@ static void CheckTimePrepare()
 static void CheckTimeAsyncProcess()
 {
     double duration = static_cast<double>(g_processTotalTime)
-                        /static_cast<double>(EXECUTE_TIMES);
+                        / static_cast<double>(EXECUTE_TIMES);
     HILOGI("[Test][CheckTimeAsyncProcess][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_ASYNC_PROCESS_TIME));
 }
@@ -178,7 +177,7 @@ static void CheckTimeAsyncProcess()
 static void CheckTimeRelease()
 {
     double duration = static_cast<double>(g_releaseTotalTime)
-                        /static_cast<double>(EXECUTE_TIMES);
+                        / static_cast<double>(EXECUTE_TIMES);
     HILOGI("[Test][CheckTimeRelease][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_RELEASE_TIME));
 }
@@ -186,7 +185,7 @@ static void CheckTimeRelease()
 static void CheckTimeDestroy()
 {
     double duration = static_cast<double>(g_destroyTotalTime)
-                        /static_cast<double>(EXECUTE_TIMES);
+                        / static_cast<double>(EXECUTE_TIMES);
     HILOGI("[Test][CheckTimeDestroy][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_DESTROY_TIME));
 }
@@ -194,7 +193,7 @@ static void CheckTimeDestroy()
 static void CheckTimeSetOption()
 {
     double duration = static_cast<double>(g_setOptionTotalTime)
-                        /static_cast<double>(EXECUTE_TIMES);
+                        / static_cast<double>(EXECUTE_TIMES);
     HILOGI("[Test][CheckTimeSetOption][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_SETOPTION_TIME));
 }
@@ -202,7 +201,7 @@ static void CheckTimeSetOption()
 static void CheckTimeGetOption()
 {
     double duration = static_cast<double>(g_getOptionTotalTime)
-                        /static_cast<double>(EXECUTE_TIMES);
+                        / static_cast<double>(EXECUTE_TIMES);
     HILOGI("[Test][CheckTimeGetOption][%lf]", duration);
     ASSERT_TRUE((duration > 0) && (duration <= EXCEPTED_GETOPTION_TIME));
 }
