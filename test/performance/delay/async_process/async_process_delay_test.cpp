@@ -150,7 +150,7 @@ static void CheckTimeInit()
 }
 
 static void CheckTimePrepare()
-{  
+{
     double duration = static_cast<double>(g_prepareTotalTime)
                         / static_cast<double>(EXECUTE_TIMES);
     HILOGI("[Test][CheckTimePrepare][%lf]", duration);
