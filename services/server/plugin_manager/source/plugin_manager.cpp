@@ -70,7 +70,8 @@ void PluginManager::DelPluginByAID(const std::string &aid)
         if (aid == iter->first.aid) {
             HILOGI("[PluginManager]Try to delete plugin. aid=%s, version=%lld.", iter->first.aid.c_str(),
                 iter->first.version);
-            pluginMap_.erase(iter);
+            iter = pluginMap_.erase(iter);
+            continue;
         }
         ++iter;
     }
