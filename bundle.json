@@ -21,7 +21,7 @@
       "components": [
         "hilog",
         "utils_base",
-        "ipc_lite",
+        "ipc",
         "samgr_lite"
       ],
       "third_party": [

@@ -15,8 +15,8 @@
 
 #include "communication_adapter/include/client_listener_handler.h"
 
-#include "liteipc_adapter.h"
-
+#include "ipc_skeleton.h"
+#include "rpc_errno.h"
 #include "platform/os_wrapper/ipc/include/aie_ipc.h"
 #include "protocol/ipc_interface/ai_service.h"
 #include "protocol/retcode_inner/aie_retcode_inner.h"
@@ -51,14 +51,14 @@ void AsyncProcessWorker::IpcIoResponse(IResponse *response, IpcIo &io, char *dat
     IpcIoInit(&io, data, length, IPC_OBJECT_COUNTS);
 
     int retCode = response->GetRetCode();
-    IpcIoPushInt32(&io, retCode);
+    WriteInt32(&io, retCode);
 
     int requestId = response->GetRequestId();
-    IpcIoPushInt32(&io, requestId);
+    WriteInt32(&io, requestId);
 
     long long transactionId = response->GetTransactionId();
     int sessionId = adapter_->GetSessionId(transactionId);
-    IpcIoPushInt32(&io, sessionId);
+    WriteInt32(&io, sessionId);
 
     DataInfo result = response->GetResult();
     ParcelDataInfo(&io, &result, response->GetClientUid());
@@ -71,8 +71,8 @@ bool AsyncProcessWorker::OneAction()
     ResGuard<IResponse> guard(response);
 
     IpcIo io;
-    char tmpData[IPC_IO_DATA_MAX];
-    IpcIoResponse(response, io, tmpData, IPC_IO_DATA_MAX);
+    char tmpData[MAX_IO_SIZE];
+    IpcIoResponse(response, io, tmpData, MAX_IO_SIZE);
 
     SvcIdentity *svcIdentity = adapter_->GetEngineListener();
     if (svcIdentity == nullptr) {
@@ -81,11 +81,14 @@ bool AsyncProcessWorker::OneAction()
     }
 
     IpcIo reply;
-    int32_t retCode = Transact(nullptr, *svcIdentity, ON_ASYNC_PROCESS_CODE, &io, &reply, LITEIPC_FLAG_ONEWAY, nullptr);
-    if (retCode != LITEIPC_OK) {
+    MessageOption option;
+    MessageOptionInit(&option);
+    option.flags = TF_OP_ASYNC;
+    int32_t retCode = SendRequest(*svcIdentity, ON_ASYNC_PROCESS_CODE, &io, &reply, option, nullptr);
+    if (retCode != ERR_NONE) {
         HILOGI("[ClientListenerHandler]End to deal response, ret is %d, clientId: %d.", retCode, clientId_);
     }
-    return retCode == LITEIPC_OK;
+    return retCode == ERR_NONE;
 }
 
 bool AsyncProcessWorker::Initialize()
