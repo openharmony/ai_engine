@@ -18,8 +18,7 @@ source_set("aie_ipc") {
   cflags_cc = cflags
   include_dirs = [
     "//foundation/ai/engine/services/common",
-    "//foundation/communication/ipc_lite/frameworks/liteipc/include",
-    "//foundation/communication/ipc_lite/interfaces/kits",
+    "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
     "//third_party/bounds_checking_function/include",
   ]
   deps = [ "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared" ]
