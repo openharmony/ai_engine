@@ -75,11 +75,11 @@ static int UnParcelClientInfo(IpcIo *request, ClientInfo *clientInfo)
         HILOGE("[SaServer]The clientInfo is NULL.");
         return RETCODE_FAILURE;
     }
-    clientInfo->clientVersion = IpcIoPopInt64(request);
-    clientInfo->clientId = IpcIoPopInt32(request);
-    clientInfo->sessionId = IpcIoPopInt32(request);
-    clientInfo->serverUid = IpcIoPopUint32(request);
-    clientInfo->clientUid = IpcIoPopUint32(request);
+    ReadInt64(request, &(clientInfo->clientVersion));
+    ReadInt32(request, &(clientInfo->clientId));
+    ReadInt32(request, &(clientInfo->sessionId));
+    ReadUint32(request, &(clientInfo->serverUid));
+    ReadUint32(request, &(clientInfo->clientUid));
 
     DataInfo dataInfo = {NULL, 0};
     int retCode = UnParcelDataInfo(request, &dataInfo);
@@ -103,13 +103,13 @@ static int UnParcelAlgorithmInfo(IpcIo *request, AlgorithmInfo *algorithmInfo)
         HILOGE("[SaServer]The algorithmInfo is NULL.");
         return RETCODE_FAILURE;
     }
-    algorithmInfo->clientVersion = IpcIoPopInt64(request);
-    algorithmInfo->isAsync = IpcIoPopBool(request);
-    algorithmInfo->algorithmType = IpcIoPopInt32(request);
-    algorithmInfo->algorithmVersion = IpcIoPopInt64(request);
-    algorithmInfo->isCloud = IpcIoPopBool(request);
-    algorithmInfo->operateId = IpcIoPopInt32(request);
-    algorithmInfo->requestId = IpcIoPopInt32(request);
+    ReadInt64(request, &(algorithmInfo->clientVersion));
+    ReadBool(request, &(algorithmInfo->isAsync));
+    ReadInt32(request, &(algorithmInfo->algorithmType));
+    ReadInt64(request, &(algorithmInfo->algorithmVersion));
+    ReadBool(request, &(algorithmInfo->isCloud));
+    ReadInt32(request, &(algorithmInfo->operateId));
+    ReadInt32(request, &(algorithmInfo->requestId));
 
     DataInfo dataInfo = {NULL, 0};
     int retCode = UnParcelDataInfo(request, &dataInfo);
@@ -241,10 +241,10 @@ static int InvokeInitSaEngine(AiInterface *aiInterface, IpcIo *req, IpcIo *reply
     HILOGI("[SaServer]InvokeInitSaEngine start.");
     ConfigInfo configInfo;
     size_t len = 0;
-    configInfo.description = (char*)IpcIoPopString(req, &len);
+    configInfo.description = (char*)ReadString(req, &len);
     int32_t clientId = aiInterface->InitEngine(&configInfo);
-    IpcIoPushInt32(reply, clientId);
-    IpcIoPushUint32(reply, getuid());
+    WriteInt32(reply, clientId);
+    WriteUint32(reply, getuid());
     return clientId;
 }
 
@@ -274,7 +274,7 @@ static int InvokeLoadAlgorithm(AiInterface *aiInterface, IpcIo *req, IpcIo *repl
         .length = 0,
     };
     retCode = aiInterface->LoadAlgorithm(&clientInfo, &algorithmInfo, &inputInfo, &outputInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
 
     FreeDataInfo(&outputInfo);
@@ -301,7 +301,7 @@ static int InvokeSyncExecute(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
         .length = 0,
     };
     retCode = aiInterface->SyncExecuteAlgorithm(&clientInfo, &algorithmInfo, &inputInfo, &outputInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
     FreeDataInfo(&outputInfo);
 
@@ -327,7 +327,7 @@ static int InvokeAsyncExecute(AiInterface *aiInterface, IpcIo *req, IpcIo *reply
     // inputInfo is hold by request, and freed when request is destructed in SaServerAdapter::AsyncExecute().
     FreeClientInfo(&clientInfo);
     FreeAlgorithmInfo(&algorithmInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     return retCode;
 }
 
@@ -343,7 +343,7 @@ static int InvokeDestroyEngine(AiInterface *aiInterface, IpcIo *req, IpcIo *repl
 
     retCode = aiInterface->DestroyEngine(&clientInfo);
     FreeClientInfo(&clientInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     return retCode;
 }
 
@@ -357,7 +357,8 @@ static int InvokeSetOption(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
         return retCode;
     }
 
-    int optionType = IpcIoPopInt32(req);
+    int optionType;
+    ReadInt32(req, &optionType);
     DataInfo inputInfo = {0};
     retCode = UnParcelDataInfo(req, &inputInfo);
     if (retCode != RETCODE_SUCCESS) {
@@ -370,7 +371,7 @@ static int InvokeSetOption(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
     retCode = aiInterface->SetOption(&clientInfo, optionType, &inputInfo);
     FreeClientInfo(&clientInfo);
     FreeDataInfo(&inputInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     return retCode;
 }
 
@@ -384,7 +385,8 @@ static int InvokeGetOption(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
         return retCode;
     }
 
-    int optionType = IpcIoPopInt32(req);
+    int optionType;
+    ReadInt32(req, &optionType);
 
     DataInfo inputInfo = {0};
     retCode = UnParcelDataInfo(req, &inputInfo);
@@ -400,7 +402,7 @@ static int InvokeGetOption(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
         .length = 0,
     };
     retCode = aiInterface->GetOption(&clientInfo, optionType, &inputInfo, &outputInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     ParcelDataInfo(reply, &outputInfo, clientInfo.clientUid);
 
     FreeDataInfo(&outputInfo);
@@ -412,25 +414,23 @@ static int InvokeGetOption(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
 static int InvokeRegisterCallback(AiInterface *aiInterface, IpcIo *req, IpcIo *reply)
 {
     HILOGI("[SaServer]InvokeRegisterCallback start.");
-    SvcIdentity *sid = IpcIoPopSvc(req);
-    if (sid == NULL) {
-        HILOGE("[SaServer]sid is null.");
+    SvcIdentity sid;
+    bool ret = ReadRemoteObject(req, &sid);
+    if (!ret) {
+        HILOGE("[SaServer]ReadRemoteObject failed.");
         return RETCODE_NULL_PARAM;
     }
-#ifdef __LINUX__
-    BinderAcquire(sid->ipcContext, sid->handle);
-#endif
     ClientInfo clientInfo = {0};
     int retCode = UnParcelClientInfo(req, &clientInfo);
     if (retCode != RETCODE_SUCCESS) {
         HILOGE("[SaServer]UnParcelClientInfo failed, retCode[%d].", retCode);
         return retCode;
     }
-    retCode = RegisterCallbackWrapper(&clientInfo, sid);
+    retCode = RegisterCallbackWrapper(&clientInfo, &sid);
     HILOGD("[SaServer][clientId:%d]RegisterCallbackWrapper finished, retCode is [%d].", clientInfo.clientId, retCode);
 
     FreeClientInfo(&clientInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     return retCode;
 }
 
@@ -445,7 +445,7 @@ static int InvokeUnregisterCallback(AiInterface *aiInterface, IpcIo *req, IpcIo 
     }
     retCode = aiInterface->UnregisterCallback(&clientInfo);
     FreeClientInfo(&clientInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     return retCode;
 }
 
@@ -476,7 +476,7 @@ static int InvokeUnloadAlgorithm(AiInterface *aiInterface, IpcIo *req, IpcIo *re
     FreeClientInfo(&clientInfo);
     FreeAlgorithmInfo(&algorithmInfo);
     FreeDataInfo(&inputInfo);
-    IpcIoPushInt32(reply, retCode);
+    WriteInt32(reply, retCode);
     return retCode;
 }
 
