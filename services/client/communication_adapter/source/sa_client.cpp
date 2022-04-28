@@ -15,7 +15,7 @@
 
 #include "communication_adapter/include/sa_client.h"
 
-#include "liteipc_adapter.h"
+#include "ipc_skeleton.h"
 
 #include "communication_adapter/include/sa_client_proxy.h"
 #include "platform/os_wrapper/ipc/include/aie_ipc.h"
@@ -28,14 +28,14 @@
 namespace OHOS {
 namespace AI {
 namespace {
-int32_t AsyncCallback(const IpcContext *ipcContext, void *ipcMsg, IpcIo *data, void *arg)
+int32_t AsyncCallback(uint32_t code, IpcIo *data, IpcIo *reply, MessageOption option)
 {
-    // the code is callback function id, which is defined in ai_service.h
-    uint32_t code;
-    int32_t ipcGetCodeRet = GetCode(ipcMsg, &code);
-    int asyncCallbackRet = IpcIoPopInt32(data);
-    int requestId = IpcIoPopInt32(data);
-    int sessionId = IpcIoPopInt32(data);
+    int asyncCallbackRet;
+    ReadInt32(data, &asyncCallbackRet);
+    int requestId;
+    ReadInt32(data, &requestId);
+    int sessionId;
+    ReadInt32(data, &sessionId);
     DataInfo outputInfo = {
         .data = nullptr,
         .length = 0,
@@ -44,44 +44,42 @@ int32_t AsyncCallback(const IpcContext *ipcContext, void *ipcMsg, IpcIo *data, v
     SaClient *client = SaClient::GetInstance();
     if (client == nullptr) {
         HILOGE("[SaClient]The client is nullptr, maybe out of memory.");
-        FreeBuffer(nullptr, ipcMsg);
         FreeDataInfo(&outputInfo);
         return RETCODE_FAILURE;
     }
     CallbackHandle callback = client->GetSaClientResultCb();
     if (callback == nullptr) {
         HILOGE("[SaClient]SA client callback is nullptr, maybe Release interface is called or the callback is deleted");
-        FreeBuffer(nullptr, ipcMsg);
         FreeDataInfo(&outputInfo);
         return RETCODE_FAILURE;
     }
     // The asynchronous callback retCode is used only when the IPC is normal.
     int retCode = asyncCallbackRet;
-    if (ipcGetCodeRet != LITEIPC_OK || ipcUnParcelRet != RETCODE_SUCCESS) {
-        HILOGE("[SaClient]AsyncCallback failed, GetCode retCode[%d], UnParcelDataInfo retCode[%d].", ipcGetCodeRet,
-               ipcUnParcelRet);
+    if (ipcUnParcelRet != RETCODE_SUCCESS) {
+        HILOGE("[SaClient]AsyncCallback failed, UnParcelDataInfo retCode[%d].", ipcUnParcelRet);
         // The IPC is abnormal.
         retCode = RETCODE_FAILURE;
     }
     callback(sessionId, outputInfo, retCode, requestId);
-    FreeBuffer(nullptr, ipcMsg);
     FreeDataInfo(&outputInfo);
     return retCode;
 }
 
-int32_t OnAiDead(const IpcContext *context, void *ipcMsg, IpcIo *data, void *arg)
+void OnAiDead(void *arg)
 {
     SaClient *client = SaClient::GetInstance();
-    CHK_RET(client == nullptr, RETCODE_FAILURE);
+    if (client == nullptr) {
+        HILOGE("[SaClient]callback is null.");
+        return;
+    }
     DeathCallbackHandle onDead = client->GetSaDeathResultCb();
     if (onDead == nullptr) {
         HILOGE("[SaClient]Dead callback is null.");
-        return RETCODE_FAILURE;
+        return;
     }
     int clientId = *(reinterpret_cast<int *>(arg));
     HILOGW("[SaClient]OnAiDead for [clientId:%d].", clientId);
     onDead();
-    return RETCODE_SUCCESS;
 }
 } // anonymous namespaces
 
@@ -132,7 +130,7 @@ int SaClient::Init(const ConfigInfo &configInfo, ClientInfo &clientInfo)
 
     // Register SA Death Callback
     svc_ = SAMGR_GetRemoteIdentity(AI_SERVICE, nullptr);
-    int32_t resultCode = RegisterDeathCallback(nullptr, svc_, OnAiDead, &clientInfo.clientId, &deadId_);
+    int32_t resultCode = AddDeathRecipient(svc_, OnAiDead, &clientInfo.clientId, &deadId_);
     if (resultCode != 0) {
         HILOGE("[SaClient]Register SA Death Callback failed, errorCode[%d]", resultCode);
         return RETCODE_FAILURE;
@@ -190,7 +188,7 @@ int SaClient::Destroy(const ClientInfo &clientInfo)
     }
 
     int retCode = DestroyEngineProxy(*proxy_, clientInfo);
-    (void)UnregisterDeathCallback(svc_, deadId_);
+    (void)RemoveDeathRecipient(svc_, deadId_);
     ReleaseIUnknown(*((IUnknown *)proxy_));
     proxy_ = nullptr;
     return retCode;

@@ -30,6 +30,7 @@ namespace OHOS {
 namespace AI {
 namespace {
 SvcIdentity g_sid;
+IpcObjectStub g_objStub;
 
 struct Notify {
     int retCode;
@@ -55,8 +56,8 @@ int Callback(void *owner, int code, IpcIo *reply)
         return RETCODE_NULL_PARAM;
     }
     auto notify = reinterpret_cast<NotificationInitServer *>(owner);
-    notify->clientId = IpcIoPopInt32(reply);
-    notify->serverUid = IpcIoPopUint32(reply);
+    ReadInt32(reply, &(notify->clientId));
+    ReadUint32(reply, &(notify->serverUid));
     return RETCODE_SUCCESS;
 }
 
@@ -68,7 +69,7 @@ int CallbackBuff(void *owner, int code, IpcIo *reply)
         return RETCODE_NULL_PARAM;
     }
     auto notify = reinterpret_cast<struct NotifyBuff *>(owner);
-    notify->retCode = IpcIoPopInt32(reply);
+    ReadInt32(reply, &(notify->retCode));
 
     DataInfo dataInfo {};
     notify->ipcRetCode = UnParcelDataInfo(reply, &dataInfo);
@@ -85,11 +86,11 @@ int CallbackBuff(void *owner, int code, IpcIo *reply)
 
 void ParcelClientInfo(IpcIo *request, const ClientInfo &clientInfo)
 {
-    IpcIoPushInt64(request, clientInfo.clientVersion);
-    IpcIoPushInt32(request, clientInfo.clientId);
-    IpcIoPushInt32(request, clientInfo.sessionId);
-    IpcIoPushUint32(request, clientInfo.serverUid);
-    IpcIoPushUint32(request, clientInfo.clientUid);
+    WriteInt64(request, clientInfo.clientVersion);
+    WriteInt32(request, clientInfo.clientId);
+    WriteInt32(request, clientInfo.sessionId);
+    WriteUint32(request, clientInfo.serverUid);
+    WriteUint32(request, clientInfo.clientUid);
 
     DataInfo dataInfo {clientInfo.extendMsg, clientInfo.extendLen};
     ParcelDataInfo(request, &dataInfo, clientInfo.serverUid);
@@ -97,13 +98,13 @@ void ParcelClientInfo(IpcIo *request, const ClientInfo &clientInfo)
 
 void ParcelAlgorithmInfo(IpcIo *request, const AlgorithmInfo &algorithmInfo, const uid_t serverUid)
 {
-    IpcIoPushInt64(request, algorithmInfo.clientVersion);
-    IpcIoPushBool(request, algorithmInfo.isAsync);
-    IpcIoPushInt32(request, algorithmInfo.algorithmType);
-    IpcIoPushInt64(request, algorithmInfo.algorithmVersion);
-    IpcIoPushBool(request, algorithmInfo.isCloud);
-    IpcIoPushInt32(request, algorithmInfo.operateId);
-    IpcIoPushInt32(request, algorithmInfo.requestId);
+    WriteInt64(request, algorithmInfo.clientVersion);
+    WriteBool(request, algorithmInfo.isAsync);
+    WriteInt32(request, algorithmInfo.algorithmType);
+    WriteInt64(request, algorithmInfo.algorithmVersion);
+    WriteBool(request, algorithmInfo.isCloud);
+    WriteInt32(request, algorithmInfo.operateId);
+    WriteInt32(request, algorithmInfo.requestId);
 
     DataInfo dataInfo {algorithmInfo.extendMsg, algorithmInfo.extendLen};
     ParcelDataInfo(request, &dataInfo, serverUid);
@@ -137,9 +138,9 @@ int InitSaEngine(IClientProxy &proxy, const ConfigInfo &configInfo, ClientInfo &
     HILOGI("[SaClientProxy]Begin to call InitSaEngine.");
 
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
-    IpcIoPushString(&request, configInfo.description);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
+    WriteString(&request, configInfo.description);
 
     NotificationInitServer owner = {
         .clientId = INVALID_CLIENT_ID,
@@ -161,8 +162,8 @@ int DestroyEngineProxy(IClientProxy &proxy, const ClientInfo &clientInfo)
 
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
     ParcelClientInfo(&request, clientInfo);
 
     if (proxy.Invoke == nullptr) {
@@ -192,8 +193,8 @@ int SyncExecAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, co
     HILOGI("[SaClientProxy]Begin to call SyncExecAlgorithmProxy.");
 
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
     ParcelAlgorithmInfo(&request, algoInfo, clientInfo.serverUid);
@@ -226,8 +227,8 @@ int AsyncExecuteAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo
     HILOGI("[SaClientProxy]Begin to call AsyncExecuteAlgorithmProxy.");
 
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
     ParcelClientInfo(&request, clientInfo);
     ParcelAlgorithmInfo(&request, algoInfo, clientInfo.serverUid);
     ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
@@ -246,8 +247,8 @@ int LoadAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, const 
 {
     HILOGI("[SaClientProxy]Begin to call LoadAlgorithmProxy.");
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
     ParcelAlgorithmInfo(&request, algoInfo, clientInfo.serverUid);
@@ -278,8 +279,8 @@ int UnloadAlgorithmProxy(IClientProxy &proxy, const ClientInfo &clientInfo, cons
     HILOGI("[SaClientProxy]Begin to call UnloadAlgorithmProxy.");
 
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
     ParcelAlgorithmInfo(&request, algoInfo, clientInfo.serverUid);
@@ -299,11 +300,11 @@ int SetOptionProxy(IClientProxy &proxy, const ClientInfo &clientInfo, int option
     HILOGI("[SaClientProxy]Begin to call SetOptionProxy.");
 
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
-    IpcIoPushInt32(&request, optionType);
+    WriteInt32(&request, optionType);
     ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
 
     struct Notify owner = {.retCode = RETCODE_FAILURE};
@@ -321,11 +322,11 @@ int GetOptionProxy(IClientProxy &proxy, const ClientInfo &clientInfo, int option
     HILOGI("[SaClientProxy]Begin to call GetOptionProxy.");
 
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
-    IpcIoPushInt32(&request, optionType);
+    WriteInt32(&request, optionType);
     ParcelDataInfo(&request, &inputInfo, clientInfo.serverUid);
 
     struct NotifyBuff owner = {
@@ -349,21 +350,27 @@ int GetOptionProxy(IClientProxy &proxy, const ClientInfo &clientInfo, int option
     return owner.retCode;
 }
 
-int RegisterCallbackProxy(IClientProxy &proxy, const ClientInfo &clientInfo, IpcMsgHandler asyncCallback)
+int RegisterCallbackProxy(IClientProxy &proxy, const ClientInfo &clientInfo, OnRemoteRequest asyncCallback)
 {
     HILOGI("[SaClientProxy]Begin to call RegisterCallbackProxy.");
 
-    int ret = RegisterIpcCallback(asyncCallback, ONCE, IPC_WAIT_FOREVER, &g_sid, nullptr);
-    if (ret != 0) {
-        HILOGE("[SaClientProxy]Function RegisterIpcCallback failed.");
-        return RETCODE_FAILURE;
-    }
+    g_objStub.func = asyncCallback;
+    g_objStub.args = nullptr;
+    g_objStub.isRemote = false;
+
+    g_sid.handle = IPC_INVALID_HANDLE;
+    g_sid.token = SERVICE_TYPE_ANONYMOUS;
+    g_sid.cookie = (uintptr_t)&g_objStub;
 
     struct Notify owner = {.retCode = RETCODE_FAILURE};
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
-    IpcIoPushSvc(&request, &g_sid);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
+    bool writeRemote = WriteRemoteObject(&request, &g_sid);
+    if (!writeRemote) {
+        HILOGE("WriteRemoteObject failed.");
+        return RETCODE_FAILURE;
+    }
     ParcelClientInfo(&request, clientInfo);
     if (proxy.Invoke == nullptr) {
         HILOGE("[SaClientProxy]Function pointer proxy.Invoke is nullptr.");
@@ -378,8 +385,8 @@ int UnregisterCallbackProxy(IClientProxy &proxy, const ClientInfo &clientInfo)
     HILOGI("[SaClientProxy]Begin to call UnregisterSaCallbackProxy.");
 
     IpcIo request;
-    char data[IPC_IO_DATA_MAX];
-    IpcIoInit(&request, data, IPC_IO_DATA_MAX, IPC_OBJECT_COUNTS);
+    char data[MAX_IO_SIZE];
+    IpcIoInit(&request, data, MAX_IO_SIZE, IPC_OBJECT_COUNTS);
 
     ParcelClientInfo(&request, clientInfo);
     struct Notify owner = {.retCode = RETCODE_FAILURE};
@@ -388,7 +395,6 @@ int UnregisterCallbackProxy(IClientProxy &proxy, const ClientInfo &clientInfo)
         return RETCODE_NULL_PARAM;
     }
     proxy.Invoke(&proxy, ID_UNREGISTER_CALLBACK, &request, &owner, Callback);
-    UnregisterIpcCallback(g_sid);
     return owner.retCode;
 }
 } // namespace AI
