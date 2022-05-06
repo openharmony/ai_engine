@@ -39,7 +39,5 @@ source_set("plugin_manager") {
     "//foundation/ai/engine/services/common/",
     "//foundation/ai/engine/services/server/",
     "//third_party/bounds_checking_function/include",
-    "//third_party/iniparser",
   ]
-  deps = [ "//third_party/iniparser:iniparser" ]
 }

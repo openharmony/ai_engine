@@ -20,7 +20,6 @@
 #include <string>
 
 #include "protocol/retcode_inner/aie_retcode_inner.h"
-#include "src/iniparser.h"
 #include "utils/aie_macros.h"
 
 namespace OHOS {
@@ -54,7 +53,6 @@ public:
 private:
     static std::mutex instanceLock_;
     static PluginLabel *instance_;
-    dictionary *pluginIniConfig_ = nullptr;
 };
 } // namespace AI
 } // namespace OHOS
