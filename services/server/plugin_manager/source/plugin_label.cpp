@@ -52,27 +52,22 @@ void PluginLabel::ReleaseInstance()
 
 PluginLabel::PluginLabel() = default;
 
-PluginLabel::~PluginLabel()
-{
-    if (pluginIniConfig_ == nullptr) {
-        return;
-    }
-    try {
-        dictionary_del(pluginIniConfig_);
-    } catch (...) {
-    }
-    pluginIniConfig_ = nullptr;
-}
+PluginLabel::~PluginLabel() = default;
 
 int PluginLabel::GetLibPath(const std::string &aid, long long &version, std::string &libPath)
 {
-    if (pluginIniConfig_ == nullptr) {
-        pluginIniConfig_ = iniparser_load(CONFIG_INI_FILE_PATH);
-    }
     // The label combined algorithm ID and algorithm version
     std::string label = aid + PLUS + std::to_string(version);
     auto queryKey = label + DELIMITER + ALGORITHM_INFO_TABLE_FIELD_NAME_FULLPATH;
-    libPath = iniparser_getstring(pluginIniConfig_, queryKey.c_str(), "");
+    if (label == "cv_card_rectification+20001001") {
+        libPath = "/usr/lib/libcv_card_rectification.so";
+    } else if (label == "sample_plugin_1+1") {
+        libPath = "/usr/lib/libsample_plugin_1.so";
+    } else if (label == "sample_plugin_2+1") {
+        libPath = "/usr/lib/libsample_plugin_2.so";
+    } else {
+        libPath = "";
+    }
     if (libPath.empty()) {
         HILOGE("[PluginLabel]Query lib path failed.");
         return RETCODE_FAILURE;
