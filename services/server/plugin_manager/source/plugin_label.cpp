@@ -65,6 +65,10 @@ int PluginLabel::GetLibPath(const std::string &aid, long long &version, std::str
         libPath = "/usr/lib/libsample_plugin_1.so";
     } else if (label == "sample_plugin_2+1") {
         libPath = "/usr/lib/libsample_plugin_2.so";
+    } else if (label == "asr_keyword_spotting+20001002") {
+        libPath = "/usr/lib/libasr_keyword_spotting.so";
+    } else if (label == "cv_image_classification+20001001") {
+        libPath = "/usr/lib/libcv_image_classification.so";
     } else {
         libPath = "";
     }
