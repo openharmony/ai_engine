@@ -27,7 +27,6 @@ include_directories(../../../../../foundation/distributedschedule/samgr_lite/int
 include_directories(../../../../../foundation/distributedschedule/samgr_lite/interfaces/kits/registry)
 include_directories(../../../../../foundation/distributedschedule/samgr_lite/interfaces/kits/samgr)
 include_directories(../../../../../third_party/bounds_checking_function/include)
-include_directories(../../../../../third_party/iniparser)
 include_directories(../../../../../utils/native/lite/include)
 
 add_executable(server
