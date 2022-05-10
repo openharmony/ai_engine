@@ -20,12 +20,11 @@
 #include <mutex>
 #include <set>
 
-#include "liteipc.h"
-
 #include "protocol/data_channel/include/i_request.h"
 #include "protocol/data_channel/include/i_response.h"
 #include "protocol/retcode_inner/aie_retcode_inner.h"
 #include "protocol/struct_definition/aie_info_define.h"
+#include "serializer.h"
 
 namespace OHOS {
 namespace AI {
@@ -53,7 +52,7 @@ public:
      *
      * @return Client async callback SVC handle.
      */
-    SvcIdentity *GetEngineListener() const;
+    SvcIdentity *GetEngineListener();
 
     /**
      * Initialize async task manager to execute algorithm inference asynchronously.
@@ -150,7 +149,7 @@ private:
     int adapterId_;
     std::atomic<int> refCount_;
     std::mutex mutex_;
-    SvcIdentity *svcIdentity_ = nullptr;
+    SvcIdentity svcIdentity_ = {};
     using TransactionIds = std::set<long long>;
     TransactionIds transactionIds_;
 };

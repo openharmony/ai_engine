@@ -16,9 +16,8 @@
 #ifndef AIE_IPC_H
 #define AIE_IPC_H
 
-#include "liteipc.h"
 #include "protocol/struct_definition/aie_info_define.h"
-
+#include "serializer.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
