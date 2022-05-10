@@ -15,7 +15,7 @@
 
 #include "communication_adapter/include/sa_server_adapter.h"
 
-#include "liteipc_adapter.h"
+#include "ipc_skeleton.h"
 #include "securec.h"
 
 #include "protocol/retcode_inner/aie_retcode_inner.h"
@@ -88,20 +88,17 @@ void SaServerAdapter::Uninitialize()
 
 void SaServerAdapter::SaveEngineListener(SvcIdentity *svcIdentity)
 {
-    svcIdentity_ = svcIdentity;
+    svcIdentity_ = *svcIdentity;
 }
 
 void SaServerAdapter::ClearEngineListener()
 {
-#ifdef __LINUX__
-    BinderRelease(svcIdentity_->ipcContext, svcIdentity_->handle);
-#endif
-    svcIdentity_ = nullptr;
+    ReleaseSvc(svcIdentity_);
 }
 
-SvcIdentity *SaServerAdapter::GetEngineListener() const
+SvcIdentity *SaServerAdapter::GetEngineListener()
 {
-    return svcIdentity_;
+    return &svcIdentity_;
 }
 
 long long SaServerAdapter::GetTransactionId(int sessionId) const
