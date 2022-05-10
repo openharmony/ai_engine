@@ -25,8 +25,7 @@
         "samgr_lite"
       ],
       "third_party": [
-        "bounds_checking_function",
-        "iniparser"
+        "bounds_checking_function"
       ]
     },
     "build": {
