@@ -17,8 +17,7 @@
 #define ADAPTER_WRAPPER_H
 
 #include "protocol/retcode_inner/aie_retcode_inner.h"
-#include "liteipc_adapter.h"
-
+#include "ipc_skeleton.h"
 #include "protocol/struct_definition/aie_info_define.h"
 
 #ifdef __cplusplus

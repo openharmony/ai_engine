@@ -100,8 +100,8 @@ void IpcIoPushSharedMemory(IpcIo *request, const DataInfo *dataInfo, const uid_t
         return;
     }
 
-    IpcIoPushInt32(request, shmId);
-    IpcIoPushInt32(request, dataInfo->length);
+    WriteInt32(request, shmId);
+    WriteInt32(request, dataInfo->length);
 }
 
 /**
@@ -114,8 +114,9 @@ void IpcIoPushSharedMemory(IpcIo *request, const DataInfo *dataInfo, const uid_t
 int IpcIoPopSharedMemory(IpcIo *request, DataInfo *dataInfo)
 {
     // internal call, no need to check null.
-    int shmId = IpcIoPopInt32(request);
-    dataInfo->length = IpcIoPopInt32(request); // make sure all data are popped out.
+    int shmId;
+    ReadInt32(request, &shmId);
+    ReadInt32(request, &(dataInfo->length)); // make sure all data are popped out.
 
     if (shmId == -1) {
         HILOGE("[AieIpc]shmId is invalid: %d.", shmId);
@@ -180,7 +181,8 @@ int IpcIoPopMemory(IpcIo *request, DataInfo *dataInfo)
 {
     // internal call, no need to check null.
     uint32_t dataBufSize = 0;
-    void *dataBuf = IpcIoPopFlatObj(request, &dataBufSize);
+    ReadUint32(request, &dataBufSize);
+    void *dataBuf = (void *)ReadBuffer(request, dataBufSize);
     if (dataBuf == nullptr) {
         HILOGE("[AieIpc]The UnParcel dataBuf is invalid.");
         return RETCODE_NULL_PARAM;
@@ -226,13 +228,14 @@ void ParcelDataInfo(IpcIo *request, const DataInfo *dataInfo, const uid_t receiv
     }
 
     // parcel data length first.
-    IpcIoPushInt32(request, dataInfo->length);
+    WriteInt32(request, dataInfo->length);
     if (dataInfo->data == nullptr && dataInfo->length == 0) { // empty datainfo, no need to parcel, save length(0) only.
         return;
     }
     // parcel the data only if the data length > 0
     if (dataInfo->length < IPC_MAX_TRANS_CAPACITY) {
-        IpcIoPushFlatObj(request, dataInfo->data, static_cast<uint32_t>(dataInfo->length));
+        WriteUint32(request, static_cast<uint32_t>(dataInfo->length));
+        WriteBuffer(request, dataInfo->data, static_cast<uint32_t>(dataInfo->length));
     } else {
         IpcIoPushSharedMemory(request, dataInfo, receiverUid);
     }
@@ -249,7 +252,7 @@ int UnParcelDataInfo(IpcIo *request, DataInfo *dataInfo)
         return RETCODE_FAILURE;
     }
 
-    dataInfo->length = IpcIoPopInt32(request);
+    ReadInt32(request, &(dataInfo->length));
     if (dataInfo->length < 0) {
         HILOGE("[AieIpc]The dataInfo length is invalid.");
         return RETCODE_FAILURE;
