@@ -20,7 +20,7 @@
 
 #include "iproxy_client.h"
 #include "iunknown.h"
-#include "liteipc_adapter.h"
+#include "ipc_skeleton.h"
 #include "registry.h"
 #include "securec.h"
 
@@ -144,7 +144,7 @@ int GetOptionProxy(IClientProxy &proxy, const ClientInfo &clientInfo, int option
  * @param [in] clientInfo Client information.
  * @return Returns 0 if the operation is successful, returns a non-zero value otherwise.
  */
-int RegisterCallbackProxy(IClientProxy &proxy, const ClientInfo &clientInfo, IpcMsgHandler asyncCallback);
+int RegisterCallbackProxy(IClientProxy &proxy, const ClientInfo &clientInfo, OnRemoteRequest asyncCallback);
 
 /**
  * Invoke SA server, to unregister listener for async processing.
