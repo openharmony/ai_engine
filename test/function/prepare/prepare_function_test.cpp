@@ -433,3 +433,65 @@ HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
 
     AieClientDestroy(clientInfo);
 }
+
+/**
+ * @tc.name: TestRegisterCallbackProxy001
+ * @tc.desc: Test preparing execution of certain plugin
+ *           with 'isAsync = true' and 'callback != nullptr'.
+ * @tc.type: FUNC
+ * @tc.require: AR000F77NJ
+ */
+static HWTEST_F(PrepareFunctionTest, TestRegisterCallbackProxy001, TestSize.Level1)
+{
+    HILOGI("[Test]TestRegisterCallbackProxy001.");
+    char *str = "Async prepare inputData";
+    char *inputData = str;
+    int len = strlen(str) + 1;
+
+    ConfigInfo configInfo {.description = CONFIG_DESCRIPTION};
+
+    ClientInfo clientInfo = {
+        .clientVersion = CLIENT_INFO_VERSION,
+        .clientId = INVALID_CLIENT_ID,
+        .sessionId = SESSION_ID,
+        .serverUid = INVALID_UID,
+        .clientUid = INVALID_UID,
+        .extendLen = len,
+        .extendMsg = (unsigned char*)inputData,
+    };
+
+    AlgorithmInfo algoInfo = {
+        .clientVersion = ALGORITHM_INFO_CLIENT_VERSION,
+        .isAsync = true,
+        .algorithmType = ALGORITHM_ASYNC_TYPE,
+        .algorithmVersion = ALGORITHM_VERSION,
+        .isCloud = true,
+        .operateId = OPERATE_ID,
+        .requestId = REQUEST_ID,
+        .extendLen = len,
+        .extendMsg = (unsigned char*)inputData,
+    };
+
+    ServiceDeadCb cb = ServiceDeadCb();
+    int initRetCode = AieClientInit(configInfo, clientInfo, algoInfo, &cb);
+    ASSERT_EQ(initRetCode, RETCODE_SUCCESS);
+    ASSERT_TRUE(clientInfo.clientId > 0);
+
+    DataInfo inputInfo = {
+        .data = (unsigned char*)inputData,
+        .length = len,
+    };
+
+    DataInfo outputInfo = {
+        .data = nullptr,
+        .length = 0
+    };
+    ClientCallback callback = ClientCallback();
+    int prepareRetCode = AieClientPrepare(clientInfo, algoInfo, inputInfo, outputInfo, &callback);
+    ASSERT_NE(prepareRetCode, RETCODE_SUCCESS);
+    ASSERT_EQ(outputInfo.data, nullptr);
+
+    AieClientRelease(clientInfo, algoInfo, inputInfo);
+
+    AieClientDestroy(clientInfo);
+}
