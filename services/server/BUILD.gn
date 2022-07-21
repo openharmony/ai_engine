@@ -37,7 +37,7 @@ lite_component("ai_server") {
     "//foundation/ai/engine/services/common/platform/lock:lock",
     "//foundation/ai/engine/services/common/platform/semaphore:semaphore",
     "//foundation/ai/engine/services/common/platform/threadpool:threadpool",
-    "//foundation/distributedschedule/samgr_lite/samgr:samgr",
+    "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
 }
 
