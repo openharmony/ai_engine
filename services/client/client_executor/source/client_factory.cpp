@@ -337,7 +337,7 @@ int ClientFactory::UnRegisterDeadCb(const int sessionId)
 
 int ClientFactory::WaitConnection()
 {
-    // wait for 10*10ms
+    // wait for 100 ms
     for (int i = 0; i < CHECK_CONNECTION_TIMES; ++i) {
         if (clientId_ != INVALID_CLIENT_ID) {
             HILOGI("[ClientFactory][clientId:%d]status is connected.", clientId_);
