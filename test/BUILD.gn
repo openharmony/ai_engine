@@ -13,7 +13,6 @@
 import("//build/lite/config/component/lite_component.gni")
 import("//foundation/ai/engine/services/ai_plugin_config.gni")
 
-
 lite_component("test") {
   features = [
     "common:common",
@@ -23,5 +22,5 @@ lite_component("test") {
 
   foreach(plugin, activate_plugin_list) {
     features += [ "//foundation/ai/$plugin/test:test" ]
-}
+  }
 }
