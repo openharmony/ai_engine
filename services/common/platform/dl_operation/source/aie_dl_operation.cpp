@@ -15,6 +15,7 @@
 
 #include "platform/dl_operation/include/aie_dl_operation.h"
 
+#include <climits>
 #include <cstdlib>
 #include <cstring>
 #include <dlfcn.h>
@@ -36,18 +37,20 @@ void *AieDlopen(const char *libName, int local)
         HILOGD("[AieDlOperation] libName is invalid.");
         return nullptr;
     }
-    char *realLibPath = realpath(libName, nullptr);
-    CHK_RET(realLibPath == nullptr, nullptr);
-    int retCode =  strncmp(realLibPath, LIB_PATH, length);
-    if (retCode != 0) {
-        HILOGD("[AieDlOperation] lib path is error.");
-        free(realLibPath);
-        realLibPath = nullptr;
+
+    char realLibPath[PATH_MAX + 1] = {0};
+    if (realpath(libName, realLibPath) == nullptr) {
+        HILOGD("[AieDlOperation] get libName realpath failed.");
         return nullptr;
     }
+
+    int retCode = strncmp(realLibPath, LIB_PATH, length);
+    if (retCode != 0) {
+        HILOGD("[AieDlOperation] lib path is error.");
+        return nullptr;
+    }
+
     void *res = dlopen(realLibPath, flag);
-    free(realLibPath);
-    realLibPath = nullptr;
     return res;
 }
 
