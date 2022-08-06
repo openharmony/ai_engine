@@ -14,8 +14,10 @@ import("//build/lite/config/component/lite_component.gni")
 
 lite_component("asr") {
   if (board_name == "hispark_taurus") {
-    features = [ "keyword_spotting:asr_keyword_spotting",
-                 "keyword_spotting:kws_model"]
+    features = [
+      "keyword_spotting:asr_keyword_spotting",
+      "keyword_spotting:kws_model",
+    ]
   } else {
     features = []
   }

@@ -22,10 +22,10 @@ static_library("testDeathCallbackLibrary") {
     "//foundation/ai/engine/services/common",
     "//foundation/ai/engine/test/utils",
     "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
-    "//foundation/distributedschedule/samgr_lite/interfaces/innerkits/registry",
-    "//foundation/distributedschedule/samgr_lite/interfaces/innerkits/samgr",
-    "//foundation/distributedschedule/samgr_lite/interfaces/kits/registry",
-    "//foundation/distributedschedule/samgr_lite/interfaces/kits/samgr",
+    "//foundation/systemabilitymgr/samgr_lite/interfaces/innerkits/registry",
+    "//foundation/systemabilitymgr/samgr_lite/interfaces/innerkits/samgr",
+    "//foundation/systemabilitymgr/samgr_lite/interfaces/kits/registry",
+    "//foundation/systemabilitymgr/samgr_lite/interfaces/kits/samgr",
     "//third_party/bounds_checking_function/include",
     "//utils/native/lite/include",
   ]
@@ -39,6 +39,6 @@ lite_component("testDeathCallback") {
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
     "//foundation/ai/engine/services/client:ai_client",
-    "//foundation/distributedschedule/samgr_lite/samgr:samgr",
+    "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
 }

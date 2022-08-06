@@ -19,7 +19,7 @@ shared_library("ai_client") {
     "communication_adapter:ai_communication_adapter",
     "//foundation/ai/engine/services/common/platform/os_wrapper/ipc:aie_ipc",
     "//foundation/ai/engine/services/common/platform/threadpool:threadpool",
-    "//foundation/distributedschedule/samgr_lite/samgr:samgr",
+    "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
 }
 
@@ -30,6 +30,8 @@ lite_component("client") {
   ]
 
   foreach(plugin, activate_plugin_list) {
-    features += [ "//foundation/ai/$plugin/services/client/algorithm_sdk:algorithm_sdk" ]
+    features += [
+      "//foundation/ai/$plugin/services/client/algorithm_sdk:algorithm_sdk",
+    ]
   }
 }

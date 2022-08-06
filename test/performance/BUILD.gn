@@ -39,7 +39,7 @@ unittest("ai_test_performance_unittest") {
     "//foundation/ai/engine/services/server/plugin_manager:plugin_manager",
     "//foundation/ai/engine/test/sample:sample_plugin_1",
     "//foundation/ai/engine/test/sample:sample_plugin_2",
-    "//foundation/distributedschedule/samgr_lite/samgr:samgr",
+    "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
   sources = [
     "delay/async_process/async_process_delay_test.cpp",
