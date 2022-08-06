@@ -25,8 +25,8 @@ source_set("ai_communication_adapter") {
     "//foundation/ai/engine/services/client",
     "//foundation/ai/engine/services/common",
     "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
-    "//foundation/distributedschedule/samgr_lite/interfaces/kits/registry",
-    "//foundation/distributedschedule/samgr_lite/interfaces/kits/samgr",
+    "//foundation/systemabilitymgr/samgr_lite/interfaces/kits/registry",
+    "//foundation/systemabilitymgr/samgr_lite/interfaces/kits/samgr",
     "//third_party/bounds_checking_function/include",
     "//utils/native/lite/include",
   ]
