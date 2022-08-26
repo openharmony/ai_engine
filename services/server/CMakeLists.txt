@@ -25,7 +25,7 @@ include_directories(../../../../../foundation/systemabilitymgr/samgr_lite/interf
 include_directories(../../../../../foundation/systemabilitymgr/samgr_lite/interfaces/kits/registry)
 include_directories(../../../../../foundation/systemabilitymgr/samgr_lite/interfaces/kits/samgr)
 include_directories(../../../../../third_party/bounds_checking_function/include)
-include_directories(../../../../../utils/native/lite/include)
+include_directories(../../../../../commonlibrary/utils_lite/include)
 
 add_executable(server
         communication_adapter/include/adapter_wrapper.h

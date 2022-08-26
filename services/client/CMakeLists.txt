@@ -24,7 +24,7 @@ include_directories(../../../../../foundation/ai/engine/services/common/utils/lo
 include_directories(../../../../../foundation/systemabilitymgr/samgr_lite/interfaces/kits/registry)
 include_directories(../../../../../foundation/systemabilitymgr/samgr_lite/interfaces/kits/samgr)
 include_directories(../../../../../third_party/bounds_checking_function/include)
-include_directories(../../../../../utils/native/lite/include)
+include_directories(../../../../../commonlibrary/utils_lite/include)
 
 add_executable(client
         algorithm_sdk/asr/keyword_spotting/include/kws_sdk_impl.h
