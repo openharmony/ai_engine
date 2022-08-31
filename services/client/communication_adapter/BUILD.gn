@@ -28,7 +28,7 @@ source_set("ai_communication_adapter") {
     "//foundation/systemabilitymgr/samgr_lite/interfaces/kits/registry",
     "//foundation/systemabilitymgr/samgr_lite/interfaces/kits/samgr",
     "//third_party/bounds_checking_function/include",
-    "//utils/native/lite/include",
+    "//commonlibrary/utils_lite/include",
   ]
   deps = [ "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared" ]
 }

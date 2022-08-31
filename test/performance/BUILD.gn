@@ -28,7 +28,7 @@ unittest("ai_test_performance_unittest") {
     "//foundation/ai/engine/services/common",
     "//foundation/ai/engine/test/utils",
     "//foundation/ai/engine/test/performance",
-    "//utils/native/lite/include",
+    "//commonlibrary/utils_lite/include",
   ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",

@@ -19,7 +19,7 @@ include_directories(../../../../foundation/systemabilitymgr/samgr_lite/interface
 include_directories(../../../../third_party/bounds_checking_function/include)
 include_directories(../../../../third_party/googletest/googletest/include)
 include_directories(../../../../third_party/googletest/googletest/src)
-include_directories(../../../../utils/native/lite/include)
+include_directories(../../../../commonlibrary/utils_lite/include)
 
 add_executable(test
         common/dl_operation/dl_operation_so/include/dl_operation_fun.h
