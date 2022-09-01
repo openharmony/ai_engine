@@ -95,9 +95,9 @@ static int Random(void)
     int fd = open("/dev/random", O_RDONLY);
     fd = open("/dev/random", O_RDONLY);
     if (fd > 0) {
-        read(fd, &r, sizeof(int));
+        (void)read(fd, &r, sizeof(int));
     }
-    close(fd);
+    (void)close(fd);
 
     return r;
 #endif
