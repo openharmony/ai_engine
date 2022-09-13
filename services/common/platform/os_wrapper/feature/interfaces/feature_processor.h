@@ -68,7 +68,7 @@ namespace Feature {
  * @since 2.2
  * @version 1.0
  */
-#define CONVERT_DATATYPE_TO_SIZE(x) static_cast<uint8_t>(x & 7)
+#define CONVERT_DATATYPE_TO_SIZE(x) static_cast<uint8_t>((x) & 7)
 
 /**
  *
