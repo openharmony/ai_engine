@@ -17,10 +17,10 @@ static_library("testDeathCallbackLibrary") {
   cflags_cc = [ "-fexceptions" ]
   include_dirs = [
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
-    "//foundation/ai/engine/interfaces",
-    "//foundation/ai/engine/services/client",
-    "//foundation/ai/engine/services/common",
-    "//foundation/ai/engine/test/utils",
+    "//foundation/ai/ai_engine/interfaces",
+    "//foundation/ai/ai_engine/services/client",
+    "//foundation/ai/ai_engine/services/common",
+    "//foundation/ai/ai_engine/test/utils",
     "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
     "//foundation/systemabilitymgr/samgr_lite/interfaces/innerkits/registry",
     "//foundation/systemabilitymgr/samgr_lite/interfaces/innerkits/samgr",
@@ -38,7 +38,7 @@ lite_component("testDeathCallback") {
   ldflags = [ "-lstdc++" ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-    "//foundation/ai/engine/services/client:ai_client",
+    "//foundation/ai/ai_engine/services/client:ai_client",
     "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
 }

@@ -17,7 +17,7 @@ AI业务子系统是OpenHarmony提供原生的分布式AI能力的子系统。�
 ## 目录<a name="section571610913453"></a>
 
 ```
-/foundation/ai/engine                        # AI子系统主目录
+/foundation/ai/ai_engine                        # AI子系统主目录
 ├── interfaces
 │  └── kits                                  # AI子系统对外接口
 └── services
@@ -51,7 +51,7 @@ AI业务子系统是OpenHarmony提供原生的分布式AI能力的子系统。�
 
 1.  **AI业务子系统编译**
 
-    轻量级AI引擎框架模块，代码所在路径：//foundation/ai/engine/services
+    轻量级AI引擎框架模块，代码所在路径：//foundation/ai/ai_engine/services
 
     编译指令如下：
 
@@ -78,7 +78,7 @@ AI业务子系统是OpenHarmony提供原生的分布式AI能力的子系统。�
 
 2.  **插件开发**（以唤醒词识别为例）
 
-    位置：//foundation/ai/engine/services/server/plugin/asr/keyword\_spotting
+    位置：//foundation/ai/ai_engine/services/server/plugin/asr/keyword\_spotting
 
     **注意**：插件需要实现server提供的IPlugin接口和IPluginCallback接口
 
@@ -138,7 +138,7 @@ AI业务子系统是OpenHarmony提供原生的分布式AI能力的子系统。�
 
 3.  **插件SDK开发**（以唤醒词识别kws\_sdk为例）
 
-    位置：//foundation/ai/engine/services/client/algorithm\_sdk/asr/keyword\_spotting
+    位置：//foundation/ai/ai_engine/services/client/algorithm\_sdk/asr/keyword\_spotting
 
     唤醒词识别SDK：
 
