@@ -22,9 +22,9 @@ static_library("ai_communication_adapter") {
     "source/start_server.c",
   ]
   include_dirs = [
-    "//foundation/ai/ai_engine/interfaces",
-    "//foundation/ai/ai_engine/services/common",
-    "//foundation/ai/ai_engine/services/server",
+    "//foundation/ai/engine/interfaces",
+    "//foundation/ai/engine/services/common",
+    "//foundation/ai/engine/services/server",
     "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
     "//foundation/systemabilitymgr/samgr_lite/interfaces/innerkits/registry",
     "//foundation/systemabilitymgr/samgr_lite/interfaces/innerkits/samgr",

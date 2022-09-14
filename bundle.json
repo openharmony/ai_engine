@@ -5,7 +5,7 @@
   "license": "Apache License 2.0",
   "pubiishAs": "code-segment",
   "segment": {
-    "destPath": "foundation/ai/ai_engine"
+    "destPath": "foundation/ai/engine"
   },
   "dirs": {},
   "scripts": {},
@@ -29,9 +29,9 @@
       ]
     },
     "build": {
-      "sub_component": [ "//foundation/ai/ai_engine/services:ai" ],
+      "sub_component": [ "//foundation/ai/engine/services:ai" ],
       "inner_kits": [],
-      "test": [ "//foundation/ai/ai_engine/test" ]
+      "test": [ "//foundation/ai/engine/test" ]
     }
   }
 }

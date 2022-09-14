@@ -31,12 +31,12 @@ lite_component("ai_server") {
   ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-    "//foundation/ai/ai_engine/services/common/platform/dl_operation:dlOperation",
-    "//foundation/ai/ai_engine/services/common/platform/event:event",
-    "//foundation/ai/ai_engine/services/common/platform/lock:lock",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/ipc:aie_ipc",
-    "//foundation/ai/ai_engine/services/common/platform/semaphore:semaphore",
-    "//foundation/ai/ai_engine/services/common/platform/threadpool:threadpool",
+    "//foundation/ai/engine/services/common/platform/dl_operation:dlOperation",
+    "//foundation/ai/engine/services/common/platform/event:event",
+    "//foundation/ai/engine/services/common/platform/lock:lock",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/ipc:aie_ipc",
+    "//foundation/ai/engine/services/common/platform/semaphore:semaphore",
+    "//foundation/ai/engine/services/common/platform/threadpool:threadpool",
     "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
 }

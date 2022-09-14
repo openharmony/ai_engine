@@ -17,7 +17,7 @@ source_set("aie_ipc") {
   cflags = [ "-fPIC" ]
   cflags_cc = cflags
   include_dirs = [
-    "//foundation/ai/ai_engine/services/common",
+    "//foundation/ai/engine/services/common",
     "//foundation/communication/ipc/interfaces/innerkits/c/ipc/include",
     "//third_party/bounds_checking_function/include",
   ]
