@@ -20,8 +20,8 @@ source_set("encdec") {
   include_dirs = [
     "include",
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
-    "//foundation/ai/engine/interfaces",
-    "//foundation/ai/engine/services/common",
+    "//foundation/ai/ai_engine/interfaces",
+    "//foundation/ai/ai_engine/services/common",
     "//third_party/bounds_checking_function/include",
   ]
 }
