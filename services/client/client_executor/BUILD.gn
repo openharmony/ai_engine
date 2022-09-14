@@ -20,8 +20,8 @@ source_set("client_executor") {
   cflags_cc = cflags
   include_dirs = [
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
-    "//foundation/ai/engine/interfaces",
-    "//foundation/ai/engine/services/client",
-    "//foundation/ai/engine/services/common",
+    "//foundation/ai/ai_engine/interfaces",
+    "//foundation/ai/ai_engine/services/client",
+    "//foundation/ai/ai_engine/services/common",
   ]
 }

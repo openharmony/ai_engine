@@ -15,7 +15,7 @@ source_set("semaphore") {
   cflags = [ "-fPIC" ]
   cflags_cc = cflags
   include_dirs = [
-    "//foundation/ai/engine/interfaces",
-    "//foundation/ai/engine/services/common",
+    "//foundation/ai/ai_engine/interfaces",
+    "//foundation/ai/ai_engine/services/common",
   ]
 }
