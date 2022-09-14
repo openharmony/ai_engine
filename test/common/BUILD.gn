@@ -22,19 +22,19 @@ unittest("ai_test_common_door") {
   ]
   include_dirs = [
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
-    "//foundation/ai/ai_engine/interfaces",
-    "//foundation/ai/ai_engine/services/common",
+    "//foundation/ai/engine/interfaces",
+    "//foundation/ai/engine/services/common",
     "//third_party/googletest/googletest/include",
     "//third_party/googletest/googletest/src",
   ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-    "//foundation/ai/ai_engine/services/common/platform/dl_operation:dlOperation",
-    "//foundation/ai/ai_engine/services/common/platform/event:event",
-    "//foundation/ai/ai_engine/services/common/platform/semaphore:semaphore",
-    "//foundation/ai/ai_engine/services/common/platform/threadpool:threadpool",
-    "//foundation/ai/ai_engine/services/common/platform/time:time",
-    "//foundation/ai/ai_engine/services/common/utils/encdec:encdec",
+    "//foundation/ai/engine/services/common/platform/dl_operation:dlOperation",
+    "//foundation/ai/engine/services/common/platform/event:event",
+    "//foundation/ai/engine/services/common/platform/semaphore:semaphore",
+    "//foundation/ai/engine/services/common/platform/threadpool:threadpool",
+    "//foundation/ai/engine/services/common/platform/time:time",
+    "//foundation/ai/engine/services/common/utils/encdec:encdec",
   ]
   sources = [
     "dl_operation/dl_operation_test.cpp",

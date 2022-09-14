@@ -28,20 +28,20 @@ lite_library("asr_keyword_spotting") {
   cflags_cc = cflags
   include_dirs = [
     "include",
-    "//foundation/ai/ai_engine/interfaces",
-    "//foundation/ai/ai_engine/interfaces/kits",
-    "//foundation/ai/ai_engine/interfaces/kits/asr",
-    "//foundation/ai/ai_engine/services/common",
-    "//foundation/ai/ai_engine/services/common/utils/encdec/include",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/engine_hal/interfaces",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper",
-    "//foundation/ai/ai_engine/services/common/protocol/struct_definition",
-    "//foundation/ai/ai_engine/services/common/protocol/retcode_inner",
-    "//foundation/ai/ai_engine/services/common/protocol/plugin_config",
-    "//foundation/ai/ai_engine/services/common/utils/log",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/feature/interfaces",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/utils",
-    "//foundation/ai/ai_engine/services/server",
+    "//foundation/ai/engine/interfaces",
+    "//foundation/ai/engine/interfaces/kits",
+    "//foundation/ai/engine/interfaces/kits/asr",
+    "//foundation/ai/engine/services/common",
+    "//foundation/ai/engine/services/common/utils/encdec/include",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/engine_hal/interfaces",
+    "//foundation/ai/engine/services/common/platform/os_wrapper",
+    "//foundation/ai/engine/services/common/protocol/struct_definition",
+    "//foundation/ai/engine/services/common/protocol/retcode_inner",
+    "//foundation/ai/engine/services/common/protocol/plugin_config",
+    "//foundation/ai/engine/services/common/utils/log",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/feature/interfaces",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/utils",
+    "//foundation/ai/engine/services/server",
   ]
   ldflags = [ "-lstdc++" ]
   ldflags += [ "-lnnie" ]
@@ -51,11 +51,11 @@ lite_library("asr_keyword_spotting") {
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
     "//device/soc/hisilicon/common/hal/ai:engine_nnie_sdk",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/feature:norm_processor_dep",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/feature:slide_window_processor_dep",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/utils:plugin_helper",
-    "//foundation/ai/ai_engine/services/common/protocol/data_channel:data_channel",
-    "//foundation/ai/ai_engine/services/common/utils/encdec:encdec",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/feature:norm_processor_dep",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/feature:slide_window_processor_dep",
+    "//foundation/ai/engine/services/common/platform/os_wrapper/utils:plugin_helper",
+    "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
+    "//foundation/ai/engine/services/common/utils/encdec:encdec",
     "//third_party/bounds_checking_function:libsec_shared",
   ]
 }

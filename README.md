@@ -17,7 +17,7 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
 ## Directory Structure<a name="section571610913453"></a>
 
 ```
-/foundation/ai/ai_engine                        # Home directory of the AI subsystem
+/foundation/ai/engine                        # Home directory of the AI subsystem
 ├── interfaces
 │  └── kits                                  # External APIs of the AI subsystem
 └── services
@@ -51,7 +51,7 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
 
 1.  Compile the AI subsystem.
 
-    The source code for lightweight AI framework is available at  **//foundation/ai/ai_engine/services**.
+    The source code for lightweight AI framework is available at  **//foundation/ai/engine/services**.
 
     The compilation procedure is as follows:
 
@@ -78,7 +78,7 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
 
 2.  Develop the plug-in, with keyword spotting as an example.
 
-    Directory: //foundation/ai/ai_engine/services/server/plugin/asr/keyword\_spotting
+    Directory: //foundation/ai/engine/services/server/plugin/asr/keyword\_spotting
 
     **Note**: The plug-in must implement the  **IPlugin**  and  **IPluginCallback**  APIs provided by the server.
 
@@ -138,7 +138,7 @@ The AI subsystem is the part of OpenHarmony that provides native distributed AI 
 
 3.  Develop the SDK, with keyword spotting as an example.
 
-    Directory: //foundation/ai/ai_engine/services/client/algorithm\_sdk/asr/keyword\_spotting
+    Directory: //foundation/ai/engine/services/client/algorithm\_sdk/asr/keyword\_spotting
 
     Keyword spotting SDK:
 

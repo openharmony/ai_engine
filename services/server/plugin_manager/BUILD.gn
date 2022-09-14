@@ -10,7 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//foundation/ai/ai_engine/services/ai_plugin_config.gni")
+import("//foundation/ai/engine/services/ai_plugin_config.gni")
 
 action("gen_etc_ini") {
   outputs = [ "${root_out_dir}/etc/ai_engine_plugin.ini" ]
@@ -35,9 +35,9 @@ source_set("plugin_manager") {
 
   include_dirs = [
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
-    "//foundation/ai/ai_engine/interfaces/",
-    "//foundation/ai/ai_engine/services/common/",
-    "//foundation/ai/ai_engine/services/server/",
+    "//foundation/ai/engine/interfaces/",
+    "//foundation/ai/engine/services/common/",
+    "//foundation/ai/engine/services/server/",
     "//third_party/bounds_checking_function/include",
   ]
 }
