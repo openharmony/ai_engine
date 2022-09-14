@@ -18,7 +18,7 @@ source_set("time") {
   cflags = [ "-fPIC" ]
   cflags_cc = cflags
   include_dirs = [
-    "//foundation/ai/engine/services/common",
+    "//foundation/ai/ai_engine/services/common",
     "//third_party/bounds_checking_function/include",
   ]
 }

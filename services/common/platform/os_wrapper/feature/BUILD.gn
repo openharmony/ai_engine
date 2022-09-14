@@ -16,10 +16,10 @@ config("feature_config") {
   include_dirs = [
     "//base/hiviewdfx/hilog_lite/interfaces/native/innerkits/hilog",
     "//base/hiviewdfx/hilog_lite/interfaces/native/innerkits",
-    "//foundation/ai/engine/services/common/platform/os_wrapper/feature/interfaces",
-    "//foundation/ai/engine/services/common/protocol/retcode_inner",
-    "//foundation/ai/engine/services/common/utils",
-    "//foundation/ai/engine/services/common/utils/log",
+    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/feature/interfaces",
+    "//foundation/ai/ai_engine/services/common/protocol/retcode_inner",
+    "//foundation/ai/ai_engine/services/common/utils",
+    "//foundation/ai/ai_engine/services/common/utils/log",
     "//third_party/bounds_checking_function/include",
   ]
 }
