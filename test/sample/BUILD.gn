@@ -32,9 +32,7 @@ lite_component("sample_plugin_1") {
   cflags = [ "-fPIC" ]
   cflags_cc = cflags
   features = [ ":syncDemoPluginCode" ]
-  deps = [
-    "//foundation/ai/ai_engine/services/common/protocol/data_channel:data_channel",
-  ]
+  deps = [ "//foundation/ai/ai_engine/services/common/protocol/data_channel:data_channel" ]
 }
 
 source_set("asyncDemoPluginCode") {
@@ -57,7 +55,5 @@ lite_component("sample_plugin_2") {
   cflags = [ "-fPIC" ]
   cflags_cc = cflags
   features = [ ":asyncDemoPluginCode" ]
-  deps = [
-    "//foundation/ai/ai_engine/services/common/protocol/data_channel:data_channel",
-  ]
+  deps = [ "//foundation/ai/ai_engine/services/common/protocol/data_channel:data_channel" ]
 }
