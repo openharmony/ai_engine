@@ -444,8 +444,8 @@ HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
 static HWTEST_F(PrepareFunctionTest, TestRegisterCallbackProxy001, TestSize.Level1)
 {
     HILOGI("[Test]TestRegisterCallbackProxy001.");
-    char *str = "Async prepare inputData";
-    char *inputData = str;
+    const char *str = PREPARE_INPUT_ASYNC;
+    char *inputData = const_cast<char*>(str);
     int len = strlen(str) + 1;
 
     ConfigInfo configInfo {.description = CONFIG_DESCRIPTION};
