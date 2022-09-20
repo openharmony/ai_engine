@@ -21,7 +21,6 @@
 namespace OHOS {
 namespace AI {
 namespace {
-const char * const CONFIG_INI_FILE_PATH = "/etc/ai_engine_plugin.ini";
 const std::string PLUS = "+";
 const std::string DELIMITER = ":";
 }
