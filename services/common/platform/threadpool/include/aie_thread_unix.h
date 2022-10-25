@@ -30,7 +30,7 @@ extern "C" {
 #define THREAD_DEFAULT_STACK_SIZE 0
 
 typedef struct {
-    size_t stack_size;
+    size_t stackSize;
     int scope;
 } PthreadAttr;
 
