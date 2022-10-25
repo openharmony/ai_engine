@@ -82,7 +82,8 @@ public:
 
     const char *GetName() const override
     {
-        return workerName_.c_str();
+        const char *name = workerName_.c_str();
+        return name;
     }
 
     bool OneAction() override
@@ -121,7 +122,7 @@ HWTEST_F(ThreadPoolTest, TestWorker001, TestSize.Level1)
     ASSERT_FALSE(worker.isHung(HUNG_TIME));
     ASSERT_EQ(worker.GetStackSize(), THREAD_DEFAULT_STACK_SIZE);
     ASSERT_EQ(worker.Status(), 0);
-    ASSERT_EQ((int)worker.GetThreadId(), INVALID_THREAD_ID);
+    ASSERT_EQ(static_cast<int>(worker.GetThreadId()), INVALID_THREAD_ID);
     Thread thread;
     worker.SetThread(&thread);
     HILOGD("[Test]Test worker end, GetThreadId is %lu.", worker.GetThreadId());

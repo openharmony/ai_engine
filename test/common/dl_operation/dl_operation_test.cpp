@@ -56,7 +56,7 @@ HWTEST_F(DlOperationTest, TestDlOption001, TestSize.Level1)
     void *handle = AieDlopen(TEST_SO_PATH);
     HILOGD("[Test]Begin to excute handle.");
     ASSERT_NE(handle, nullptr);
-    FUNC_ADD addFunc = (FUNC_ADD)AieDlsym(handle, "AddFunc");
+    FUNC_ADD addFunc = reinterpret_cast<FUNC_ADD>(AieDlsym(handle, "AddFunc"));
     ASSERT_NE(addFunc, nullptr);
     int result = addFunc(AIE_NUM1, AIE_NUM2);
     ASSERT_EQ(result, AIE_RESULT);
