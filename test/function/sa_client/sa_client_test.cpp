@@ -26,7 +26,7 @@ using namespace OHOS::AI;
 using namespace testing::ext;
 
 namespace {
-    char INPUT_CHARACTER[] = "inputData";
+    const char *INPUT_CHARACTER = "inputData";
     const char * const CONFIG_DESCRIPTION = "config information";
     const long long CLIENT_INFO_VERSION = 1;
     const int CLIENT_ID = -1;
@@ -65,7 +65,7 @@ static HWTEST_F(SaClientTest, TestSaClient001, TestSize.Level0)
     HILOGI("[Test]TestSaClient001.");
 
     ConfigInfo configInfo {.description = CONFIG_DESCRIPTION};
-    char *inputData = INPUT_CHARACTER;
+    const char *inputData = INPUT_CHARACTER;
     int len = strlen(inputData) + 1;
 
     ClientInfo clientInfo = {
