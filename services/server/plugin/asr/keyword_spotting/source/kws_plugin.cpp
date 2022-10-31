@@ -382,7 +382,7 @@ int32_t KWSPlugin::MakeInference(intptr_t handle, Array<int32_t> &input, PluginC
         HILOGE("[KWSPlugin]The input size is not equal to the size of model input");
         return RETCODE_FAILURE;
     }
-    int32_t *inputData = (int32_t *)config.inputAddr;
+    int32_t *inputData = reinterpret_cast<int32_t *>(config.inputAddr);
     size_t bufferSize = config.inputSize * sizeof(input.data[0]);
     errno_t retCode = memcpy_s(inputData, bufferSize, input.data, bufferSize);
     if (retCode != EOK) {
@@ -396,7 +396,7 @@ int32_t KWSPlugin::MakeInference(intptr_t handle, Array<int32_t> &input, PluginC
     }
     Array<int32_t> result;
     result.size = config.outputSize;
-    result.data = (int32_t *)config.outputAddr;
+    result.data = reinterpret_cast<int32_t *>(config.outputAddr);
     return EncdecFacade::ProcessEncode(outputInfo, handle, result);
 }
 

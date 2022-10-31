@@ -75,7 +75,7 @@ static HWTEST_F(SaClientTest, TestSaClient001, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(const_cast<char *>(inputData)),
       };
     AlgorithmInfo algoInfo = {
         .clientVersion = ALGORITHM_INFO_CLIENT_VERSION,
@@ -86,7 +86,7 @@ static HWTEST_F(SaClientTest, TestSaClient001, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(const_cast<char *>(inputData)),
     };
 
     ServiceDeadCb deadCb = ServiceDeadCb();
