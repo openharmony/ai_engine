@@ -87,7 +87,7 @@ static void PreBuildInfo(ConfigInfo &configInfo, ClientInfo &clientInfo, Algorit
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)extendMsg,
+        .extendMsg = reinterpret_cast<unsigned char*>(extendMsg),
     };
 
     algoInfo = {
@@ -99,7 +99,7 @@ static void PreBuildInfo(ConfigInfo &configInfo, ClientInfo &clientInfo, Algorit
         .operateId = OPERATE_ID,
         .requestId = requestId,
         .extendLen = len,
-        .extendMsg = (unsigned char*)extendMsg,
+        .extendMsg = reinterpret_cast<unsigned char*>(extendMsg),
     };
 }
 
@@ -127,7 +127,7 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess001, TestSize.Level0
     const char *str = INPUT_DATA;
     char *inputData = const_cast<char*>(str);
     int len = strlen(str) + 1;
-    inputInfo.data = (unsigned char *)inputData;
+    inputInfo.data = reinterpret_cast<unsigned char*>(inputData);
     inputInfo.length = len;
 
     ClientCallback callback = ClientCallback();
@@ -173,7 +173,7 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess002, TestSize.Level0
     const char *str = INPUT_DATA;
     char *inputData = const_cast<char*>(str);
     int len = strlen(str) + 1;
-    inputInfo.data = (unsigned char *)inputData;
+    inputInfo.data = reinterpret_cast<unsigned char*>(inputData);
     inputInfo.length = len;
 
     ClientCallback callback = ClientCallback();
@@ -219,7 +219,7 @@ HWTEST_F(AsyncProcessFunctionTest, TestAieClientAsyncProcess003, TestSize.Level0
     const char *str = INPUT_DATA;
     char *inputData = const_cast<char*>(str);
     int len = strlen(str) + 1;
-    inputInfo.data = (unsigned char *)inputData;
+    inputInfo.data = reinterpret_cast<unsigned char*>(inputData);
     inputInfo.length = len;
 
     ClientCallback callback = ClientCallback();

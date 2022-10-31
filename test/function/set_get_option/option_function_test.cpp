@@ -90,7 +90,7 @@ static void GetClientInfo(ClientInfo &clientInfo)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 }
 
@@ -109,7 +109,7 @@ static void GetSyncAlgorithmInfo(AlgorithmInfo &algoInfo)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 }
 
@@ -128,7 +128,7 @@ static void GetAsyncAlgorithmInfo(AlgorithmInfo &algoInfo)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 }
 
@@ -167,7 +167,7 @@ HWTEST_F(OptionFunctionTest, TestOption001, TestSize.Level0)
     int len = strlen(str) + 1;
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -190,7 +190,7 @@ HWTEST_F(OptionFunctionTest, TestOption001, TestSize.Level0)
     len = strlen(str) + 1;
 
     inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
     int optionType = 0;
@@ -245,7 +245,7 @@ HWTEST_F(OptionFunctionTest, TestOption002, TestSize.Level0)
     char *inputData = const_cast<char*>(str);
     int len = strlen(str) + 1;
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -271,7 +271,7 @@ HWTEST_F(OptionFunctionTest, TestOption002, TestSize.Level0)
     inputData = const_cast<char*>(str);
     len = strlen(str) + 1;
     inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
     int optionType = 0;
@@ -285,7 +285,7 @@ HWTEST_F(OptionFunctionTest, TestOption002, TestSize.Level0)
     inputData = const_cast<char*>(str);
     len = strlen(str) + 1;
     inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -337,7 +337,7 @@ HWTEST_F(OptionFunctionTest, TestOption003, TestSize.Level0)
     int len = strlen(str) + 1;
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
     int optionType = 0;
@@ -396,7 +396,7 @@ HWTEST_F(OptionFunctionTest, TestOption004, TestSize.Level0)
     int len = strlen(str) + 1;
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 

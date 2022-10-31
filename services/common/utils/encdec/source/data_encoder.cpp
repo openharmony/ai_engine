@@ -72,7 +72,7 @@ int DataEncoder::GetSerializedData(DataInfo &dataInfo)
         return RETCODE_FAILURE;
     }
     dataInfo.length = pos_;
-    dataInfo.data = (unsigned char*)malloc(dataInfo.length);
+    dataInfo.data = reinterpret_cast<unsigned char*>(malloc(dataInfo.length));
     if (dataInfo.data == nullptr) {
         return RETCODE_OUT_OF_MEMORY;
     }
