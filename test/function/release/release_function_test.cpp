@@ -90,7 +90,7 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease001, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -102,11 +102,11 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease001, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -152,7 +152,7 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease002, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -164,11 +164,11 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease002, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -214,7 +214,7 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease003, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -226,11 +226,11 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease003, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -280,7 +280,7 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease004, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -292,11 +292,11 @@ HWTEST_F(ReleaseFunctionTest, TestAieClientRelease004, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
