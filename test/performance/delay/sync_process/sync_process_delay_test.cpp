@@ -81,7 +81,6 @@ static int Random(void)
 #endif
     int r = -1;
     int fd = open("/dev/random", O_RDONLY);
-    fd = open("/dev/random", O_RDONLY);
     if (fd > 0) {
         (void)read(fd, &r, sizeof(int));
     }
@@ -141,7 +140,7 @@ HWTEST_F(SyncProcessTimeTest, TestSyncTime001, TestSize.Level0)
             .serverUid = INVALID_UID,
             .clientUid = INVALID_UID,
             .extendLen = len,
-            .extendMsg = (unsigned char*)inputData,
+            .extendMsg = reinterpret_cast<unsigned char*>(inputData),
         };
 
         AlgorithmInfo algoInfo = {
@@ -153,7 +152,7 @@ HWTEST_F(SyncProcessTimeTest, TestSyncTime001, TestSize.Level0)
             .operateId = OPERATE_ID,
             .requestId = REQUEST_ID,
             .extendLen = len,
-            .extendMsg = (unsigned char*)inputData,
+            .extendMsg = reinterpret_cast<unsigned char*>(inputData),
         };
 
         ServiceDeadCb *cb = nullptr;
@@ -163,7 +162,7 @@ HWTEST_F(SyncProcessTimeTest, TestSyncTime001, TestSize.Level0)
         ASSERT_EQ(resultCode, RETCODE_SUCCESS);
 
         DataInfo inputInfo = {
-            .data = (unsigned char*)inputData,
+            .data = reinterpret_cast<unsigned char*>(inputData),
             .length = len,
         };
         DataInfo outputInfo;
