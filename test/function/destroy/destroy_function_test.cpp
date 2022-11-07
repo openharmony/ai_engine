@@ -90,7 +90,7 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy001, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -102,7 +102,7 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy001, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb deadCb = ServiceDeadCb();
@@ -138,7 +138,7 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy002, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -150,11 +150,11 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy002, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -205,7 +205,7 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy003, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -217,11 +217,11 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy003, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -273,7 +273,7 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy004, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -285,7 +285,7 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy004, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     int resultCodeInit = AieClientInit(configInfo, clientInfo, algoInfo, nullptr);
@@ -320,7 +320,7 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy005, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -332,11 +332,11 @@ HWTEST_F(DestroyFunctionTest, TestAieClientDestroy005, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 

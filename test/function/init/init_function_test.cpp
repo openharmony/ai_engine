@@ -111,7 +111,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo001, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -123,7 +123,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo001, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -159,7 +159,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo002, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -171,7 +171,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo002, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -207,7 +207,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo003, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -219,7 +219,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitConfigInfo003, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -253,7 +253,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitClientInfo001, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -265,7 +265,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitClientInfo001, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -298,7 +298,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo001, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -310,7 +310,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo001, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -343,7 +343,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo002, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -355,7 +355,7 @@ HWTEST_F(InitFunctionTest, TestAieClientInitAlgoInfo002, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
