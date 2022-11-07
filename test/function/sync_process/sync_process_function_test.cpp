@@ -82,7 +82,7 @@ static void TestGetRightInfo(ConfigInfo &configInfo, ClientInfo &clientInfo, Alg
     clientInfo.serverUid = INVALID_UID,
     clientInfo.clientUid = INVALID_UID,
     clientInfo.extendLen = EXTEND_LENGTH;
-    clientInfo.extendMsg = (unsigned char*)inputData;
+    clientInfo.extendMsg = reinterpret_cast<unsigned char*>(inputData);
 
     algoInfo.clientVersion = ALGORITHM_INFO_CLIENT_VERSION;
     algoInfo.isAsync = false;
@@ -92,7 +92,7 @@ static void TestGetRightInfo(ConfigInfo &configInfo, ClientInfo &clientInfo, Alg
     algoInfo.operateId = OPERATE_ID;
     algoInfo.requestId = REQUEST_ID;
     algoInfo.extendLen = EXTEND_LENGTH;
-    algoInfo.extendMsg = (unsigned char*)inputData;
+    algoInfo.extendMsg = reinterpret_cast<unsigned char*>(inputData);
 
     HILOGI("[Test]End TestGetRightInfo");
 }
@@ -117,7 +117,7 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess001, TestSize.Level0)
     TestGetRightInfo(configInfo, clientInfo, algoInfo);
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -166,7 +166,7 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess002, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -178,7 +178,7 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess002, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -191,7 +191,7 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess002, TestSize.Level0)
     };
 
     DataInfo prepareInputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -238,7 +238,7 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess003, TestSize.Level0)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -250,11 +250,11 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess003, TestSize.Level0)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = EXTEND_LENGTH,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -305,7 +305,7 @@ HWTEST_F(SyncProcessFunctionTest, TestAieClientSyncProcess004, TestSize.Level0)
     TestGetRightInfo(configInfo, clientInfo, algoInfo);
 
     DataInfo inputInfo = {
-        .data = (unsigned char *)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
