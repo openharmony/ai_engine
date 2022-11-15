@@ -16,5 +16,5 @@ source_set("lock") {
 
   cflags = [ "-fPIC" ]
   cflags_cc = cflags
-  include_dirs = [ "//foundation/ai/engine/services/common" ]
+  include_dirs = [ "//foundation/ai/ai_engine/services/common" ]
 }
