@@ -23,22 +23,22 @@ unittest("ai_test_performance_unittest") {
 
   include_dirs = [
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
-    "//foundation/ai/engine/interfaces",
-    "//foundation/ai/engine/services/client",
-    "//foundation/ai/engine/services/common",
-    "//foundation/ai/engine/test/utils",
-    "//foundation/ai/engine/test/performance",
+    "//foundation/ai/ai_engine/interfaces",
+    "//foundation/ai/ai_engine/services/client",
+    "//foundation/ai/ai_engine/services/common",
+    "//foundation/ai/ai_engine/test/utils",
+    "//foundation/ai/ai_engine/test/performance",
     "//commonlibrary/utils_lite/include",
   ]
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
-    "//foundation/ai/engine/services/client:client",
-    "//foundation/ai/engine/services/common/platform/dl_operation:dlOperation",
-    "//foundation/ai/engine/services/common/platform/lock:lock",
-    "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
-    "//foundation/ai/engine/services/server/plugin_manager:plugin_manager",
-    "//foundation/ai/engine/test/sample:sample_plugin_1",
-    "//foundation/ai/engine/test/sample:sample_plugin_2",
+    "//foundation/ai/ai_engine/services/client:client",
+    "//foundation/ai/ai_engine/services/common/platform/dl_operation:dlOperation",
+    "//foundation/ai/ai_engine/services/common/platform/lock:lock",
+    "//foundation/ai/ai_engine/services/common/protocol/data_channel:data_channel",
+    "//foundation/ai/ai_engine/services/server/plugin_manager:plugin_manager",
+    "//foundation/ai/ai_engine/test/sample:sample_plugin_1",
+    "//foundation/ai/ai_engine/test/sample:sample_plugin_2",
     "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
   sources = [

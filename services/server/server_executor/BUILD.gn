@@ -28,13 +28,11 @@ source_set("server_executor") {
 
   include_dirs = [
     "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog",
-    "//foundation/ai/engine/interfaces",
-    "//foundation/ai/engine/services/common",
-    "//foundation/ai/engine/services/server",
+    "//foundation/ai/ai_engine/interfaces",
+    "//foundation/ai/ai_engine/services/common",
+    "//foundation/ai/ai_engine/services/server",
     "//third_party/bounds_checking_function/include",
   ]
 
-  deps = [
-    "//foundation/ai/engine/services/common/protocol/data_channel:data_channel",
-  ]
+  deps = [ "//foundation/ai/ai_engine/services/common/protocol/data_channel:data_channel" ]
 }
