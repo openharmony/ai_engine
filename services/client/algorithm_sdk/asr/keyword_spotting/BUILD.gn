@@ -40,10 +40,8 @@ static_library("keyword_spotting_sdk") {
   deps = [
     "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
     "//foundation/ai/ai_engine/services/client:ai_client",
-    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/feature:audio_features_sdk",
     "//foundation/ai/ai_engine/services/common/platform/os_wrapper/utils:plugin_helper",
     "//foundation/ai/ai_engine/services/common/utils/encdec:encdec",
     "//third_party/bounds_checking_function:libsec_shared",
   ]
-  libs = [ "audio_features" ]
 }
