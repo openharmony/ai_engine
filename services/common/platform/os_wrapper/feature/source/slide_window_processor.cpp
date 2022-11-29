@@ -135,7 +135,7 @@ int32_t SlideWindowProcessor::Process(const FeatureData &input, FeatureData &out
     inputFeature_ += stepSize_;
     // Post-processing
     if (bufferSize_ - startIndex_ < stepSize_) {
-        errno_t retCode = memmove_s(workBuffer_, bufferSize_, inputFeature_, initIndex_);
+        retCode = memmove_s(workBuffer_, bufferSize_, inputFeature_, initIndex_);
         if (retCode != EOK) {
             HILOGE("[SlideWindowProcessor]Fail with memory move. Error code[%d]", retCode);
             return RETCODE_FAILURE;

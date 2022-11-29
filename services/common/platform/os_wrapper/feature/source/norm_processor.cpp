@@ -201,11 +201,9 @@ int32_t NormProcessor::Process(const FeatureData &input, FeatureData &output)
         converter_->Process(input, output);
     }
     float *data = reinterpret_cast<float *>(output.data);
-    float meanVal = 0.0f;
-    float stdVal = 0.0f;
     for (size_t i = 0; i < output.size; ++i) {
-        stdVal = std_[i % config_.numChannels];
-        meanVal = mean_[i % config_.numChannels];
+        float stdVal = std_[i % config_.numChannels];
+        float meanVal = mean_[i % config_.numChannels];
         workBuffer_[i] = (std::abs(stdVal) < EPSILON) ? 0.0f : ((data[i] - meanVal) / stdVal) * config_.scale;
     }
     output.data = static_cast<void *>(workBuffer_);

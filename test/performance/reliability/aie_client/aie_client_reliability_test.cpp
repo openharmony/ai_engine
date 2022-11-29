@@ -104,7 +104,7 @@ HWTEST_F(AieClientReliabilityTest, AieClientSyncReliabilityTest001, TestSize.Lev
             .serverUid = INVALID_UID,
             .clientUid = INVALID_UID,
             .extendLen = len,
-            .extendMsg = (unsigned char*)inputData,
+            .extendMsg = reinterpret_cast<unsigned char*>(inputData),
         };
 
         AlgorithmInfo algoInfo = {
@@ -116,11 +116,11 @@ HWTEST_F(AieClientReliabilityTest, AieClientSyncReliabilityTest001, TestSize.Lev
             .operateId = OPERATE_ID,
             .requestId = REQUEST_ID,
             .extendLen = len,
-            .extendMsg = (unsigned char*)inputData,
+            .extendMsg = reinterpret_cast<unsigned char*>(inputData),
         };
 
         DataInfo inputInfo = {
-            .data = (unsigned char*)inputData,
+            .data = reinterpret_cast<unsigned char*>(inputData),
             .length = len,
         };
 
@@ -176,7 +176,7 @@ HWTEST_F(AieClientReliabilityTest, AieClientAsyncReliabilityTest001, TestSize.Le
             .serverUid = INVALID_UID,
             .clientUid = INVALID_UID,
             .extendLen = len,
-            .extendMsg = (unsigned char*)inputData,
+            .extendMsg = reinterpret_cast<unsigned char*>(inputData),
         };
 
         AlgorithmInfo algoInfo = {
@@ -188,11 +188,11 @@ HWTEST_F(AieClientReliabilityTest, AieClientAsyncReliabilityTest001, TestSize.Le
             .operateId = OPERATE_ID,
             .requestId = REQUEST_ID,
             .extendLen = len,
-            .extendMsg = (unsigned char*)inputData,
+            .extendMsg = reinterpret_cast<unsigned char*>(inputData),
         };
 
         DataInfo inputInfo = {
-            .data = (unsigned char*)inputData,
+            .data = reinterpret_cast<unsigned char*>(inputData),
             .length = len,
         };
 
