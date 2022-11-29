@@ -92,7 +92,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -104,7 +104,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -113,7 +113,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo001, TestSize.Level1)
     ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -149,7 +149,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -161,7 +161,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -170,7 +170,7 @@ HWTEST_F(PrepareFunctionTest, TestAlgorithmInfo002, TestSize.Level1)
     ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -211,7 +211,7 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo001, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -223,7 +223,7 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo001, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -272,7 +272,7 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo002, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -284,7 +284,7 @@ HWTEST_F(PrepareFunctionTest, TestInputInfo002, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -334,7 +334,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -346,7 +346,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -355,7 +355,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback001, TestSize.Level1)
     ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -396,7 +396,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -408,7 +408,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -417,7 +417,7 @@ HWTEST_F(PrepareFunctionTest, TestCallback002, TestSize.Level1)
     ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 
@@ -457,7 +457,7 @@ static HWTEST_F(PrepareFunctionTest, TestRegisterCallbackProxy001, TestSize.Leve
         .serverUid = INVALID_UID,
         .clientUid = INVALID_UID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     AlgorithmInfo algoInfo = {
@@ -469,7 +469,7 @@ static HWTEST_F(PrepareFunctionTest, TestRegisterCallbackProxy001, TestSize.Leve
         .operateId = OPERATE_ID,
         .requestId = REQUEST_ID,
         .extendLen = len,
-        .extendMsg = (unsigned char*)inputData,
+        .extendMsg = reinterpret_cast<unsigned char*>(inputData),
     };
 
     ServiceDeadCb cb = ServiceDeadCb();
@@ -478,7 +478,7 @@ static HWTEST_F(PrepareFunctionTest, TestRegisterCallbackProxy001, TestSize.Leve
     ASSERT_TRUE(clientInfo.clientId > 0);
 
     DataInfo inputInfo = {
-        .data = (unsigned char*)inputData,
+        .data = reinterpret_cast<unsigned char*>(inputData),
         .length = len,
     };
 

@@ -82,7 +82,9 @@ HWTEST_F(SemaphoreTest, SimpleNotifierTest001, TestSize.Level1)
     simpleNotifier.AddToBack(itemIn);
     sleep(INTERVAL_TIME_S);
     int ret = simpleNotifier.GetFromFront(TIME_OUT, itemOut);
-    ASSERT_EQ(*itemOut, CONST_VALUE);
+    if (itemOut != nullptr) {
+        ASSERT_EQ(*itemOut, CONST_VALUE);
+    }
     ASSERT_TRUE(ret);
     AIE_DELETE(itemIn);
 }
