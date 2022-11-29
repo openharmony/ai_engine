@@ -51,13 +51,13 @@ bool IsThreadRunning(unsigned long tid)
 
 void InitThreadAttr(PthreadAttr &attr)
 {
-    attr.stack_size = THREAD_DEFAULT_STACK_SIZE;
+    attr.stackSize = THREAD_DEFAULT_STACK_SIZE;
     attr.scope = THREAD_SCOPE_SYSTEM;
 }
 
 void SetThreadAttrStackSize(PthreadAttr &attr, size_t size)
 {
-    attr.stack_size = size;
+    attr.stackSize = size;
 }
 
 void SetThreadAttrScope(PthreadAttr &attr, int32_t scope)
@@ -80,8 +80,8 @@ int CreateOneThread(PthreadData &tr, PthreadAttr *attr, PthreadRoutine func, voi
         pthread_attr_setscope(&pthreadAttr, PTHREAD_SCOPE_SYSTEM);
     }
 
-    if (attr != nullptr && attr->stack_size > 0) {
-        pthread_attr_setstacksize(&pthreadAttr, attr->stack_size);
+    if (attr != nullptr && attr->stackSize > 0) {
+        pthread_attr_setstacksize(&pthreadAttr, attr->stackSize);
     }
 
     pthread_attr_setdetachstate(&pthreadAttr, PTHREAD_CREATE_JOINABLE);
