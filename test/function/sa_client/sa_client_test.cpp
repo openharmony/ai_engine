@@ -26,7 +26,7 @@ using namespace OHOS::AI;
 using namespace testing::ext;
 
 namespace {
-    const char *INPUT_CHARACTER = "inputData";
+    const char * const INPUT_CHARACTER = "inputData";
     const char * const CONFIG_DESCRIPTION = "config information";
     const long long CLIENT_INFO_VERSION = 1;
     const int CLIENT_ID = -1;
