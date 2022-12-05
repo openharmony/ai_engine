@@ -82,8 +82,7 @@ public:
 
     const char *GetName() const override
     {
-        const char *name = workerName_.c_str();
-        return name;
+        return workerName_.c_str();
     }
 
     bool OneAction() override
