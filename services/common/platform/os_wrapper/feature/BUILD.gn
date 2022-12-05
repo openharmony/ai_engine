@@ -24,13 +24,6 @@ config("feature_config") {
   ]
 }
 
-copy("audio_features_sdk") {
-  if (board_name == "hispark_taurus") {
-    sources = [ "libs/hispark_taurus/libaudio_features.a" ]
-    outputs = [ "$root_out_dir/libaudio_features.a" ]
-  }
-}
-
 source_set("norm_processor_dep") {
   ldflags = [ "-lstdc++" ]
   cflags_cc = [ "-fPIC" ]
