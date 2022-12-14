@@ -52,6 +52,12 @@ namespace Feature {
 struct TypeConverterConfig : FeatureProcessorConfig {
     /** Number of data records supported by a single conversion. The maximum is {@link MAX_SAMPLE_SIZE}. */
     size_t size;
+    TypeConverterConfig() = default;
+    TypeConverterConfig(DataType dt, size_t sz)
+    {
+        dataType = dt;
+        size = sz;
+    }
 };
 
 /**

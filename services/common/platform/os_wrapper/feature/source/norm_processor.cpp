@@ -130,9 +130,7 @@ int32_t NormProcessor::Init(const FeatureProcessorConfig *config)
         HILOGE("[NormProcessor]The inputSize cannot be divided by numChannels");
         return RETCODE_FAILURE;
     }
-    TypeConverterConfig convertConfig;
-    convertConfig.dataType = FLOAT;
-    convertConfig.size = config_.inputSize;
+    TypeConverterConfig convertConfig = {FLOAT, (config_.inputSize)};
     converter_ = std::unique_ptr<TypeConverter>(new (std::nothrow) TypeConverter());
     if (converter_ == nullptr) {
         HILOGE("[NormProcessor]Fail to create typeConverter");
