@@ -83,7 +83,7 @@ DEFINE_IMPL_CLASS_CAST(EventCast, IEvent, Event);
 
 class EventDeleter {
 public:
-    void operator ()(IEvent *&p) const
+    void operator ()(IEvent *p) const
     {
         EventCast::Destroy(p);
     }
