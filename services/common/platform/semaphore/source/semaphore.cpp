@@ -68,7 +68,7 @@ DEFINE_IMPL_CLASS_CAST(SemaphoreCast, ISemaphore, Semaphore);
 
 class SemaphoreDeleter {
 public:
-    void operator ()(ISemaphore *&p) const
+    void operator ()(ISemaphore *p) const
     {
         SemaphoreCast::Destroy(p);
     }
