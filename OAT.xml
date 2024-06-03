@@ -22,6 +22,8 @@
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files that do not need to be scanned">
                 <filteritem type="filename" name="*.wk|*.a"/>
+			   <filteritem type="filepath" name="figures/ai-engine-framework.png" desc="self developed image"/>
+			   <filteritem type="filepath" name="figures/AI引擎框架.png" desc="self developed image"/>
             </filefilter>
         </filefilterlist>
     </oatconfig>
