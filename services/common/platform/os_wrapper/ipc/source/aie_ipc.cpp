@@ -16,6 +16,7 @@
 #include "platform/os_wrapper/ipc/include/aie_ipc.h"
 
 #include <cstdlib>
+#include <mutex>
 #include <sys/shm.h>
 
 #include "securec.h"
@@ -28,7 +29,10 @@ namespace {
 constexpr int IPC_MAX_TRANS_CAPACITY = 200; // memory beyond this limit will use shared memory
 constexpr int SHM_KEY_START = 200000; // chosen randomly
 constexpr int SHM_KEY_END   = 300000; // chosen randomly
-constexpr unsigned int SHM_READ_WRITE_PERMISSIONS = 0777U;
+constexpr unsigned int SHM_READ_WRITE_PERMISSIONS = 0600U;
+constexpr int MAX_SHM_DATA_SIZE = 1024 * 1024;
+static std::mutex g_shmKeyMutex;
+static int g_shmKey = SHM_KEY_START;
 
 void ReleaseShmId(const int shmId)
 {
@@ -42,6 +46,40 @@ void ReleaseShmId(const int shmId)
 }
 
 /**
+ * Acquire a shared memory segment with a unique key, thread-safe.
+ *
+ * @param [in] size Size of the shared memory segment.
+ * @return shmId on success, -1 on failure.
+ */
+int AcquireShmSegment(int size)
+{
+    std::lock_guard<std::mutex> lock(g_shmKeyMutex);
+    int shmId;
+    int attempts = SHM_KEY_END - SHM_KEY_START;
+    while ((shmId = shmget(g_shmKey, size, SHM_READ_WRITE_PERMISSIONS | IPC_CREAT | IPC_EXCL)) < 0) {
+        if (errno == EEXIST) {
+            ++g_shmKey;
+            if (g_shmKey >= SHM_KEY_END) {
+                g_shmKey = SHM_KEY_START;
+            }
+            if (--attempts <= 0) {
+                HILOGE("[AieIpc]All shm keys in range [%d, %d) exhausted.", SHM_KEY_START, SHM_KEY_END);
+                return -1;
+            }
+            continue;
+        }
+        HILOGE("[AieIpc]shmget failed: %d.", errno);
+        return -1;
+    }
+    HILOGI("[AieIpc]shmget succeed, shmKey = %d, shmId = %d.", g_shmKey, shmId);
+    ++g_shmKey;
+    if (g_shmKey >= SHM_KEY_END) {
+        g_shmKey = SHM_KEY_START;
+    }
+    return shmId;
+}
+
+/**
  * Use shared memory to push large memory.
  *
  * @param [in] request Ipc handle.
@@ -50,21 +88,11 @@ void ReleaseShmId(const int shmId)
  */
 void IpcIoPushSharedMemory(IpcIo *request, const DataInfo *dataInfo, const uid_t receiverUid)
 {
-    // internal call, no need to check null.
-    static int shmKey = SHM_KEY_START;
-    int shmId;
-    while ((shmId = shmget(shmKey, dataInfo->length, SHM_READ_WRITE_PERMISSIONS | IPC_CREAT | IPC_EXCL)) < 0) {
-        if (errno == EEXIST) {
-            ++shmKey;
-            if (shmKey >= SHM_KEY_END) {
-                shmKey = SHM_KEY_START;
-            }
-            continue;
-        }
-        HILOGE("[AieIpc]shmget failed: %d.", errno);
+    int shmId = AcquireShmSegment(dataInfo->length);
+    if (shmId < 0) {
+        HILOGE("[AieIpc]AcquireShmSegment failed.");
         return;
     }
-    HILOGI("[AieIpc]shmget succeed, shmKey = %d, shmId = %d.", shmKey, shmId);
 
     char *shared = reinterpret_cast<char *>(shmat(shmId, nullptr, 0));
     if (shared == reinterpret_cast<char *>(-1)) {
@@ -91,6 +119,7 @@ void IpcIoPushSharedMemory(IpcIo *request, const DataInfo *dataInfo, const uid_t
     if (shmctl(shmId, IPC_STAT, &shmidDs) == -1) {
         HILOGE("[AieIpc]shmctl IPC_STAT failed: %d.", errno);
         ReleaseShmId(shmId);
+        return;
     }
 
     shmidDs.shm_perm.uid = receiverUid; // give receiver the privilege to release shared memory.
@@ -122,7 +151,7 @@ int IpcIoPopSharedMemory(IpcIo *request, DataInfo *dataInfo)
         HILOGE("[AieIpc]shmId is invalid: %d.", shmId);
         return RETCODE_FAILURE;
     }
-    if (dataInfo->length <= 0) {
+    if (dataInfo->length <= 0 || dataInfo->length > MAX_SHM_DATA_SIZE) {
         HILOGE("[AieIpc]dataInfo->length is invalid: %d.", dataInfo->length);
         ReleaseShmId(shmId);
         return RETCODE_FAILURE;
@@ -133,12 +162,6 @@ int IpcIoPopSharedMemory(IpcIo *request, DataInfo *dataInfo)
         HILOGE("[AieIpc]shmat failed %d.", errno);
         ReleaseShmId(shmId);
         return RETCODE_FAILURE;
-    }
-
-    if (shared == nullptr) {
-        HILOGE("[AieIpc]shared data is nullptr.");
-        ReleaseShmId(shmId);
-        return RETCODE_NULL_PARAM;
     }
 
     dataInfo->data = reinterpret_cast<unsigned char *>(malloc(dataInfo->length));
